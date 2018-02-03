@@ -2,21 +2,30 @@ package classes.Document;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Issue {
 
     private String id;
-    private Journal journal;
-    private ArrayList<String> editor;
+    private String journalId;
+    private ArrayList<String> editors;
     private Calendar publicationDate;
-    private ArrayList<JournalArticle> articles;
+    private ArrayList<String> articleIds;
 
-    public Issue(String id, Journal journal, ArrayList<String> editor, Calendar publicationDate) {
+    public Issue(String id, String journalId, ArrayList<String> editors, Calendar publicationDate) {
         setId(id);
-        setJournal(journal);
-        setEditor(editor);
+        setJournalId(journalId);
+        setEditors(editors);
         setPublicationDate(publicationDate);
-        articles = new ArrayList<>();
+        articleIds = new ArrayList<>();
+    }
+
+    public Issue(String id, String journalId, ArrayList<String> editors, Calendar publicationDate, ArrayList<String> articleIds) {
+        setId(id);
+        setJournalId(journalId);
+        setEditors(editors);
+        setPublicationDate(publicationDate);
+        setArticleIds(articleIds);
     }
 
     public String getId() {
@@ -27,21 +36,23 @@ public class Issue {
         this.id = id;
     }
 
-    public Journal getJournal() {
-        return journal;
+    public String getJournalId() {
+        return journalId;
     }
 
-    public void setJournal(Journal journal) {
-        this.journal = journal;
+    public void setJournalId(String journalId) {
+        this.journalId = journalId;
     }
 
-    public ArrayList<String> getEditor() {
-        return editor;
+    public ArrayList<String> getEditors() {
+        return editors;
     }
 
-    public void setEditor(ArrayList<String> editor) {
-        this.editor = editor;
+    public void setEditors(ArrayList<String> editors) {
+        this.editors = editors;
     }
+
+    public void addEditor(String editor) { editors.add(editor);}
 
     public Calendar getPublicationDate() {
         return publicationDate;
@@ -51,15 +62,24 @@ public class Issue {
         this.publicationDate = publicationDate;
     }
 
-    public ArrayList<JournalArticle> getArticles() {
-        return articles;
+    public void setPublicationDate(String date) {
+        publicationDate = createCalendarObject(date);
     }
 
-    public void setArticles(ArrayList<JournalArticle> articles) {
-        this.articles = articles;
+    public ArrayList<String> getArticleIds() {
+        return articleIds;
     }
 
-    public boolean addArticle(JournalArticle article) {
-        return articles.add(article);
+    public void setArticleIds(ArrayList<String> articleIds) {
+        this.articleIds = articleIds;
+    }
+
+    public boolean addArticleId(String articleId) {
+        return articleIds.add(articleId);
+    }
+
+    public static Calendar createCalendarObject(String date) {
+        String[] lines = date.split(".");
+        return new GregorianCalendar(Integer.parseInt(lines[2]),Integer.parseInt(lines[1]),Integer.parseInt(lines[0]));
     }
 }

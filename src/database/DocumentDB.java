@@ -5,6 +5,7 @@ import com.mongodb.*;
 
 import java.util.ArrayList;
 
+
 public class DocumentDB {
     private static String LOGTAG = "Document DB: ";
 
@@ -20,7 +21,10 @@ public class DocumentDB {
     }
 
     public static Document toObject(DBObject document) {
-        return new Document((String) document.get("_id"),
+        if(document == null)
+            return null;
+        else
+                return new Document((String) document.get("_id"),
                 (String) document.get("url"),
                 (String) document.get("title"),
                 (ArrayList<String>) document.get("authors"),

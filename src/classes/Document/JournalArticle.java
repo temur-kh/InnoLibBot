@@ -7,15 +7,15 @@ public class JournalArticle {
     private String id;
     private String title;
     private ArrayList<String> authors;
-    private Journal journal;
-    private Issue issue;
+    private String journalId;
+    private String issueId;
 
-    public JournalArticle(String id, String title, ArrayList<String> authors, Journal journal, Issue issue) {
+    public JournalArticle(String id, String title, ArrayList<String> authors, String journalId, String issueId) {
         setId(id);
         setTitle(title);
         setAuthors(authors);
-        setJournal(journal);
-        setIssue(issue);
+        setJournalId(journalId);
+        setIssueId(issueId);
     }
 
     public String getId() {
@@ -42,19 +42,19 @@ public class JournalArticle {
         this.authors = authors;
     }
 
-    public Journal getJournal() {
-        return journal;
+    public String getJournalId() {
+        return journalId;
     }
 
-    public void setJournal(Journal journal) {
-        this.journal = journal;
+    public void setJournalId(String journal) {
+        this.journalId = journalId;
     }
 
-    public Issue getIssue() {
-        return issue;
+    public String getIssueId() {
+        return issueId;
     }
 
-    public void setIssue(Issue issue) {
-        this.issue = issue;
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 }
