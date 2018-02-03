@@ -37,4 +37,9 @@ public class TelegraphAccount {
         }
         return currentInstance;
     }
+
+    public static Account getAccount() {
+        return getInstance().account;
+    }
+
 }

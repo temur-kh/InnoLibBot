@@ -22,7 +22,7 @@ public class User {
     }
     public User(Long id, String name, String surname, String email, String phoneNumber)
     {
-        new User(id, name, surname, email, phoneNumber, Constants.EMPTY_ADDRESS);
+        new User(id, name, surname, email, phoneNumber, Constants.EMPTY_LINE);
     }
 
     public String getName() {
