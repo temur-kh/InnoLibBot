@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class DocumentDB {
     private static String LOGTAG = "Document DB: ";
+
     public static BasicDBObject toDBObject(Document document) {
         return new BasicDBObject("_id", document.getId())
                 .append("url", document.getUrl())

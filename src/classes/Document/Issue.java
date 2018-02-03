@@ -18,6 +18,7 @@ public class Issue {
         setPublicationDate(publicationDate);
         articles = new ArrayList<>();
     }
+
     public long getId() {
         return id;
     }

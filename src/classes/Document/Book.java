@@ -12,7 +12,7 @@ public class Book extends Document {
     public Book(long id, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller) {
         super(id, title, authors, photoId, price, keywords);
         setEdition(edition);
-        if(bestSeller)
+        if (bestSeller)
             setBestSeller();
         super.setUrl(PageCreator.createBookPage(this));
     }

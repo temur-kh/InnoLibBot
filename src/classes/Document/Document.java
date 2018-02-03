@@ -115,7 +115,7 @@ public class Document {
 
     public String getAuthorsLine() {
         String authorsNames = "";
-        for(String names : getAuthors()) {
+        for (String names : getAuthors()) {
             authorsNames += names + "; ";
         }
         return authorsNames;

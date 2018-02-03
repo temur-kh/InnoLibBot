@@ -15,11 +15,11 @@ public class PatronDB extends UserDB {
 
     public static void insertPatron(Patron patron) {
         DBCollection collection = DatabaseManager.getInstance().getCollection("Patron");
-        DBObject object = toDBObject(patron).append("is_faculty",patron.isFaculty());
+        DBObject object = toDBObject(patron).append("is_faculty", patron.isFaculty());
         try {
             collection.insert(object);
         } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG,"duplicate found!");
+            BotLogger.severe(LOGTAG, "duplicate found!");
         }
     }
 
@@ -27,10 +27,9 @@ public class PatronDB extends UserDB {
         DBCollection collection = DatabaseManager.getCollection("Patron");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
-        if((boolean)cursor.one().get("is_faculty")) {
+        if ((boolean) cursor.one().get("is_faculty")) {
             return toObjectFaculty(cursor.one());
-        }
-        else {
+        } else {
             return toObjectStudent(cursor.one());
         }
     }
@@ -39,11 +38,10 @@ public class PatronDB extends UserDB {
         DBCollection collection = DatabaseManager.getCollection("Patron");
         ArrayList<Patron> patrons = new ArrayList<>();
         DBCursor cursor = collection.find(new BasicDBObject());
-        for(DBObject dbObject: cursor) {
-            if((boolean)cursor.one().get("is_faculty")) {
+        for (DBObject dbObject : cursor) {
+            if ((boolean) cursor.one().get("is_faculty")) {
                 patrons.add(toObjectFaculty(dbObject));
-            }
-            else {
+            } else {
                 patrons.add(toObjectStudent(dbObject));
             }
         }

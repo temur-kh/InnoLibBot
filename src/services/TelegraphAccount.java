@@ -10,6 +10,7 @@ public class TelegraphAccount {
     private static volatile TelegraphAccount instance;
     private static volatile Account account;
     private static String LOGTAG = "Telegraph Account: ";
+
     private TelegraphAccount() {
         createAccount();
     }
