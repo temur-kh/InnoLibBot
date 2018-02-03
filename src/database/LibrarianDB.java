@@ -9,9 +9,13 @@ import java.util.List;
 
 public class LibrarianDB extends UserDB{
     private static String LOGTAG = "Librarian DB: ";
+
     public static void insertLibrarian(Librarian librarian) {
+        insertLibrarian(toDBObject(librarian));
+    }
+
+    public static void insertLibrarian(BasicDBObject object) {
         DBCollection collection = DatabaseManager.getInstance().getCollection("Librarian");
-        DBObject object = toDBObject(librarian);
         try {
             collection.insert(object);
         } catch (DuplicateKeyException e) {

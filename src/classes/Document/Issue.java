@@ -55,6 +55,10 @@ public class Issue {
         return articles;
     }
 
+    public void setArticles(ArrayList<JournalArticle> articles) {
+        this.articles = articles;
+    }
+
     public boolean addArticle(JournalArticle article) {
         return articles.add(article);
     }

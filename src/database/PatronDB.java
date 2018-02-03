@@ -14,8 +14,11 @@ public class PatronDB extends UserDB {
     private static String LOGTAG = "Patron DB: ";
 
     public static void insertPatron(Patron patron) {
+        insertPatron(toDBObject(patron).append("is_faculty", patron.isFaculty()));
+    }
+
+    public static void insertPatron(BasicDBObject object) {
         DBCollection collection = DatabaseManager.getInstance().getCollection("Patron");
-        DBObject object = toDBObject(patron).append("is_faculty", patron.isFaculty());
         try {
             collection.insert(object);
         } catch (DuplicateKeyException e) {
