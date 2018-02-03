@@ -28,10 +28,10 @@ public class PatronDB extends UserDB {
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
         if((boolean)cursor.one().get("is_faculty")) {
-            return (Faculty)toObject(cursor.one());
+            return toObjectFaculty(cursor.one());
         }
         else {
-            return ((Student)toObject(cursor.one()));
+            return toObjectStudent(cursor.one());
         }
     }
 
@@ -41,10 +41,10 @@ public class PatronDB extends UserDB {
         DBCursor cursor = collection.find(new BasicDBObject());
         for(DBObject dbObject: cursor) {
             if((boolean)cursor.one().get("is_faculty")) {
-                patrons.add((Faculty)toObject(dbObject));
+                patrons.add(toObjectFaculty(dbObject));
             }
             else {
-                patrons.add((Student)toObject(dbObject));
+                patrons.add(toObjectStudent(dbObject));
             }
         }
         return patrons;
@@ -56,8 +56,17 @@ public class PatronDB extends UserDB {
         collection.remove(query);
     }
 
-    public static Patron toObject(DBObject patron) {
-        return new Patron((long) patron.get("_id"),
+    public static Faculty toObjectFaculty(DBObject patron) {
+        return new Faculty((long) patron.get("_id"),
+                (String) patron.get("name"),
+                (String) patron.get("surname"),
+                (String) patron.get("email"),
+                (String) patron.get("phone_number"),
+                (String) patron.get("address"));
+    }
+
+    public static Student toObjectStudent(DBObject patron) {
+        return new Student((long) patron.get("_id"),
                 (String) patron.get("name"),
                 (String) patron.get("surname"),
                 (String) patron.get("email"),
