@@ -7,24 +7,16 @@ import java.util.Calendar;
 public class Copy {
     private long id;
     private long docId;
-    DocAddress address;
+    private DocAddress address;
+
+    public Copy(long id, long docId, DocAddress address) {
+        setId(id);
+        setDocId(docId);
+        setAddress(address);
+    }
 
     public boolean isCheckedOut() {
         return true;
-    }
-
-    public User checkedOutBy() {
-        return null;
-    }
-
-    //TODO
-    private Calendar fromDate() {
-        return null;
-    }
-
-    //TODO
-    public Calendar toDate() {
-        return null;
     }
 
     public long getId() {

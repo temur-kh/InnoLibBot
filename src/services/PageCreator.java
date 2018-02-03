@@ -12,26 +12,28 @@ public class PageCreator {
 
     public static String LOGTAG = "Page Creator: ";
 
-    public static String createBookPage(Book book) {
+    public static ArrayList<Node> createDocumentContent(Document document) {
         ArrayList<Node> content = new ArrayList<>();
-        String authorsNames = "";
-        for(String names : book.getAuthors()) {
-            authorsNames += names + "; ";
-        }
-        Node[] nodes = new Node[7];
+        Node[] nodes = new Node[6];
         nodes[0] = new NodeElement();
         nodes[1] = new NodeText(Constants.BESTSELLER_);
-        nodes[2] = new NodeText(Constants.TITLE_+book.getTitle());
-        nodes[3] = new NodeText(Constants.AUTHORS_+authorsNames);
-        nodes[4] = new NodeText(Constants.EDITION_+book.getEdition());
-        nodes[5] = new NodeText(Constants.KEYWORDS_+book.getKeywords().toString());
-        nodes[6] = new NodeText(Constants.PRICE_+book.getPrice());
+        nodes[2] = new NodeText(Constants.TITLE_+document.getTitle());
+        nodes[3] = new NodeText(Constants.AUTHORS_+document.getAuthorsLine());
+        nodes[4] = new NodeText(Constants.KEYWORDS_+document.getKeywords().toString());
+        nodes[5] = new NodeText(Constants.PRICE_+document.getPrice());
         for(Node node: nodes) {
             content.add(node);
         }
+        return content;
+    }
+
+    public static String createBookPage(Book book) {
+        ArrayList<Node> content = createDocumentContent(book);
+        Node edition = new NodeText(Constants.EDITION_+book.getEdition());
+        content.add(3,edition);
         try {
             Page page = new CreatePage(TelegraphAccount.getAccount().getAccessToken(),book.getTitle(),content)
-                    .setAuthorName(authorsNames)
+                    .setAuthorName(book.getAuthorsLine())
                     .execute();
             return page.getUrl();
         } catch (TelegraphException e) {

@@ -22,7 +22,6 @@ public class Document {
         setPhotoId(photoId);
         setPrice(price);
         setKeywords(keywords);
-        setUrl(PageCreator.createDocumentPage(this));
     }
 
     public Document(long id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
@@ -33,7 +32,6 @@ public class Document {
         setPhotoId(photoId);
         setPrice(price);
         setKeywords(keywords);
-        setUrl(PageCreator.createDocumentPage(this));
     }
 
     public Document(long id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copies) {
@@ -44,7 +42,6 @@ public class Document {
         setPhotoId(photoId);
         setPrice(price);
         setKeywords(keywords);
-        setUrl(PageCreator.createDocumentPage(this));
         setCopyIds(copies);
     }
 
@@ -114,5 +111,13 @@ public class Document {
 
     public void addCopyId(String copyId) {
         this.copyIds.add(copyId);
+    }
+
+    public String getAuthorsLine() {
+        String authorsNames = "";
+        for(String names : getAuthors()) {
+            authorsNames += names + "; ";
+        }
+        return authorsNames;
     }
 }

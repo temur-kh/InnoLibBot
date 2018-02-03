@@ -1,5 +1,7 @@
 package classes.Document;
 
+import services.PageCreator;
+
 import java.util.ArrayList;
 
 public class Book extends Document {
@@ -12,6 +14,7 @@ public class Book extends Document {
         setEdition(edition);
         if(bestSeller)
             setBestSeller();
+        super.setUrl(PageCreator.createBookPage(this));
     }
 
 

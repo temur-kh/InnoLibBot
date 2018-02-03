@@ -35,4 +35,9 @@ public class DocAddress {
     public void setDocCase(String docCase) {
         this.docCase = docCase;
     }
+
+    @Override
+    public String toString() {
+        return "Room: " + room + ", level: " + level + ", DocCase: " + docCase;
+    }
 }
