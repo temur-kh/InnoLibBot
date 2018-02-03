@@ -1,5 +1,7 @@
 package classes.Document;
 
+import services.PageCreator;
+
 import java.util.ArrayList;
 
 public class Document {
@@ -20,7 +22,7 @@ public class Document {
         setPhotoId(photoId);
         setPrice(price);
         setKeywords(keywords);
-        //setUrl(PageCreator.createDocumentPage(this));
+        setUrl(PageCreator.createDocumentPage(this));
     }
 
     public Document(long id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
@@ -31,7 +33,7 @@ public class Document {
         setPhotoId(photoId);
         setPrice(price);
         setKeywords(keywords);
-        //setUrl(PageCreator.createDocumentPage(this));
+        setUrl(PageCreator.createDocumentPage(this));
     }
 
     public Document(long id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copies) {
@@ -42,7 +44,7 @@ public class Document {
         setPhotoId(photoId);
         setPrice(price);
         setKeywords(keywords);
-        //setUrl(PageCreator.createDocumentPage(this));
+        setUrl(PageCreator.createDocumentPage(this));
         setCopyIds(copies);
     }
 
