@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class JournalArticle {
 
-    private long id;
+    private String id;
     private String title;
     private ArrayList<String> authors;
     private Journal journal;
     private Issue issue;
 
-    public JournalArticle(long id, String title, ArrayList<String> authors, Journal journal, Issue issue) {
+    public JournalArticle(String id, String title, ArrayList<String> authors, Journal journal, Issue issue) {
         setId(id);
         setTitle(title);
         setAuthors(authors);
@@ -18,11 +18,11 @@ public class JournalArticle {
         setIssue(issue);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    private void setId(long id) {
+    private void setId(String id) {
         this.id = id;
     }
 

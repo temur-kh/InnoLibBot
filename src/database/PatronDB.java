@@ -18,7 +18,7 @@ public class PatronDB extends UserDB {
     }
 
     public static void insertPatron(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getInstance().getCollection("Patron");
+        DBCollection collection = DatabaseManager.getCollection("Patron");
         try {
             collection.insert(object);
         } catch (DuplicateKeyException e) {

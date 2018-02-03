@@ -6,10 +6,6 @@ public class Faculty extends Patron {
         super(id, name, surname, email, phoneNumber, address);
     }
 
-    public Faculty(long id, String name, String surname, String email, String phoneNumber) {
-        super(id, name, surname, email, phoneNumber);
-    }
-
     @Override
     public boolean isFaculty() {
         return true;

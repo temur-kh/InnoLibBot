@@ -20,7 +20,7 @@ public class DocumentDB {
     }
 
     public static Document toObject(DBObject document) {
-        return new Document((long) document.get("_id"),
+        return new Document((String) document.get("_id"),
                 (String) document.get("url"),
                 (String) document.get("title"),
                 (ArrayList<String>) document.get("authors"),

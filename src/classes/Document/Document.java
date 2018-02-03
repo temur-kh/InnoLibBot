@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Document {
 
-    private long id;
+    private String id;
     private String title;
     private String url;
     private ArrayList<String> authors;
@@ -15,7 +15,7 @@ public class Document {
     private ArrayList<String> keywords;
     private ArrayList<String> copyIds;
 
-    public Document(long id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
+    public Document(String id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
         setId(id);
         setTitle(title);
         setAuthors(authors);
@@ -24,7 +24,7 @@ public class Document {
         setKeywords(keywords);
     }
 
-    public Document(long id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
+    public Document(String id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
         setId(id);
         setUrl(url);
         setTitle(title);
@@ -34,7 +34,7 @@ public class Document {
         setKeywords(keywords);
     }
 
-    public Document(long id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copies) {
+    public Document(String id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copies) {
         setId(id);
         setUrl(url);
         setTitle(title);
@@ -45,11 +45,11 @@ public class Document {
         setCopyIds(copies);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    private void setId(String id) {
         this.id = id;
     }
 

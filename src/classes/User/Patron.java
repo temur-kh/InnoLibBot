@@ -14,10 +14,6 @@ public class Patron extends User {
         checkOutList = new ArrayList<>();
     }
 
-    public Patron(long id, String name, String surname, String email, String phoneNumber) {
-        super(id, name, surname, email, phoneNumber);
-    }
-
     public boolean checkOutDocument(Document document) {
         return true;
     }

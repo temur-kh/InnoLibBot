@@ -5,11 +5,11 @@ import classes.User.User;
 import java.util.Calendar;
 
 public class Copy {
-    private long id;
-    private long docId;
+    private String id;
+    private String docId;
     private DocAddress address;
 
-    public Copy(long id, long docId, DocAddress address) {
+    public Copy(String id, String docId, DocAddress address) {
         setId(id);
         setDocId(docId);
         setAddress(address);
@@ -19,19 +19,19 @@ public class Copy {
         return true;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public long getDocId() {
+    public String getDocId() {
         return docId;
     }
 
-    public void setDocId(long docId) {
+    public void setDocId(String docId) {
         this.docId = docId;
     }
 

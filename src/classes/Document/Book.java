@@ -9,7 +9,7 @@ public class Book extends Document {
     private String edition;
     private boolean bestSeller;
 
-    public Book(long id, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller) {
+    public Book(String id, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller) {
         super(id, title, authors, photoId, price, keywords);
         setEdition(edition);
         if (bestSeller)
@@ -17,6 +17,21 @@ public class Book extends Document {
         super.setUrl(PageCreator.createBookPage(this));
     }
 
+    public Book(String id, String url, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller) {
+        super(id, url, title, authors, photoId, price, keywords);
+        setEdition(edition);
+        if (bestSeller)
+            setBestSeller();
+        super.setUrl(PageCreator.createBookPage(this));
+    }
+
+    public Book(String id, String url, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copies, boolean bestSeller) {
+        super(id, url, title, authors, photoId, price, keywords, copies);
+        setEdition(edition);
+        if (bestSeller)
+            setBestSeller();
+        super.setUrl(PageCreator.createBookPage(this));
+    }
 
     public String getEdition() {
         return edition;

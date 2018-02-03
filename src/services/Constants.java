@@ -17,4 +17,5 @@ public class Constants {
     public static final Duration BEST_SELLER_CHECK_OUT_LIMIT = Duration.ofDays(2 * 7);
     public static final Duration AVMATERIAL_CHECK_OUT_LIMIT = Duration.ofDays(2 * 7);
     public static final Duration JOURNAL_CHECK_OUT_LIMIT = Duration.ofDays(2 * 7);
+    public static final String CANNOT_BE_CHECKED_OUT_INFO = "Reference Book | Magazine";
 }

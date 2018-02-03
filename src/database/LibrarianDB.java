@@ -15,7 +15,7 @@ public class LibrarianDB extends UserDB{
     }
 
     public static void insertLibrarian(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getInstance().getCollection("Librarian");
+        DBCollection collection = DatabaseManager.getCollection("Librarian");
         try {
             collection.insert(object);
         } catch (DuplicateKeyException e) {
@@ -27,7 +27,7 @@ public class LibrarianDB extends UserDB{
         DBCollection collection = DatabaseManager.getCollection("Librarian");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
-        return (Librarian) toObject(cursor.one());
+        return toObject(cursor.one());
     }
 
     public static List<Librarian> getLibrariansList() {
@@ -35,7 +35,7 @@ public class LibrarianDB extends UserDB{
         ArrayList<Librarian> librarians = new ArrayList<>();
         DBCursor cursor = collection.find(new BasicDBObject());
         for(DBObject dbObject: cursor) {
-            librarians.add((Librarian)toObject(dbObject));
+            librarians.add(toObject(dbObject));
         }
         return librarians;
     }

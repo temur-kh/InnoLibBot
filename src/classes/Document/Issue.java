@@ -5,13 +5,13 @@ import java.util.Calendar;
 
 public class Issue {
 
-    private long id;
+    private String id;
     private Journal journal;
     private ArrayList<String> editor;
     private Calendar publicationDate;
     private ArrayList<JournalArticle> articles;
 
-    public Issue(long id, Journal journal, ArrayList<String> editor, Calendar publicationDate) {
+    public Issue(String id, Journal journal, ArrayList<String> editor, Calendar publicationDate) {
         setId(id);
         setJournal(journal);
         setEditor(editor);
@@ -19,11 +19,11 @@ public class Issue {
         articles = new ArrayList<>();
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    private void setId(long id) {
+    private void setId(String id) {
         this.id = id;
     }
 

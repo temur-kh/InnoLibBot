@@ -12,10 +12,6 @@ public class Librarian extends User {
         super(id, name, surname, email, phoneNumber, address);
     }
 
-    public Librarian(long id, String name, String surname, String email, String phoneNumber) {
-        super(id, name, surname, email, phoneNumber);
-    }
-
     public boolean setAdmin(User user) {
         return true;
     }

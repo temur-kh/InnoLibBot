@@ -20,10 +20,6 @@ public class User {
         setPhoneNumber(phoneNumber);
         setAddress(address);
     }
-    public User(Long id, String name, String surname, String email, String phoneNumber)
-    {
-        new User(id, name, surname, email, phoneNumber, Constants.EMPTY_LINE);
-    }
 
     public String getName() {
         return name;
