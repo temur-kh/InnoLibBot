@@ -13,13 +13,4 @@ public class UserDB {
                 .append("phone_number", user.getPhoneNumber())
                 .append("address", user.getAddress());
     }
-
-    public static User toObject(DBObject user) {
-        return new User((long) user.get("_id"),
-                (String) user.get("name"),
-                (String) user.get("surname"),
-                (String) user.get("email"),
-                (String) user.get("phone_number"),
-                (String) user.get("address"));
-    }
 }

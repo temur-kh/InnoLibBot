@@ -41,4 +41,13 @@ public class LibrarianDB extends UserDB{
         BasicDBObject query = new BasicDBObject("_id", id);
         collection.remove(query);
     }
+
+    public static Librarian toObject(DBObject librarian) {
+        return new Librarian((long) librarian.get("_id"),
+                (String) librarian.get("name"),
+                (String) librarian.get("surname"),
+                (String) librarian.get("email"),
+                (String) librarian.get("phone_number"),
+                (String) librarian.get("address"));
+    }
 }

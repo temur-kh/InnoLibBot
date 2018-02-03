@@ -36,7 +36,6 @@ public class MainBot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         // Return bot username
-        // If bot username is @MyAmazingBot, it must return 'MyAmazingBot'
         return BotConfig.BOT_USERNAME;
     }
 

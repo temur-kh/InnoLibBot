@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PatronDB extends UserDB {
 
-    private static String LOGTAG = "Patron DB:";
+    private static String LOGTAG = "Patron DB: ";
 
     public static void insertPatron(Patron patron) {
         DBCollection collection = DatabaseManager.getInstance().getCollection("Patron");
@@ -54,5 +54,14 @@ public class PatronDB extends UserDB {
         DBCollection collection = DatabaseManager.getCollection("Patron");
         BasicDBObject query = new BasicDBObject("_id", id);
         collection.remove(query);
+    }
+
+    public static Patron toObject(DBObject patron) {
+        return new Patron((long) patron.get("_id"),
+                (String) patron.get("name"),
+                (String) patron.get("surname"),
+                (String) patron.get("email"),
+                (String) patron.get("phone_number"),
+                (String) patron.get("address"));
     }
 }
