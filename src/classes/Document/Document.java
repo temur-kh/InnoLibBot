@@ -34,7 +34,7 @@ public class Document {
         setKeywords(keywords);
     }
 
-    public Document(String id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copies) {
+    public Document(String id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
         setId(id);
         setUrl(url);
         setTitle(title);
@@ -42,7 +42,7 @@ public class Document {
         setPhotoId(photoId);
         setPrice(price);
         setKeywords(keywords);
-        setCopyIds(copies);
+        setCopyIds(copyIds);
     }
 
     public String getId() {

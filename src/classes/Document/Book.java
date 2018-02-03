@@ -25,8 +25,8 @@ public class Book extends Document {
         super.setUrl(PageCreator.createBookPage(this));
     }
 
-    public Book(String id, String url, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copies, boolean bestSeller) {
-        super(id, url, title, authors, photoId, price, keywords, copies);
+    public Book(String id, String url, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds, boolean bestSeller) {
+        super(id, url, title, authors, photoId, price, keywords, copyIds);
         setEdition(edition);
         if (bestSeller)
             setBestSeller();

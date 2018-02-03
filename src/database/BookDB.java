@@ -34,12 +34,12 @@ public class BookDB extends DocumentDB {
 
     public static List<Book> getBooksList() {
         DBCollection collection = DatabaseManager.getCollection("Book");
-        ArrayList<Book> librarians = new ArrayList<>();
+        ArrayList<Book> books = new ArrayList<>();
         DBCursor cursor = collection.find(new BasicDBObject());
         for (DBObject dbObject : cursor) {
-            librarians.add(toObject(dbObject));
+            books.add(toObject(dbObject));
         }
-        return librarians;
+        return books;
     }
 
     public static void removeBook(String id) {
@@ -48,17 +48,19 @@ public class BookDB extends DocumentDB {
         collection.remove(query);
     }
 
-    public static Book toObject(DBObject document) {
-        return new Book((String) document.get("_id"),
-                (String) document.get("url"),
-                (String) document.get("title"),
-                (String) document.get("edition"),
-                (ArrayList<String>) document.get("authors"),
-                (String) document.get("photo_id"),
-                (Double) document.get("price"),
-                (ArrayList<String>) document.get("keywords"),
-                (ArrayList<String>) document.get("copy_ids"),
-                (boolean) document.get("bestseller"));
+    public static Book toObject(DBObject book) {
+        if(book == null) return null;
+        else
+            return new Book((String) book.get("_id"),
+                (String) book.get("url"),
+                (String) book.get("title"),
+                (String) book.get("edition"),
+                (ArrayList<String>) book.get("authors"),
+                (String) book.get("photo_id"),
+                (Double) book.get("price"),
+                (ArrayList<String>) book.get("keywords"),
+                (ArrayList<String>) book.get("copy_ids"),
+                (boolean) book.get("bestseller"));
     }
 
 }

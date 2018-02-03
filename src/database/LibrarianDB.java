@@ -47,7 +47,10 @@ public class LibrarianDB extends UserDB{
     }
 
     public static Librarian toObject(DBObject librarian) {
-        return new Librarian((long) librarian.get("_id"),
+        if(librarian == null)
+            return null;
+        else
+            return new Librarian((long) librarian.get("_id"),
                 (String) librarian.get("name"),
                 (String) librarian.get("surname"),
                 (String) librarian.get("email"),

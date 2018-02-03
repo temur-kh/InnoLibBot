@@ -58,7 +58,9 @@ public class PatronDB extends UserDB {
     }
 
     public static Faculty toObjectFaculty(DBObject patron) {
-        return new Faculty((long) patron.get("_id"),
+        if(patron == null) return null;
+        else
+            return new Faculty((long) patron.get("_id"),
                 (String) patron.get("name"),
                 (String) patron.get("surname"),
                 (String) patron.get("email"),
@@ -67,7 +69,9 @@ public class PatronDB extends UserDB {
     }
 
     public static Student toObjectStudent(DBObject patron) {
-        return new Student((long) patron.get("_id"),
+        if(patron == null) return null;
+        else
+            return new Student((long) patron.get("_id"),
                 (String) patron.get("name"),
                 (String) patron.get("surname"),
                 (String) patron.get("email"),
