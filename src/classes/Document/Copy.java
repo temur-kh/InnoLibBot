@@ -5,9 +5,18 @@ import org.bson.types.ObjectId;
 
 import java.util.Calendar;
 
+/**
+ * Used, when we create some copies of documents
+ * A library may have several copies of each document. Copies are stored in a
+ * certain place inside the library, e.g., a room, level. For each copy we need
+ * to know whether it is currently checked out and by whom.
+ */
 public class Copy {
+    //id of copy
     private ObjectId id;
+    //id of document, to which this copy belong
     private ObjectId docId;
+    //adress, where we can find this copy (room and level)
     private DocAddress address;
 
     public Copy(ObjectId id, ObjectId docId, DocAddress address) {

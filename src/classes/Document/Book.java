@@ -6,6 +6,7 @@ import services.PageCreator;
 import java.util.ArrayList;
 
 /**
+ *This class is extended from main class "Documents"
  *
  */
 public class Book extends Document {
@@ -14,6 +15,7 @@ public class Book extends Document {
     private boolean bestSeller;
     private boolean canBeCheckedOut;
 
+    //constructors
     public Book(ObjectId id, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller) {
         super(id, title, authors, photoId, price, keywords);
         setEdition(edition);
@@ -49,9 +51,7 @@ public class Book extends Document {
         setCanBeCheckedOut(canBeCheckedOut);
     }
 
-    /**
-     * @return
-     */
+
     public String getEdition() {
         return edition;
     }

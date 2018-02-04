@@ -1,5 +1,10 @@
 package classes.Document;
 
+/**
+ * This class is used, when we create copies of some documents
+ * Here we have information, where we can find copy(room and level)
+ *
+ */
 public class DocAddress {
 
     private String room;

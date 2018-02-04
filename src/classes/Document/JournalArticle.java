@@ -4,6 +4,10 @@ import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used in Journal(By articles we can find exact Journal)
+ *
+ */
 public class JournalArticle {
 
     private ObjectId id;
@@ -12,6 +16,7 @@ public class JournalArticle {
     private ObjectId journalId;
     private ObjectId issueId;
 
+    //constructor
     public JournalArticle(ObjectId id, String title, ArrayList<String> authors, ObjectId journalId, ObjectId issueId) {
         setId(id);
         setTitle(title);

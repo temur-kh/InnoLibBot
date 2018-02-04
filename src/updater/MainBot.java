@@ -52,23 +52,30 @@ public class MainBot extends TelegramLongPollingBot {
                     sendMessage = DocumentViewSystem.execute(update);
                 }
             }
+            try {
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                BotLogger.severe(LOGTAG, e);
+            }
         }
         else if(update!=null && update.hasCallbackQuery()) {
+
             String callData = update.getCallbackQuery().getData();
             String command = getCallbackQueryKey(callData);
             String collection = getCallbackQueryCollection(callData);
             String value = getCallbackQueryValue(callData);
+
             EditMessageText msg = new EditMessageText();
             if (command.equals(Commands.CHECK_OUT)) {
 
             } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
                 msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
             }
-        }
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            BotLogger.severe(LOGTAG, e);
+            try {
+                execute(msg);
+            } catch (TelegramApiException e) {
+                BotLogger.severe(LOGTAG, e);
+            }
         }
     }
 

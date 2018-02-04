@@ -13,12 +13,12 @@ public class BookDB extends DocumentDB {
     private static String LOGTAG = "Book DB: ";
 
     public static ObjectId createBook() {
-        System.out.println("OK");
+        //System.out.println("OK");
         DBCollection collection = DatabaseManager.getCollection("Book");
         BasicDBObject object = new BasicDBObject();
         try {
             collection.insert(object);
-            System.out.println(object.get("_id"));
+            //System.out.println(object.get("_id"));
         } catch (DuplicateKeyException e) {
             BotLogger.severe(LOGTAG, "duplicate found!");
         }

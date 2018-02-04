@@ -3,10 +3,12 @@ package classes.User;
 import services.Constants;
 
 /**
- * Main class from which classes "Patron" and "Librarian" are extended,
+ * Main class from which classes "Patron" and "Librarian" are extended.
+ * From very beginning we will add the only librarian(admin) to this bot,
+ * and he will be able to add more librarians(admins)
  */
 public class User {
-
+    //all these information will be held in database of users
     private long id;
     private String name;
     private String surname;

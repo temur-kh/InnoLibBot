@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/**
+ * This class is used in Journal(By issue we can find exact Journal)
+ */
 public class Issue {
 
     private ObjectId id;

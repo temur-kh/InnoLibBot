@@ -5,6 +5,10 @@ import services.CalendarObjectCreator;
 
 import java.util.Calendar;
 
+/**
+ * This class keeps information about periods of time, when Patron checks out and has to return document
+ * also here we have id of document and copy, that is taken by Patron
+ */
 public class CheckOut {
     private ObjectId id;
     private Calendar fromDate;
@@ -13,6 +17,7 @@ public class CheckOut {
     private ObjectId docId;
     private ObjectId copyId;
 
+    //constructor
     public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, ObjectId personId, ObjectId docId, ObjectId copyId) {
         setId(id);
         setDocId(docId);

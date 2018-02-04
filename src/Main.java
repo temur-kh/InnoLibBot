@@ -37,11 +37,7 @@ public class Main {
         // Initialize Api Context
         ApiContextInitializer.init();
 
-        ArrayList<String> authors = new ArrayList<>(Arrays.asList("William L. Briggs", "Lyle Cochran", "Bernard Gillett"));
-        ArrayList<String> keywords = new ArrayList<>(Arrays.asList("calculus", "William", "Briggs", "Bernard"));
-        Book book = new Book("Calculus", "1st Edition", authors, "https://www.pearsonhighered.com/assets/bigcovers/0/3/2/1/0321570561.jpg",
-                1699.90, keywords, true);
-        BookDB.insertBook(book);
+        test1();
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -54,5 +50,29 @@ public class Main {
             String logInfo = "BotsAPI TelegramApiException";
             BotLogger.severe(LOGTAG + logInfo, e);
         }
+    }
+
+    /**
+     * Run test: create and add books to database.
+     */
+    public static void test1() {
+        ArrayList<String> authors  = new ArrayList<>(Arrays.asList("William L. Briggs", "Lyle Cochran", "Bernard Gillett"));
+        ArrayList<String> keywords = new ArrayList<>(Arrays.asList("calculus", "William", "Briggs", "Bernard"));
+        Book book = new Book("Calculus", "1st Edition", authors, "https://www.pearsonhighered.com/assets/bigcovers/0/3/2/1/0321570561.jpg",
+                1699.90, keywords, true);
+        BookDB.insertBook(book);
+
+        ArrayList<String> authors1  = new ArrayList<>(Arrays.asList("Maggard Thomson","Jonh Jones","Maksudov Rishat"));
+        ArrayList<String> keywords1 = new ArrayList<>(Arrays.asList("Math","Discrete","Maggard"));
+        Book book1 = new Book("Discrete Math", "1st edition", authors1, "https://ars.els-cdn.com/content/image/X0012365X.jpg",
+                3200.0, keywords1, false );
+        BookDB.insertBook(book1);
+
+
+        ArrayList<String> authors2  = new ArrayList<>(Arrays.asList("Arthur Conan Doyle"));
+        ArrayList<String> keywords2 = new ArrayList<>(Arrays.asList("Holmes","Conan","Doyle", "Sherlock"));
+        Book book2 = new Book("Sherlock Holmes", "1st edition", authors2, "https://s00.yaplakal.com/pics/pics_original/2/0/8/10510802.jpg",
+                13200.0, keywords2, true );
+        BookDB.insertBook(book2);
     }
 }

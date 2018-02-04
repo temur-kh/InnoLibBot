@@ -6,8 +6,12 @@ import services.PageCreator;
 
 import java.util.ArrayList;
 
+/**
+ * Main class from which classes "Book", "AVMaterials", "Journal" are extended.
+ *
+ */
 public class Document {
-
+    //all these information will be held in database of documents
     private ObjectId id;
     private String title;
     private String url;
@@ -17,6 +21,7 @@ public class Document {
     private ArrayList<String> keywords;
     private ArrayList<String> copyIds;
 
+    //constructors
     public Document(ObjectId id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
         setId(id);
         setTitle(title);
@@ -26,6 +31,7 @@ public class Document {
         setKeywords(keywords);
     }
 
+    //this constructor create new document with new id in database, when we did not have documents like this before
     public Document(String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
         setId(BookDB.createBook());
         setTitle(title);
