@@ -2,6 +2,9 @@ package services;
 
 import java.time.Duration;
 
+/**
+ * Class of available constants.
+ */
 public class Constants {
     public static final String TITLE_ = "Title: ";
     public static final String EDITION_ = "Edition: ";
@@ -12,11 +15,11 @@ public class Constants {
     public static final String ISSUE_ = "Issue: ";
 
 
-    public static final Duration BOOK_CHECK_OUT_LIMIT = Duration.ofDays(3 * 7);
-    public static final Duration BOOK_CHECK_OUT_LIMIT_FOR_FACULTY = Duration.ofDays(4 * 7);
-    public static final Duration BEST_SELLER_CHECK_OUT_LIMIT = Duration.ofDays(2 * 7);
-    public static final Duration AVMATERIAL_CHECK_OUT_LIMIT = Duration.ofDays(2 * 7);
-    public static final Duration JOURNAL_CHECK_OUT_LIMIT = Duration.ofDays(2 * 7);
+    public static final int BOOK_CHECK_OUT_LIMIT = 3 * 7;
+    public static final int BOOK_CHECK_OUT_LIMIT_FOR_FACULTY = 4 * 7;
+    public static final int BEST_SELLER_CHECK_OUT_LIMIT = 2 * 7;
+    public static final int AVMATERIAL_CHECK_OUT_LIMIT = 2 * 7;
+    public static final int JOURNAL_CHECK_OUT_LIMIT = 2 * 7;
     public static final String CANNOT_BE_CHECKED_OUT_INFO = "Reference Book | Magazine";
 
 

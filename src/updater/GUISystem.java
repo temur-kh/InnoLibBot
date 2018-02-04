@@ -14,14 +14,19 @@ import services.Texts;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GUI class for initial greeting, Main Menu and etc.
+ */
 public class GUISystem {
 
-    public static SendMessage initialGreeting(Update update) {
+    //return initial greeting for user
+    public static SendMessage initialGreetingView(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId())
                 .setText(Texts.GREETING_).setReplyMarkup(getInitialMenu());
         return msg;
     }
 
+    //return Main Menu keyboard markup
     private static ReplyKeyboardMarkup getInitialMenu() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
@@ -38,35 +43,43 @@ public class GUISystem {
         return keyboardMarkup;
     }
 
+    //return document view and then switch to DocumentViewSystem
     public static SendMessage documentsView(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId())
                 .setText(Texts.VIEW_DOCUMENTS).setReplyMarkup(getDocumentViewMenu());
         return msg;
     }
 
+    //return keyboard markup for document view
     private static ReplyKeyboardMarkup getDocumentViewMenu() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
+
         KeyboardRow row = new KeyboardRow();
         row.add(Commands.VIEW_BOOKS);
         keyboard.add(row);
+
         row = new KeyboardRow();
         row.add(Commands.VIEW_JOURNALS);
         keyboard.add(row);
+
         row = new KeyboardRow();
         row.add(Commands.VIEW_AVMATERIALS);
         keyboard.add(row);
+
         row = new KeyboardRow();
         row.add(Commands.BACK_TO_MENU);
         keyboard.add(row);
+
         keyboardMarkup.setKeyboard(keyboard);
         return keyboardMarkup;
     }
 
-    public static SendMessage personalData(Update update) {
+    //return personal data view and then switch to PersonalDataSystem
+    public static SendMessage personalDataView(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId());
         if(PatronDB.getPatron(update.getMessage().getChatId()) == null && LibrarianDB.getLibrarian(update.getMessage().getChatId()) == null) {
-            msg.setText(Texts.GIVE_PERSONAL_DATA).setReplyMarkup(PersonalDataSystem.inputPersonalDataView());
+            msg.setText(Texts.GIVE_PERSONAL_DATA).setReplyMarkup(PersonalDataSystem.inputPersonalDataMenu());
         }
         else {
             msg.setText(Texts.ALREADY_HAVE_PERSONAL_INFO).setReplyMarkup(simpleMenu());
@@ -74,6 +87,7 @@ public class GUISystem {
         return msg;
     }
 
+    //return simple menu keyboard markup containing 'Back to Menu' button
     public static ReplyKeyboardMarkup simpleMenu() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
@@ -84,7 +98,8 @@ public class GUISystem {
         return keyboardMarkup;
     }
 
-    public static SendMessage backToMenu(Update update) {
+    //go to Main Menu
+    public static SendMessage backToInitialMenu(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId())
                 .setText(Texts.MAIN_MENU).setReplyMarkup(getInitialMenu());
         return msg;

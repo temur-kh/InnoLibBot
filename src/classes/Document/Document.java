@@ -31,7 +31,7 @@ public class Document {
         setKeywords(keywords);
     }
 
-    //this constructor create new document with new id in database, when we did not have documents like this before
+    //this constructor creates a new document with a new id in database, when we did not have documents like this before
     public Document(String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
         setId(BookDB.createBook());
         setTitle(title);
@@ -130,11 +130,30 @@ public class Document {
         this.copyIds.add(copyId);
     }
 
+    //TODO to be implemented later when dealing with Copy databse
+    public boolean hasFreeCopies() {
+        return true;
+    }
+
+    //TODO to be implemented later when dealing with Copy databse
+    public Copy getFreeCopy() {
+        return new Copy(new ObjectId(),getId(),new DocAddress("","",""));
+    }
+
+    //return authors in form of line
     public String getAuthorsLine() {
         String authorsNames = "";
         for (String names : getAuthors()) {
             authorsNames += names + "; ";
         }
         return authorsNames;
+    }
+
+    public String getKeywordsLine() {
+        String keywords = "";
+        for (String names : getKeywords()) {
+            keywords += names + "; ";
+        }
+        return keywords;
     }
 }

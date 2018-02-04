@@ -1,5 +1,8 @@
 package services;
 
+/**
+ * Class contains available texts.
+ */
 public class Texts {
     public static String GREETING_ = "Hi! This is Innopolis University Library Bot. Now only Booking System is available. Soon you will be able to use more functions of the System. " +
             "Before checking out documents you have to provide me with your personal information (in case you did not do that before). If you are a librarian you can login as admin.";
@@ -25,6 +28,12 @@ public class Texts {
     public static String ASK_FACULTY = "Are you a faculty?";
 
     public static String CHECK_OUT = "Check out";
+
+    public static String DID_NOT_PROVIDE_PERSONAL_DATA = "You did not provide your personal data. Provide it in Main Menu!";
+
+    public static String NO_COPIES_AVAILABLE = "There are no copies available at the moment. Try to check out later.";
+
+    public static String CHECKED_OUT_DOCUMENT_FORMAT = "You checked out a document: %s. Deadline for return is %s. You can get your document from 9 am till 5 pm on workdays.";
 
     public static String GO_LEFT = "<";
 

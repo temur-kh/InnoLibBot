@@ -1,5 +1,6 @@
 package classes;
 
+import database.CheckOutDB;
 import org.bson.types.ObjectId;
 import services.CalendarObjectCreator;
 
@@ -13,12 +14,21 @@ public class CheckOut {
     private ObjectId id;
     private Calendar fromDate;
     private Calendar toDate;
-    private ObjectId personId;
+    private long personId;
     private ObjectId docId;
     private ObjectId copyId;
 
-    //constructor
-    public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, ObjectId personId, ObjectId docId, ObjectId copyId) {
+    //constructors
+    public CheckOut(Calendar fromDate, Calendar toDate, long personId, ObjectId docId, ObjectId copyId) {
+        setId(CheckOutDB.createCheckOut());
+        setDocId(docId);
+        setCopyId(copyId);
+        setPersonId(personId);
+        setFromDate(fromDate);
+        setToDate(toDate);
+    }
+
+    public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, long personId, ObjectId docId, ObjectId copyId) {
         setId(id);
         setDocId(docId);
         setCopyId(copyId);
@@ -59,11 +69,11 @@ public class CheckOut {
         this.toDate = CalendarObjectCreator.createCalendarObject(toDate);
     }
 
-    public ObjectId getPersonId() {
+    public long getPersonId() {
         return personId;
     }
 
-    public void setPersonId(ObjectId person) {
+    public void setPersonId(long person) {
         this.personId = person;
     }
 

@@ -34,16 +34,16 @@ public class MainBot extends TelegramLongPollingBot {
             if(msg.hasText()) {
                 String text = msg.getText();
                 if(text.equals(Commands.START_)) {
-                    sendMessage = GUISystem.initialGreeting(update);
+                    sendMessage = GUISystem.initialGreetingView(update);
                 }
                 else if(text.equals(Commands.VIEW_DOCUMENTS)) {
                     sendMessage = GUISystem.documentsView(update);
                 }
                 else if(text.equals(Commands.PERSONAL_INFORMATION)) {
-                    sendMessage = GUISystem.personalData(update);
+                    sendMessage = GUISystem.personalDataView(update);
                 }
                 else if(text.equals(Commands.BACK_TO_MENU)) {
-                    sendMessage = GUISystem.backToMenu(update);
+                    sendMessage = GUISystem.backToInitialMenu(update);
                 }
                 else if(PersonalDataSystem.belongTo(text)) {
                     //sendMessage = PersonalDataSystem.execute(update);
@@ -55,26 +55,29 @@ public class MainBot extends TelegramLongPollingBot {
             try {
                 execute(sendMessage);
             } catch (TelegramApiException e) {
-                BotLogger.severe(LOGTAG, e);
+                BotLogger.severe(LOGTAG, "Could not execute message! No method found...");
             }
         }
         else if(update!=null && update.hasCallbackQuery()) {
-
             String callData = update.getCallbackQuery().getData();
             String command = getCallbackQueryKey(callData);
             String collection = getCallbackQueryCollection(callData);
             String value = getCallbackQueryValue(callData);
 
-            EditMessageText msg = new EditMessageText();
             if (command.equals(Commands.CHECK_OUT)) {
-
+                SendMessage msg = BookingSystem.checkOut(update,value,collection);
+                try {
+                    execute(msg);
+                } catch (TelegramApiException e) {
+                    BotLogger.severe(LOGTAG, "Could not execute callback query! No method found...");
+                }
             } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
-                msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
-            }
-            try {
-                execute(msg);
-            } catch (TelegramApiException e) {
-                BotLogger.severe(LOGTAG, e);
+                EditMessageText msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
+                try {
+                    execute(msg);
+                } catch (TelegramApiException e) {
+                    BotLogger.severe(LOGTAG, e);
+                }
             }
         }
     }

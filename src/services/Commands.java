@@ -1,5 +1,8 @@
 package services;
 
+/**
+ * Class of available commands.
+ */
 public class Commands {
     public static final String START_ = "/start";
     public static final String BACK_TO_MENU = "Back to Menu";

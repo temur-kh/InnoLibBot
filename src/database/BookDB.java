@@ -13,12 +13,10 @@ public class BookDB extends DocumentDB {
     private static String LOGTAG = "Book DB: ";
 
     public static ObjectId createBook() {
-        //System.out.println("OK");
         DBCollection collection = DatabaseManager.getCollection("Book");
         BasicDBObject object = new BasicDBObject();
         try {
             collection.insert(object);
-            //System.out.println(object.get("_id"));
         } catch (DuplicateKeyException e) {
             BotLogger.severe(LOGTAG, "duplicate found!");
         }
@@ -45,7 +43,7 @@ public class BookDB extends DocumentDB {
         }
     }
 
-    public static Book getBook(String id) {
+    public static Book getBook(ObjectId id) {
         DBCollection collection = DatabaseManager.getCollection("Book");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
@@ -71,7 +69,7 @@ public class BookDB extends DocumentDB {
         collection.update(new BasicDBObject("_id", object.get("_id")), object);
     }
 
-    public static void removeBook(String id) {
+    public static void removeBook(ObjectId id) {
         DBCollection collection = DatabaseManager.getCollection("Book");
         BasicDBObject query = new BasicDBObject("_id", id);
         collection.remove(query);

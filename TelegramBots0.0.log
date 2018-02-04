@@ -246,3 +246,127 @@
 	at java.util.ArrayList.forEach(ArrayList.java:1257)
 	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
 	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_20:52:34] {SEVERE} MainBot:  - org.telegram.telegrambots.exceptions.TelegramApiRequestException: Error editing message text: [400] Bad Request: message is not modified
+	at org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText.deserializeResponse(EditMessageText.java:170)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:672)
+	at org.telegram.telegrambots.bots.AbsSender.execute(AbsSender.java:53)
+	at updater.MainBot.handleUpdate(MainBot.java:75)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_21:59:37] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_21:59:54] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_21:59:58] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:2] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:3] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:3] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:3] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:4] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:4] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:4] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:4] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:9] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:9] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:9] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:10] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:0:10] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_22:3:21] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:4:8] {SEVERE} MainBot:  - Could not handle update!
+[4_2_2018_22:4:20] {SEVERE} MainBot:  - Could not handle update!
+[4_2_2018_22:5:6] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:5:19] {SEVERE} MainBot:  - Could not handle update!
+[4_2_2018_22:6:16] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:6:40] {SEVERE} MainBot:  - Could not handle update!
+[4_2_2018_22:7:31] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:7:33] {SEVERE} MainBot:  - Could not handle update!java.lang.NullPointerException
+[4_2_2018_22:7:40] {SEVERE} MainBot:  - Could not handle update!java.lang.NullPointerException
+[4_2_2018_22:9:43] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:9:45] {SEVERE} MainBot:  - Could not handle update!java.lang.NullPointerException
+[4_2_2018_22:10:26] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:10:28] {SEVERE} MainBot:  - Could not handle update!java.lang.NullPointerException
+[4_2_2018_22:11:20] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:11:22] {SEVERE} MainBot:  - Could not handle update!java.lang.NullPointerException
+[4_2_2018_22:12:59] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:13:37] {SEVERE} MainBot:  - Could not handle update!java.lang.NullPointerException
+[4_2_2018_22:14:36] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:14:37] {SEVERE} MainBot:  - java.lang.NullPointerException
+	at updater.DocumentViewSystem.checkOut(DocumentViewSystem.java:78)
+	at updater.MainBot.handleUpdate(MainBot.java:70)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_22:16:8] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:16:33] {SEVERE} MainBot:  - java.lang.NullPointerException
+	at classes.User.Patron.checkOutDocument(Patron.java:32)
+	at updater.DocumentViewSystem.checkOut(DocumentViewSystem.java:85)
+	at updater.MainBot.handleUpdate(MainBot.java:70)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_22:16:39] {SEVERE} MainBot:  - java.lang.NullPointerException
+	at classes.User.Patron.checkOutDocument(Patron.java:32)
+	at updater.DocumentViewSystem.checkOut(DocumentViewSystem.java:85)
+	at updater.MainBot.handleUpdate(MainBot.java:70)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_22:16:42] {SEVERE} MainBot:  - java.lang.NullPointerException
+	at classes.User.Patron.checkOutDocument(Patron.java:32)
+	at updater.DocumentViewSystem.checkOut(DocumentViewSystem.java:85)
+	at updater.MainBot.handleUpdate(MainBot.java:70)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_22:16:46] {SEVERE} MainBot:  - java.lang.NullPointerException
+	at classes.User.Patron.checkOutDocument(Patron.java:32)
+	at updater.DocumentViewSystem.checkOut(DocumentViewSystem.java:85)
+	at updater.MainBot.handleUpdate(MainBot.java:70)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_22:19:23] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:20:23] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:21:15] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_22:59:15] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:0:15] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:2:26] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:3:16] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:11:8] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:11:52] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:11:58] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:11:58] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:11:59] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:12:27] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:12:28] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:12:36] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:12:46] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:15:50] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:19:20] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:20:13] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:20:58] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:21:2] {SEVERE} MainBot:  - Could not execute callback query! No method found...
+[4_2_2018_23:21:27] {SEVERE} Patron DB:  - duplicate found!
+[4_2_2018_23:21:32] {SEVERE} MainBot:  - org.telegram.telegrambots.exceptions.TelegramApiRequestException: Error editing message text: [400] Bad Request: message is not modified
+	at org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText.deserializeResponse(EditMessageText.java:170)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:672)
+	at org.telegram.telegrambots.bots.AbsSender.execute(AbsSender.java:53)
+	at updater.MainBot.handleUpdate(MainBot.java:77)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_23:21:33] {SEVERE} MainBot:  - org.telegram.telegrambots.exceptions.TelegramApiRequestException: Error editing message text: [400] Bad Request: message is not modified
+	at org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText.deserializeResponse(EditMessageText.java:170)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:672)
+	at org.telegram.telegrambots.bots.AbsSender.execute(AbsSender.java:53)
+	at updater.MainBot.handleUpdate(MainBot.java:77)
+	at updater.MainBot.onUpdateReceived(MainBot.java:24)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)

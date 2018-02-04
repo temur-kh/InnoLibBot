@@ -12,6 +12,17 @@ import java.util.List;
 public class CheckOutDB {
     private static String LOGTAG = "CheckOut DB: ";
 
+    public static ObjectId createCheckOut() {
+        DBCollection collection = DatabaseManager.getCollection("CheckOut");
+        BasicDBObject object = new BasicDBObject();
+        try {
+            collection.insert(object);
+        } catch (DuplicateKeyException e) {
+            BotLogger.severe(LOGTAG, "duplicate found!");
+        }
+        return (ObjectId) object.get("_id");
+    }
+
     public static void insertCheckOut(CheckOut checkOut) {
         insertCheckOut(toDBObject(checkOut));
     }
@@ -63,7 +74,7 @@ public class CheckOutDB {
             return new CheckOut((ObjectId) checkOut.get("_id"),
                     CalendarObjectCreator.createCalendarObject((String) checkOut.get("from_date")),
                     CalendarObjectCreator.createCalendarObject((String) checkOut.get("to_date")),
-                    (ObjectId) checkOut.get("person_id"),
+                    (long) checkOut.get("person_id"),
                     (ObjectId) checkOut.get("doc_id"),
                     (ObjectId) checkOut.get("copy_id"));
     }

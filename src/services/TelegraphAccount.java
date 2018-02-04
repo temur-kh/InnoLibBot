@@ -6,6 +6,9 @@ import org.telegram.telegraph.api.methods.CreateAccount;
 import org.telegram.telegraph.api.objects.Account;
 import org.telegram.telegraph.exceptions.TelegraphException;
 
+/**
+ * Class used to make connection to Telegraph account.
+ */
 public class TelegraphAccount {
     private static volatile TelegraphAccount instance;
     private static volatile Account account;
@@ -15,6 +18,7 @@ public class TelegraphAccount {
         createAccount();
     }
 
+    //creates Telegraph account
     private void createAccount() {
         try {
             account = new CreateAccount(BotConfig.BOT_USERNAME)
@@ -24,6 +28,8 @@ public class TelegraphAccount {
         }
     }
 
+    //sample of this part of code is taken from this link:
+    //Copyrights https://github.com/rubenlagus/TelegramBotsExample/blob/master/src/main/java/org/telegram/database/DatabaseManager.java
     public static TelegraphAccount getInstance() {
         final TelegraphAccount currentInstance;
         if (instance == null) {
@@ -39,6 +45,7 @@ public class TelegraphAccount {
         return currentInstance;
     }
 
+    //get Telegraph account
     public static Account getAccount() {
         return getInstance().account;
     }

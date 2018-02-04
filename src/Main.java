@@ -1,5 +1,7 @@
 import classes.Document.Book;
+import classes.User.Patron;
 import database.BookDB;
+import database.PatronDB;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -21,6 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //Configure logging system
         BotLogger.setLevel(Level.ALL);
         BotLogger.registerLogger(new ConsoleHandler());
         try {
@@ -30,14 +33,14 @@ public class Main {
             BotLogger.severe(LOGTAG + logInfo, e);
         }
 
-        // Initialize context
+        // Initialize Telegraph context
         TelegraphContextInitializer.init();
         TelegraphContext.registerInstance(ExecutorOptions.class, new ExecutorOptions());
 
-        // Initialize Api Context
+        // Initialize Telegram Api Context
         ApiContextInitializer.init();
-
         test1();
+        test2();
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -74,5 +77,10 @@ public class Main {
         Book book2 = new Book("Sherlock Holmes", "1st edition", authors2, "https://s00.yaplakal.com/pics/pics_original/2/0/8/10510802.jpg",
                 13200.0, keywords2, true );
         BookDB.insertBook(book2);
+    }
+
+    public static void test2() {
+        Patron patron = new Patron((long) 149477679, "Rishat", "Maksudov", "r.maksudov@innopolis.ru", "+77777777777", "Innopolis University");
+        PatronDB.insertPatron(patron);
     }
 }
