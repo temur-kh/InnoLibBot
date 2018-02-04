@@ -13,7 +13,8 @@ public class BookDB extends DocumentDB {
 
     public static void insertBook(Book book) {
         insertBook(toDBObject(book).append("edition", book.getEdition())
-                .append("bestseller", book.isBestSeller()));
+                .append("bestseller", book.isBestSeller())
+                .append("can_be_checked_out", book.canBeCheckedOut()));
     }
 
     public static void insertBook(BasicDBObject object) {
@@ -69,7 +70,8 @@ public class BookDB extends DocumentDB {
                 (Double) book.get("price"),
                 (ArrayList<String>) book.get("keywords"),
                 (ArrayList<String>) book.get("copy_ids"),
-                (boolean) book.get("bestseller"));
+                (boolean) book.get("bestseller"),
+                (boolean) book.get("can_be_checked_out"));
     }
 
 }

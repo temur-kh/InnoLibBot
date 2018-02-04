@@ -1,6 +1,3 @@
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.sun.javaws.exceptions.ExitException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -11,7 +8,6 @@ import org.telegram.telegraph.*;
 import updater.MainBot;
 
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 
@@ -20,7 +16,7 @@ public class Main {
     private static String LOGTAG = "Class Main: ";
 
     public static void main(String[] args) {
-        //Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("In shutdown hook"), "Shutdown-thread"));
+
         BotLogger.setLevel(Level.ALL);
         BotLogger.registerLogger(new ConsoleHandler());
         try {

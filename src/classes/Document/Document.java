@@ -34,6 +34,16 @@ public class Document {
         setKeywords(keywords);
     }
 
+    public Document(String id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
+        setId(id);
+        setTitle(title);
+        setAuthors(authors);
+        setPhotoId(photoId);
+        setPrice(price);
+        setKeywords(keywords);
+        setCopyIds(copyIds);
+    }
+
     public Document(String id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
         setId(id);
         setUrl(url);

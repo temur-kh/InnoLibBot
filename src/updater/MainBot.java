@@ -2,37 +2,55 @@ package updater;
 
 import classes.User.Librarian;
 import database.LibrarianDB;
-import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.api.objects.replykeyboard.ForceReplyKeyboard;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.generics.UpdatesHandler;
+import org.telegram.telegrambots.logging.BotLogger;
 import services.BotConfig;
+import services.Commands;
 
 public class MainBot extends TelegramLongPollingBot {
+
+    private String LOGTAG = "MainBot: ";
+
     @Override
     public void onUpdateReceived(Update update) {
-        if(update.hasMessage()) {
-            Librarian librarian = new Librarian(update.getMessage().getChat().getId(), "Temur", "Kholmatov", "tim_1998@bk.ru", "+79631577181", "Innopolis Uni");
-            LibrarianDB.insertLibrarian(librarian);
-            String msg = "BAD!!!!";
-            if(update.getMessage().getChat().getId().equals(LibrarianDB.getLibrarian(librarian.getId()).getId()))
-            {
-                msg = "GOOOOD!!!!!";
-            }
-            SendMessage message = new SendMessage().setText(msg).setChatId(update.getMessage().getChatId());
-            try {
-                execute(message);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+        try {
+            handleUpdate(update);
+        } catch (Exception e) {
+            BotLogger.error(LOGTAG, e);
         }
     }
+
+    public void handleUpdate(Update update) {
+        SendMessage sendMessage = new SendMessage();
+        if(update!=null && update.hasMessage()) {
+            Message msg = update.getMessage();
+            if(msg.hasText()) {
+                String text = msg.getText();
+                if(text.equals(Commands.START_)) {
+                    sendMessage = GUISystem.initialGreeting(update);
+                }
+                else if(text.equals(Commands.VIEW_DOCUMENTS)) {
+                    sendMessage = GUISystem.documentsView(update);
+                }
+                else if(text.equals(Commands.PERSONAL_INFORMATION)) {
+                    sendMessage = GUISystem.personalData(update);
+                }
+                else if(text.equals(Commands.BACK_TO_MENU)) {
+                    sendMessage = GUISystem.backToMenu(update);
+                }
+            }
+        }
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            BotLogger.severe(LOGTAG, e);
+        }
+    }
+
     @Override
     public String getBotUsername() {
         // Return bot username

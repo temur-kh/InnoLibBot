@@ -30,6 +30,8 @@ public class PatronDB extends UserDB {
         DBCollection collection = DatabaseManager.getCollection("Patron");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
+        if(cursor.one() == null)
+            return null;
         if ((boolean) cursor.one().get("is_faculty")) {
             return toObjectFaculty(cursor.one());
         } else {

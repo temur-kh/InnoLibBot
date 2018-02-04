@@ -1,6 +1,8 @@
 package services;
 
 import classes.Document.*;
+import database.IssueDB;
+import database.JournalArticleDB;
 import org.telegram.telegrambots.api.objects.PhotoSize;
 import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegraph.api.methods.CreatePage;
@@ -59,5 +61,28 @@ public class PageCreator {
         return Constants.EMPTY_LINE;
     }
 
+    public static String createJournalPage(Journal journal) {
+        ArrayList<Node> content = createDocumentContent(journal);
+        String issueAndArticles = "";
+        for (String issueId : journal.getIssueIds()) {
+            Issue issue = IssueDB.getIssue(issueId);
+            issueAndArticles +=  Constants.ISSUE_ + issue.getPublicationDate().getTime().toString() + Constants.NEW_LINE;
+            for (String articleId : issue.getArticleIds()) {
+                JournalArticle article = JournalArticleDB.getArticle(articleId);
+                issueAndArticles += article.getTitle() + Constants.NEW_LINE;
+            }
+        }
+        Node info = new NodeText(issueAndArticles);
+        content.add(info);
+        try {
+            Page page = new CreatePage(TelegraphAccount.getAccount().getAccessToken(), journal.getTitle(), content)
+                    .setAuthorName(journal.getAuthorsLine())
+                    .execute();
+            return page.getUrl();
+        } catch (TelegraphException e) {
+            BotLogger.severe(LOGTAG, "cannot create a page!");
+        }
+        return Constants.EMPTY_LINE;
+    }
 
 }
