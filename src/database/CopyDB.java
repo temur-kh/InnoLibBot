@@ -41,6 +41,15 @@ public class CopyDB {
         return copies;
     }
 
+    public static void updateCopy(Copy copy) {
+        updateCopy(toDBObject(copy));
+    }
+
+    public static void updateCopy(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("Copy");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+    }
+
     public static void removeCopy(String id) {
         DBCollection collection = DatabaseManager.getCollection("Copy");
         BasicDBObject query = new BasicDBObject("_id", id);

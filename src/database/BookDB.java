@@ -42,6 +42,15 @@ public class BookDB extends DocumentDB {
         return books;
     }
 
+    public static void updateBook(Book book) {
+        updateBook(toDBObject(book));
+    }
+
+    public static void updateBook(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("Book");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+    }
+
     public static void removeBook(String id) {
         DBCollection collection = DatabaseManager.getCollection("Book");
         BasicDBObject query = new BasicDBObject("_id", id);

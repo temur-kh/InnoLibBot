@@ -41,6 +41,15 @@ public class JournalDB extends DocumentDB {
         return journals;
     }
 
+    public static void updateJournal(Journal journal) {
+        updateJournal(toDBObject(journal));
+    }
+
+    public static void updateJournal(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("Journal");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+    }
+
     public static void removeJournal(String id) {
         DBCollection collection = DatabaseManager.getCollection("Journal");
         BasicDBObject query = new BasicDBObject("_id", id);

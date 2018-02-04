@@ -40,6 +40,15 @@ public class JournalArticleDB {
         return articles;
     }
 
+    public static void updateArticle(JournalArticle article) {
+        updateArticle(toDBObject(article));
+    }
+
+    public static void updateArticle(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("JournalArticle");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+    }
+
     public static void removeArticle(String id) {
         DBCollection collection = DatabaseManager.getCollection("JournalArticle");
         BasicDBObject query = new BasicDBObject("_id", id);

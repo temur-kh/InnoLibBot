@@ -41,6 +41,15 @@ public class IssueDB {
         return issues;
     }
 
+    public static void updateIssue(Issue issue) {
+        updateIssue(toDBObject(issue));
+    }
+
+    public static void updateIssue(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("Issue");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+    }
+
     public static void removeIssue(String id) {
         DBCollection collection = DatabaseManager.getCollection("Issue");
         BasicDBObject query = new BasicDBObject("_id", id);

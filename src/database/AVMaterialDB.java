@@ -1,7 +1,6 @@
 package database;
 
 import classes.Document.AVMaterial;
-import classes.Document.Document;
 import com.mongodb.*;
 import org.telegram.telegrambots.logging.BotLogger;
 
@@ -40,6 +39,15 @@ public class AVMaterialDB extends DocumentDB {
             materials.add(toObject(dbObject));
         }
         return materials;
+    }
+
+    public static void updateAVMaterial(AVMaterial material) {
+        updateAVMaterial(toDBObject(material));
+    }
+
+    public static void updateAVMaterial(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("AVMaterial");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
     }
 
     public static void removeAVMaterial(String id) {

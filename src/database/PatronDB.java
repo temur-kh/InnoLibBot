@@ -51,6 +51,15 @@ public class PatronDB extends UserDB {
         return patrons;
     }
 
+    public static void updatePatron(Patron patron) {
+        updatePatron(toDBObject(patron));
+    }
+
+    public static void updatePatron(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("Patron");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+    }
+
     public static void removePatron(long id) {
         DBCollection collection = DatabaseManager.getCollection("Patron");
         BasicDBObject query = new BasicDBObject("_id", id);

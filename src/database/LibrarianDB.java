@@ -40,6 +40,15 @@ public class LibrarianDB extends UserDB{
         return librarians;
     }
 
+    public static void updateLibrarian(Librarian librarian) {
+        updateLibrarian(toDBObject(librarian));
+    }
+
+    public static void updateLibrarian(BasicDBObject object) {
+        DBCollection collection = DatabaseManager.getCollection("Librarian");
+        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+    }
+
     public static void removeLibrarian(long id) {
         DBCollection collection = DatabaseManager.getCollection("Librarian");
         BasicDBObject query = new BasicDBObject("_id", id);
