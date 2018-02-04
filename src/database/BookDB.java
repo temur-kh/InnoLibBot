@@ -1,15 +1,29 @@
 package database;
 
 import classes.Document.Book;
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BookDB extends DocumentDB {
 
     private static String LOGTAG = "Book DB: ";
+
+    public static ObjectId createBook() {
+        System.out.println("OK");
+        DBCollection collection = DatabaseManager.getCollection("Book");
+        BasicDBObject object = new BasicDBObject();
+        try {
+            collection.insert(object);
+            System.out.println(object.get("_id"));
+        } catch (DuplicateKeyException e) {
+            BotLogger.severe(LOGTAG, "duplicate found!");
+        }
+        return (ObjectId) object.get("_id");
+    }
 
     public static void insertBook(Book book) {
         insertBook(toDBObject(book).append("edition", book.getEdition())
@@ -19,10 +33,15 @@ public class BookDB extends DocumentDB {
 
     public static void insertBook(BasicDBObject object) {
         DBCollection collection = DatabaseManager.getCollection("Book");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
+        BasicDBObject query = new BasicDBObject("_id",object.get("_id"));
+        if(collection.find(query).one()!=null) {
+            updateBook(object);
+        } else {
+            try {
+                collection.insert(object);
+            } catch (DuplicateKeyException e) {
+                BotLogger.severe(LOGTAG, "duplicate found!");
+            }
         }
     }
 
@@ -33,7 +52,7 @@ public class BookDB extends DocumentDB {
         return toObject(cursor.one());
     }
 
-    public static List<Book> getBooksList() {
+    public static ArrayList<Book> getBooksList() {
         DBCollection collection = DatabaseManager.getCollection("Book");
         ArrayList<Book> books = new ArrayList<>();
         DBCursor cursor = collection.find(new BasicDBObject());
@@ -61,7 +80,7 @@ public class BookDB extends DocumentDB {
     public static Book toObject(DBObject book) {
         if(book == null) return null;
         else
-            return new Book((String) book.get("_id"),
+            return new Book((ObjectId) book.get("_id"),
                 (String) book.get("url"),
                 (String) book.get("title"),
                 (String) book.get("edition"),

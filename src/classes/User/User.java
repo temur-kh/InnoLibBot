@@ -2,6 +2,9 @@ package classes.User;
 
 import services.Constants;
 
+/**
+ * Main class from which classes "Patron" and "Librarian" are extended,
+ */
 public class User {
 
     private long id;

@@ -2,6 +2,7 @@ package database;
 
 import classes.Document.AVMaterial;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class AVMaterialDB extends DocumentDB {
     public static AVMaterial toObject(DBObject material) {
         if(material == null) return null;
         else
-            return new AVMaterial((String) material.get("_id"),
+            return new AVMaterial((ObjectId) material.get("_id"),
                 (String) material.get("url"),
                 (String) material.get("title"),
                 (ArrayList<String>) material.get("authors"),

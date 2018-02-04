@@ -87,3 +87,4 @@
 	at java.util.ArrayList.forEach(ArrayList.java:1257)
 	at org.telegram.telegrambots.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
 	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:306)
+[4_2_2018_18:5:43] {SEVERE} Book DB:  - duplicate found!

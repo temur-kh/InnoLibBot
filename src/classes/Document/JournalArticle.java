@@ -1,16 +1,18 @@
 package classes.Document;
 
+import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
 
 public class JournalArticle {
 
-    private String id;
+    private ObjectId id;
     private String title;
     private ArrayList<String> authors;
-    private String journalId;
-    private String issueId;
+    private ObjectId journalId;
+    private ObjectId issueId;
 
-    public JournalArticle(String id, String title, ArrayList<String> authors, String journalId, String issueId) {
+    public JournalArticle(ObjectId id, String title, ArrayList<String> authors, ObjectId journalId, ObjectId issueId) {
         setId(id);
         setTitle(title);
         setAuthors(authors);
@@ -18,11 +20,11 @@ public class JournalArticle {
         setIssueId(issueId);
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    private void setId(String id) {
+    private void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -42,19 +44,19 @@ public class JournalArticle {
         this.authors = authors;
     }
 
-    public String getJournalId() {
+    public ObjectId getJournalId() {
         return journalId;
     }
 
-    public void setJournalId(String journal) {
+    public void setJournalId(ObjectId journal) {
         this.journalId = journalId;
     }
 
-    public String getIssueId() {
+    public ObjectId getIssueId() {
         return issueId;
     }
 
-    public void setIssueId(String issueId) {
+    public void setIssueId(ObjectId issueId) {
         this.issueId = issueId;
     }
 }

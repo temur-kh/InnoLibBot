@@ -2,6 +2,7 @@ package database;
 
 import classes.Document.JournalArticle;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import java.util.ArrayList;
@@ -58,11 +59,11 @@ public class JournalArticleDB {
     public static JournalArticle toObject(DBObject article) {
         if(article == null) return null;
         else
-            return new JournalArticle((String) article.get("_id"),
+            return new JournalArticle((ObjectId) article.get("_id"),
                     (String) article.get("title"),
                     (ArrayList<String>) article.get("authors"),
-                    (String) article.get("journal_id"),
-                    (String) article.get("issue_id"));
+                    (ObjectId) article.get("journal_id"),
+                    (ObjectId) article.get("issue_id"));
     }
 
     public static BasicDBObject toDBObject(JournalArticle article) {

@@ -18,4 +18,9 @@ public class Commands {
     public static final String INPUT_PHONENUMBER = "Input phone number";
     public static final String INPUT_ADDRESS = "Input address";
     public static final String INPUT_IS_FACULTY = "Input faculty status";
+
+    public static final String CHECK_OUT = "check_out";
+    public static final String GO_LEFT = "go_left";
+    public static final String GO_RIGHT = "go_right";
+
 }

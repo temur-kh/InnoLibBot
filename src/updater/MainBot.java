@@ -3,6 +3,7 @@ package updater;
 import classes.User.Librarian;
 import database.LibrarianDB;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -10,6 +11,8 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 import services.BotConfig;
 import services.Commands;
+
+import javax.print.Doc;
 
 public class MainBot extends TelegramLongPollingBot {
 
@@ -42,6 +45,24 @@ public class MainBot extends TelegramLongPollingBot {
                 else if(text.equals(Commands.BACK_TO_MENU)) {
                     sendMessage = GUISystem.backToMenu(update);
                 }
+                else if(PersonalDataSystem.belongTo(text)) {
+                    //sendMessage = PersonalDataSystem.execute(update);
+                }
+                else if(DocumentViewSystem.belongTo(text)) {
+                    sendMessage = DocumentViewSystem.execute(update);
+                }
+            }
+        }
+        else if(update!=null && update.hasCallbackQuery()) {
+            String callData = update.getCallbackQuery().getData();
+            String command = getCallbackQueryKey(callData);
+            String collection = getCallbackQueryCollection(callData);
+            String value = getCallbackQueryValue(callData);
+            EditMessageText msg = new EditMessageText();
+            if (command.equals(Commands.CHECK_OUT)) {
+
+            } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
+                msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
             }
         }
         try {
@@ -49,6 +70,18 @@ public class MainBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             BotLogger.severe(LOGTAG, e);
         }
+    }
+
+    public String getCallbackQueryKey(String callData) {
+        return callData.split("/=")[0];
+    }
+
+    public String getCallbackQueryCollection(String callData) {
+        return callData.split("/=")[1];
+    }
+
+    public String getCallbackQueryValue(String callData) {
+        return callData.split("/=")[2];
     }
 
     @Override

@@ -2,6 +2,7 @@ package database;
 
 import classes.Document.Issue;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 import services.CalendarObjectCreator;
 
@@ -60,8 +61,8 @@ public class IssueDB {
     public static Issue toObject(DBObject issue) {
         if (issue == null) return null;
         else
-            return new Issue((String) issue.get("_id"),
-                    (String) issue.get("journal_id"),
+            return new Issue((ObjectId) issue.get("_id"),
+                    (ObjectId) issue.get("journal_id"),
                     (ArrayList<String>) issue.get("editors"),
                     CalendarObjectCreator.createCalendarObject((String) issue.get("publication_date")),
                     (ArrayList<String>) issue.get("article_ids"));

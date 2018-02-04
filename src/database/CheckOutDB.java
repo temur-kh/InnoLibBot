@@ -2,6 +2,7 @@ package database;
 
 import classes.CheckOut;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 import services.CalendarObjectCreator;
 
@@ -59,12 +60,12 @@ public class CheckOutDB {
     public static CheckOut toObject(DBObject checkOut) {
         if (checkOut == null) return null;
         else
-            return new CheckOut((String) checkOut.get("_id"),
+            return new CheckOut((ObjectId) checkOut.get("_id"),
                     CalendarObjectCreator.createCalendarObject((String) checkOut.get("from_date")),
                     CalendarObjectCreator.createCalendarObject((String) checkOut.get("to_date")),
-                    (String) checkOut.get("person_id"),
-                    (String) checkOut.get("doc_id"),
-                    (String) checkOut.get("copy_id"));
+                    (ObjectId) checkOut.get("person_id"),
+                    (ObjectId) checkOut.get("doc_id"),
+                    (ObjectId) checkOut.get("copy_id"));
     }
 
     public static BasicDBObject toDBObject(CheckOut checkOut) {

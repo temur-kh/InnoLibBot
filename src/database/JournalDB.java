@@ -2,6 +2,7 @@ package database;
 
 import classes.Document.Journal;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class JournalDB extends DocumentDB {
     public static Journal toObject(DBObject journal) {
         if(journal == null) return null;
         else
-            return new Journal((String) journal.get("_id"),
+            return new Journal((ObjectId) journal.get("_id"),
                     (String) journal.get("url"),
                     (String) journal.get("title"),
                     (ArrayList<String>) journal.get("authors"),

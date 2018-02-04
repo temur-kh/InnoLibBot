@@ -3,6 +3,7 @@ package database;
 import classes.Document.Copy;
 import classes.Document.DocAddress;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import java.util.ArrayList;
@@ -59,8 +60,8 @@ public class CopyDB {
     public static Copy toObject(DBObject copy) {
         if(copy == null) return null;
         else
-            return new Copy((String) copy.get("_id"),
-                    (String) copy.get("doc_id"),
+            return new Copy((ObjectId) copy.get("_id"),
+                    (ObjectId) copy.get("doc_id"),
                     (DocAddress) new DocAddress((String)copy.get("doc_address.room"),
                             (String)copy.get("doc_address.level"),
                             (String)copy.get("doc_address.doc_case")));

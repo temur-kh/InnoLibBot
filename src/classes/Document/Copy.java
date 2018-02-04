@@ -1,15 +1,16 @@
 package classes.Document;
 
 import classes.User.User;
+import org.bson.types.ObjectId;
 
 import java.util.Calendar;
 
 public class Copy {
-    private String id;
-    private String docId;
+    private ObjectId id;
+    private ObjectId docId;
     private DocAddress address;
 
-    public Copy(String id, String docId, DocAddress address) {
+    public Copy(ObjectId id, ObjectId docId, DocAddress address) {
         setId(id);
         setDocId(docId);
         setAddress(address);
@@ -19,19 +20,19 @@ public class Copy {
         return true;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
-    public String getDocId() {
+    public ObjectId getDocId() {
         return docId;
     }
 
-    public void setDocId(String docId) {
+    public void setDocId(ObjectId docId) {
         this.docId = docId;
     }
 

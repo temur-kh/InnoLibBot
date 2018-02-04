@@ -2,6 +2,7 @@ package database;
 
 import classes.Document.Document;
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class DocumentDB {
         if(document == null)
             return null;
         else
-                return new Document((String) document.get("_id"),
+                return new Document((ObjectId) document.get("_id"),
                 (String) document.get("url"),
                 (String) document.get("title"),
                 (ArrayList<String>) document.get("authors"),

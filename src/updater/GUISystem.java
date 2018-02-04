@@ -66,7 +66,7 @@ public class GUISystem {
     public static SendMessage personalData(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId());
         if(PatronDB.getPatron(update.getMessage().getChatId()) == null && LibrarianDB.getLibrarian(update.getMessage().getChatId()) == null) {
-            msg.setText(Texts.GIVE_PERSONAL_DATA).setReplyMarkup()
+            msg.setText(Texts.GIVE_PERSONAL_DATA).setReplyMarkup(PersonalDataSystem.inputPersonalDataView());
         }
         else {
             msg.setText(Texts.ALREADY_HAVE_PERSONAL_INFO).setReplyMarkup(simpleMenu());

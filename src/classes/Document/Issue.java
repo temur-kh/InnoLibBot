@@ -1,5 +1,6 @@
 package classes.Document;
 
+import org.bson.types.ObjectId;
 import services.CalendarObjectCreator;
 
 import java.util.ArrayList;
@@ -8,13 +9,13 @@ import java.util.GregorianCalendar;
 
 public class Issue {
 
-    private String id;
-    private String journalId;
+    private ObjectId id;
+    private ObjectId journalId;
     private ArrayList<String> editors;
     private Calendar publicationDate;
     private ArrayList<String> articleIds;
 
-    public Issue(String id, String journalId, ArrayList<String> editors, Calendar publicationDate) {
+    public Issue(ObjectId id, ObjectId journalId, ArrayList<String> editors, Calendar publicationDate) {
         setId(id);
         setJournalId(journalId);
         setEditors(editors);
@@ -22,7 +23,7 @@ public class Issue {
         articleIds = new ArrayList<>();
     }
 
-    public Issue(String id, String journalId, ArrayList<String> editors, Calendar publicationDate, ArrayList<String> articleIds) {
+    public Issue(ObjectId id, ObjectId journalId, ArrayList<String> editors, Calendar publicationDate, ArrayList<String> articleIds) {
         setId(id);
         setJournalId(journalId);
         setEditors(editors);
@@ -30,19 +31,19 @@ public class Issue {
         setArticleIds(articleIds);
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    private void setId(String id) {
+    private void setId(ObjectId id) {
         this.id = id;
     }
 
-    public String getJournalId() {
+    public ObjectId getJournalId() {
         return journalId;
     }
 
-    public void setJournalId(String journalId) {
+    public void setJournalId(ObjectId journalId) {
         this.journalId = journalId;
     }
 

@@ -1,12 +1,14 @@
 package classes.Document;
 
+import database.BookDB;
+import org.bson.types.ObjectId;
 import services.PageCreator;
 
 import java.util.ArrayList;
 
 public class Document {
 
-    private String id;
+    private ObjectId id;
     private String title;
     private String url;
     private ArrayList<String> authors;
@@ -15,7 +17,7 @@ public class Document {
     private ArrayList<String> keywords;
     private ArrayList<String> copyIds;
 
-    public Document(String id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
+    public Document(ObjectId id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
         setId(id);
         setTitle(title);
         setAuthors(authors);
@@ -24,9 +26,8 @@ public class Document {
         setKeywords(keywords);
     }
 
-    public Document(String id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
-        setId(id);
-        setUrl(url);
+    public Document(String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
+        setId(BookDB.createBook());
         setTitle(title);
         setAuthors(authors);
         setPhotoId(photoId);
@@ -34,7 +35,7 @@ public class Document {
         setKeywords(keywords);
     }
 
-    public Document(String id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
+    public Document(ObjectId id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
         setId(id);
         setTitle(title);
         setAuthors(authors);
@@ -44,7 +45,7 @@ public class Document {
         setCopyIds(copyIds);
     }
 
-    public Document(String id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
+    public Document(ObjectId id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
         setId(id);
         setUrl(url);
         setTitle(title);
@@ -55,11 +56,11 @@ public class Document {
         setCopyIds(copyIds);
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    private void setId(String id) {
+    private void setId(ObjectId id) {
         this.id = id;
     }
 

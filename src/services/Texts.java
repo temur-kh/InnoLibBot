@@ -23,4 +23,11 @@ public class Texts {
     public static String INPUT_ADDRESS = "Finally, send me your physical address";
 
     public static String ASK_FACULTY = "Are you a faculty?";
+
+    public static String CHECK_OUT = "Check out";
+
+    public static String GO_LEFT = "<";
+
+    public static String GO_RIGHT = ">";
+
 }

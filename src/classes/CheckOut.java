@@ -1,18 +1,19 @@
 package classes;
 
+import org.bson.types.ObjectId;
 import services.CalendarObjectCreator;
 
 import java.util.Calendar;
 
 public class CheckOut {
-    private String id;
+    private ObjectId id;
     private Calendar fromDate;
     private Calendar toDate;
-    private String personId;
-    private String docId;
-    private String copyId;
+    private ObjectId personId;
+    private ObjectId docId;
+    private ObjectId copyId;
 
-    public CheckOut(String id, Calendar fromDate, Calendar toDate, String personId, String docId, String copyId) {
+    public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, ObjectId personId, ObjectId docId, ObjectId copyId) {
         setId(id);
         setDocId(docId);
         setCopyId(copyId);
@@ -21,11 +22,11 @@ public class CheckOut {
         setToDate(toDate);
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    private void setId(String id) {
+    private void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -53,27 +54,27 @@ public class CheckOut {
         this.toDate = CalendarObjectCreator.createCalendarObject(toDate);
     }
 
-    public String getPersonId() {
+    public ObjectId getPersonId() {
         return personId;
     }
 
-    public void setPersonId(String person) {
+    public void setPersonId(ObjectId person) {
         this.personId = person;
     }
 
-    public String getDocId() {
+    public ObjectId getDocId() {
         return docId;
     }
 
-    public void setDocId(String docId) {
+    public void setDocId(ObjectId docId) {
         this.docId = docId;
     }
 
-    public String getCopyId() {
+    public ObjectId getCopyId() {
         return copyId;
     }
 
-    public void setCopyId(String copyId) {
+    public void setCopyId(ObjectId copyId) {
         this.copyId = copyId;
     }
 }
