@@ -1,5 +1,7 @@
 package classes.Document;
 
+import services.CalendarObjectCreator;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -63,7 +65,7 @@ public class Issue {
     }
 
     public void setPublicationDate(String date) {
-        publicationDate = createCalendarObject(date);
+        publicationDate = CalendarObjectCreator.createCalendarObject(date);
     }
 
     public ArrayList<String> getArticleIds() {
@@ -76,10 +78,5 @@ public class Issue {
 
     public boolean addArticleId(String articleId) {
         return articleIds.add(articleId);
-    }
-
-    public static Calendar createCalendarObject(String date) {
-        String[] lines = date.split(".");
-        return new GregorianCalendar(Integer.parseInt(lines[2]),Integer.parseInt(lines[1]),Integer.parseInt(lines[0]));
     }
 }
