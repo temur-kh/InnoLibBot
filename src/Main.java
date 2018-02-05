@@ -39,8 +39,10 @@ public class Main {
 
         // Initialize Telegram Api Context
         ApiContextInitializer.init();
-        test1();
-        test2();
+
+        //Run tests
+        //test1();
+        //test2();
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -79,7 +81,11 @@ public class Main {
         BookDB.insertBook(book2);
     }
 
+    /**
+     * Run test: create and add patron to database.
+     */
     public static void test2() {
+        //get id by asking person to send message to bot
         Patron patron = new Patron((long) 149477679, "Rishat", "Maksudov", "r.maksudov@innopolis.ru", "+77777777777", "Innopolis University");
         PatronDB.insertPatron(patron);
     }

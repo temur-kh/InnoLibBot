@@ -2,6 +2,7 @@ package classes.User;
 
 import classes.CheckOut;
 import classes.Document.Document;
+import database.CheckOutDB;
 import org.bson.types.ObjectId;
 import services.CalendarObjectCreator;
 import services.Constants;
@@ -32,6 +33,7 @@ public class Patron extends User {
         deadline.add(Calendar.DAY_OF_MONTH, Constants.BEST_SELLER_CHECK_OUT_LIMIT);
 
         CheckOut checkOut = new CheckOut(today,deadline,getId(),document.getId(),document.getFreeCopy().getId());
+        CheckOutDB.insertCheckOut(checkOut);
         return checkOut;
     }
 

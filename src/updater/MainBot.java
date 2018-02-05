@@ -21,9 +21,12 @@ public class MainBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         try {
+            //print user id (user card) to the console
+            //System.out.println(update.getMessage().getChatId());
+
             handleUpdate(update);
         } catch (Exception e) {
-            BotLogger.error(LOGTAG, e);
+            BotLogger.error(LOGTAG, "could not execute command!");
         }
     }
 
@@ -55,7 +58,7 @@ public class MainBot extends TelegramLongPollingBot {
             try {
                 execute(sendMessage);
             } catch (TelegramApiException e) {
-                BotLogger.severe(LOGTAG, "Could not execute message! No method found...");
+                BotLogger.severe(LOGTAG, "Could not execute message! No method found...\n");
             }
         }
         else if(update!=null && update.hasCallbackQuery()) {
@@ -69,7 +72,7 @@ public class MainBot extends TelegramLongPollingBot {
                 try {
                     execute(msg);
                 } catch (TelegramApiException e) {
-                    BotLogger.severe(LOGTAG, "Could not execute callback query! No method found...");
+                    BotLogger.severe(LOGTAG, "Could not execute callback query! No method found...\n");
                 }
             } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
                 EditMessageText msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);

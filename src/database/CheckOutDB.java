@@ -29,10 +29,15 @@ public class CheckOutDB {
 
     public static void insertCheckOut(BasicDBObject object) {
         DBCollection collection = DatabaseManager.getCollection("CheckOut");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
+        BasicDBObject query = new BasicDBObject("_id",object.get("_id"));
+        if(collection.find(query).one()!=null) {
+            updateCheckOut(object);
+        } else {
+            try {
+                collection.insert(object);
+            } catch (DuplicateKeyException e) {
+                BotLogger.severe(LOGTAG, "duplicate found!");
+            }
         }
     }
 
