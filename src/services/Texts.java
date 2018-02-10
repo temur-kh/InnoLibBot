@@ -38,5 +38,4 @@ public class Texts {
     public static String GO_LEFT = "<";
 
     public static String GO_RIGHT = ">";
-
 }

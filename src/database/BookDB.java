@@ -31,8 +31,8 @@ public class BookDB extends DocumentDB {
 
     public static void insertBook(BasicDBObject object) {
         DBCollection collection = DatabaseManager.getCollection("Book");
-        BasicDBObject query = new BasicDBObject("_id",object.get("_id"));
-        if(collection.find(query).one()!=null) {
+        BasicDBObject query = new BasicDBObject("_id", object.get("_id"));
+        if (collection.find(query).one() != null) {
             updateBook(object);
         } else {
             try {
@@ -76,19 +76,18 @@ public class BookDB extends DocumentDB {
     }
 
     public static Book toObject(DBObject book) {
-        if(book == null) return null;
+        if (book == null) return null;
         else
             return new Book((ObjectId) book.get("_id"),
-                (String) book.get("url"),
-                (String) book.get("title"),
-                (String) book.get("edition"),
-                (ArrayList<String>) book.get("authors"),
-                (String) book.get("photo_id"),
-                (Double) book.get("price"),
-                (ArrayList<String>) book.get("keywords"),
-                (ArrayList<String>) book.get("copy_ids"),
-                (boolean) book.get("bestseller"),
-                (boolean) book.get("can_be_checked_out"));
+                    (String) book.get("url"),
+                    (String) book.get("title"),
+                    (String) book.get("edition"),
+                    (ArrayList<String>) book.get("authors"),
+                    (String) book.get("photo_id"),
+                    (Double) book.get("price"),
+                    (ArrayList<String>) book.get("keywords"),
+                    (ArrayList<ObjectId>) book.get("copy_ids"),
+                    (boolean) book.get("bestseller"),
+                    (boolean) book.get("can_be_checked_out"));
     }
-
 }

@@ -57,7 +57,7 @@ public class JournalArticleDB {
     }
 
     public static JournalArticle toObject(DBObject article) {
-        if(article == null) return null;
+        if (article == null) return null;
         else
             return new JournalArticle((ObjectId) article.get("_id"),
                     (String) article.get("title"),

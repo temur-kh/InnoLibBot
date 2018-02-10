@@ -22,16 +22,16 @@ public class DocumentDB {
     }
 
     public static Document toObject(DBObject document) {
-        if(document == null)
+        if (document == null)
             return null;
         else
-                return new Document((ObjectId) document.get("_id"),
-                (String) document.get("url"),
-                (String) document.get("title"),
-                (ArrayList<String>) document.get("authors"),
-                (String) document.get("photo_id"),
-                (Double) document.get("price"),
-                (ArrayList<String>) document.get("keywords"),
-                (ArrayList<String>) document.get("copy_ids"));
+            return new Document((ObjectId) document.get("_id"),
+                    (String) document.get("url"),
+                    (String) document.get("title"),
+                    (ArrayList<String>) document.get("authors"),
+                    (String) document.get("photo_id"),
+                    (Double) document.get("price"),
+                    (ArrayList<String>) document.get("keywords"),
+                    (ArrayList<ObjectId>) document.get("copy_ids"));
     }
 }

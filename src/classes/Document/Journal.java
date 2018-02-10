@@ -31,14 +31,14 @@ public class Journal extends Document {
         super.setUrl(PageCreator.createJournalPage(this));
     }
 
-    public Journal(ObjectId id, String title, ArrayList<String> publishers, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds, boolean canBeCheckedOut) {
+    public Journal(ObjectId id, String title, ArrayList<String> publishers, String photoId, double price, ArrayList<String> keywords, ArrayList<ObjectId> copyIds, boolean canBeCheckedOut) {
         super(id, title, publishers, photoId, price, keywords, copyIds);
         issueIds = new ArrayList<>();
         setCanBeCheckedOut(canBeCheckedOut);
         super.setUrl(PageCreator.createJournalPage(this));
     }
 
-    public Journal(ObjectId id, String url, String title, ArrayList<String> publishers, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds, boolean canBeCheckedOut) {
+    public Journal(ObjectId id, String url, String title, ArrayList<String> publishers, String photoId, double price, ArrayList<String> keywords, ArrayList<ObjectId> copyIds, boolean canBeCheckedOut) {
         super(id, url, title, publishers, photoId, price, keywords, copyIds);
         issueIds = new ArrayList<>();
         setCanBeCheckedOut(true);

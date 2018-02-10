@@ -30,7 +30,7 @@ public class PatronDB extends UserDB {
         DBCollection collection = DatabaseManager.getCollection("Patron");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
-        if(cursor.one() == null)
+        if (cursor.one() == null)
             return null;
         if ((boolean) cursor.one().get("is_faculty")) {
             return toObjectFaculty(cursor.one());
@@ -69,24 +69,24 @@ public class PatronDB extends UserDB {
     }
 
     public static Faculty toObjectFaculty(DBObject patron) {
-        if(patron == null) return null;
+        if (patron == null) return null;
         else
             return new Faculty((long) patron.get("_id"),
-                (String) patron.get("name"),
-                (String) patron.get("surname"),
-                (String) patron.get("email"),
-                (String) patron.get("phone_number"),
-                (String) patron.get("address"));
+                    (String) patron.get("name"),
+                    (String) patron.get("surname"),
+                    (String) patron.get("email"),
+                    (String) patron.get("phone_number"),
+                    (String) patron.get("address"));
     }
 
     public static Student toObjectStudent(DBObject patron) {
-        if(patron == null) return null;
+        if (patron == null) return null;
         else
             return new Student((long) patron.get("_id"),
-                (String) patron.get("name"),
-                (String) patron.get("surname"),
-                (String) patron.get("email"),
-                (String) patron.get("phone_number"),
-                (String) patron.get("address"));
+                    (String) patron.get("name"),
+                    (String) patron.get("surname"),
+                    (String) patron.get("email"),
+                    (String) patron.get("phone_number"),
+                    (String) patron.get("address"));
     }
 }

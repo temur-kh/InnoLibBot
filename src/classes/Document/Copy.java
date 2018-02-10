@@ -1,6 +1,7 @@
 package classes.Document;
 
 import classes.User.User;
+import database.CopyDB;
 import org.bson.types.ObjectId;
 
 import java.util.Calendar;
@@ -19,14 +20,35 @@ public class Copy {
     //adress, where we can find this copy (room and level)
     private DocAddress address;
 
+    private boolean checkedOut;
+
+    public Copy(ObjectId id, ObjectId docId, DocAddress address, boolean checkedOut) {
+        setId(id);
+        setDocId(docId);
+        setAddress(address);
+        setCheckedOut(checkedOut);
+    }
+
     public Copy(ObjectId id, ObjectId docId, DocAddress address) {
         setId(id);
         setDocId(docId);
         setAddress(address);
+        setCheckedOut(false);
+    }
+
+    public Copy(ObjectId docId, DocAddress address) {
+        setId(CopyDB.createCopy());
+        setDocId(docId);
+        setAddress(address);
+        setCheckedOut(false);
     }
 
     public boolean isCheckedOut() {
-        return true;
+        return checkedOut;
+    }
+
+    public void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
     }
 
     public ObjectId getId() {

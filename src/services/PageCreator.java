@@ -26,15 +26,15 @@ public class PageCreator {
         Node[] nodes = new Node[6];
 
         //CHECK IT!!!
-        HashMap<String,String> map = new HashMap<>();
-        map.put("src",document.getPhotoId());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("src", document.getPhotoId());
         nodes[0] = new NodeElement().setTag("img").setAttrs(map);
         //nodes[0] = new NodeText(String.format("<img href=\"%s\">", document.getPhotoId()));
-        nodes[1] = new NodeText(Constants.BESTSELLER_+Constants.NEW_LINE);
-        nodes[2] = new NodeText(Constants.TITLE_ + document.getTitle()+Constants.NEW_LINE);
-        nodes[3] = new NodeText(Constants.AUTHORS_ + document.getAuthorsLine()+Constants.NEW_LINE);
-        nodes[4] = new NodeText(Constants.KEYWORDS_ + document.getKeywordsLine()+Constants.NEW_LINE);
-        nodes[5] = new NodeText(Constants.PRICE_ + document.getPrice()+Constants.NEW_LINE);
+        nodes[1] = new NodeText(Constants.BESTSELLER_ + Constants.NEW_LINE);
+        nodes[2] = new NodeText(Constants.TITLE_ + document.getTitle() + Constants.NEW_LINE);
+        nodes[3] = new NodeText(Constants.AUTHORS_ + document.getAuthorsLine() + Constants.NEW_LINE);
+        nodes[4] = new NodeText(Constants.KEYWORDS_ + document.getKeywordsLine() + Constants.NEW_LINE);
+        nodes[5] = new NodeText(Constants.PRICE_ + document.getPrice() + Constants.NEW_LINE);
         for (Node node : nodes) {
             content.add(node);
         }
@@ -44,7 +44,7 @@ public class PageCreator {
     //creates page of book
     public static String createBookPage(Book book) {
         ArrayList<Node> content = createDocumentContent(book);
-        Node edition = new NodeText(Constants.EDITION_ + book.getEdition()+Constants.NEW_LINE);
+        Node edition = new NodeText(Constants.EDITION_ + book.getEdition() + Constants.NEW_LINE);
         content.add(3, edition);
         try {
             Page page = new CreatePage(TelegraphAccount.getAccount().getAccessToken(), book.getTitle(), content)
@@ -77,13 +77,13 @@ public class PageCreator {
         String issueAndArticles = "";
         for (String issueId : journal.getIssueIds()) {
             Issue issue = IssueDB.getIssue(issueId);
-            issueAndArticles +=  Constants.ISSUE_ + issue.getPublicationDate().getTime().toString() + Constants.NEW_LINE;
+            issueAndArticles += Constants.ISSUE_ + issue.getPublicationDate().getTime().toString() + Constants.NEW_LINE;
             for (String articleId : issue.getArticleIds()) {
                 JournalArticle article = JournalArticleDB.getArticle(articleId);
                 issueAndArticles += article.getTitle() + Constants.NEW_LINE;
             }
         }
-        Node info = new NodeText(issueAndArticles+Constants.NEW_LINE);
+        Node info = new NodeText(issueAndArticles + Constants.NEW_LINE);
         content.add(info);
         try {
             Page page = new CreatePage(TelegraphAccount.getAccount().getAccessToken(), journal.getTitle(), content)
@@ -95,5 +95,4 @@ public class PageCreator {
         }
         return Constants.EMPTY_LINE;
     }
-
 }

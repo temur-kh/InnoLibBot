@@ -58,15 +58,15 @@ public class AVMaterialDB extends DocumentDB {
     }
 
     public static AVMaterial toObject(DBObject material) {
-        if(material == null) return null;
+        if (material == null) return null;
         else
             return new AVMaterial((ObjectId) material.get("_id"),
-                (String) material.get("url"),
-                (String) material.get("title"),
-                (ArrayList<String>) material.get("authors"),
-                (String) material.get("photo_id"),
-                (Double) material.get("price"),
-                (ArrayList<String>) material.get("keywords"),
-                (ArrayList<String>) material.get("copy_ids"));
+                    (String) material.get("url"),
+                    (String) material.get("title"),
+                    (ArrayList<String>) material.get("authors"),
+                    (String) material.get("photo_id"),
+                    (Double) material.get("price"),
+                    (ArrayList<String>) material.get("keywords"),
+                    (ArrayList<ObjectId>) material.get("copy_ids"));
     }
 }

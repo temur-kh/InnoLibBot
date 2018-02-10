@@ -58,7 +58,9 @@ public class Issue {
         this.editors = editors;
     }
 
-    public void addEditor(String editor) { editors.add(editor);}
+    public void addEditor(String editor) {
+        editors.add(editor);
+    }
 
     public Calendar getPublicationDate() {
         return publicationDate;

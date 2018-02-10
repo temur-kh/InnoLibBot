@@ -97,5 +97,4 @@ public class DocumentViewSystem {
         markupInline.setKeyboard(rowsInline);
         return markupInline;
     }
-
 }

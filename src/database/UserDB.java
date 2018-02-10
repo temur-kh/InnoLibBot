@@ -5,6 +5,7 @@ import com.mongodb.*;
 
 public class UserDB {
     private static String LOGTAG = "User DB: ";
+
     public static BasicDBObject toDBObject(User user) {
         return new BasicDBObject("_id", user.getId())
                 .append("name", user.getName())

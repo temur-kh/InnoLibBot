@@ -72,7 +72,7 @@ public class IssueDB {
         return new BasicDBObject("_id", issue.getId())
                 .append("journal_id", issue.getJournalId())
                 .append("editors", issue.getEditors())
-                .append("publication_date", issue.getPublicationDate().getTime().toString())
+                .append("publication_date", CalendarObjectCreator.createCalendarLine(issue.getPublicationDate()))
                 .append("article_ids", issue.getArticleIds());
     }
 }

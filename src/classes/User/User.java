@@ -16,8 +16,7 @@ public class User {
     private String phoneNumber;
     private String address;
 
-    public User(long id, String name, String surname, String email, String phoneNumber, String address)
-    {
+    public User(long id, String name, String surname, String email, String phoneNumber, String address) {
         setId(id);
         setName(name);
         setSurname(surname);

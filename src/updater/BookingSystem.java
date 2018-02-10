@@ -23,19 +23,17 @@ public class BookingSystem {
         SendMessage msg = new SendMessage().setChatId(userId);
 
         ObjectId objectId = new ObjectId(id);
-        if(collection.equals(Constants.BOOK_COLLECTION)) {
+        if (collection.equals(Constants.BOOK_COLLECTION)) {
 
             Book book = BookDB.getBook(objectId);
             Patron patron = PatronDB.getPatron(userId);
 
-            if(patron == null) {
+            if (patron == null) {
                 msg.setText(Texts.DID_NOT_PROVIDE_PERSONAL_DATA);
-            }
-            else if (book.hasFreeCopies()){
+            } else if (book.hasFreeCopies()) {
                 CheckOut checkOut = patron.checkOutDocument(book);
-                msg.setText(String.format(Texts.CHECKED_OUT_DOCUMENT_FORMAT,book.getTitle(),checkOut.getToDate().getTime()));
-            }
-            else {
+                msg.setText(String.format(Texts.CHECKED_OUT_DOCUMENT_FORMAT, book.getTitle(), checkOut.getToDate().getTime()));
+            } else {
                 msg.setText(Texts.NO_COPIES_AVAILABLE);
             }
         }

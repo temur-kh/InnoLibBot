@@ -29,8 +29,8 @@ public class CheckOutDB {
 
     public static void insertCheckOut(BasicDBObject object) {
         DBCollection collection = DatabaseManager.getCollection("CheckOut");
-        BasicDBObject query = new BasicDBObject("_id",object.get("_id"));
-        if(collection.find(query).one()!=null) {
+        BasicDBObject query = new BasicDBObject("_id", object.get("_id"));
+        if (collection.find(query).one() != null) {
             updateCheckOut(object);
         } else {
             try {
@@ -44,6 +44,12 @@ public class CheckOutDB {
     public static CheckOut getCheckOut(String id) {
         DBCollection collection = DatabaseManager.getCollection("CheckOut");
         BasicDBObject query = new BasicDBObject("_id", id);
+        DBCursor cursor = collection.find(query);
+        return toObject(cursor.one());
+    }
+
+    public static CheckOut getCheckOut(BasicDBObject query) {
+        DBCollection collection = DatabaseManager.getCollection("CheckOut");
         DBCursor cursor = collection.find(query);
         return toObject(cursor.one());
     }
@@ -86,8 +92,8 @@ public class CheckOutDB {
 
     public static BasicDBObject toDBObject(CheckOut checkOut) {
         return new BasicDBObject("_id", checkOut.getId())
-                .append("from_date", checkOut.getFromDate().getTime().toString())
-                .append("to_date", checkOut.getToDate().getTime().toString())
+                .append("from_date", CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()))
+                .append("to_date", CalendarObjectCreator.createCalendarLine(checkOut.getToDate()))
                 .append("person_id", checkOut.getPersonId())
                 .append("doc_id", checkOut.getDocId())
                 .append("copy_id", checkOut.getCopyId());

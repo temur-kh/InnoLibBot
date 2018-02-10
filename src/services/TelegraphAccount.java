@@ -49,5 +49,4 @@ public class TelegraphAccount {
     public static Account getAccount() {
         return getInstance().account;
     }
-
 }

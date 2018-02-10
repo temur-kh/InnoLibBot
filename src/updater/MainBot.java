@@ -32,26 +32,21 @@ public class MainBot extends TelegramLongPollingBot {
 
     public void handleUpdate(Update update) {
         SendMessage sendMessage = new SendMessage();
-        if(update!=null && update.hasMessage()) {
+        if (update != null && update.hasMessage()) {
             Message msg = update.getMessage();
-            if(msg.hasText()) {
+            if (msg.hasText()) {
                 String text = msg.getText();
-                if(text.equals(Commands.START_)) {
+                if (text.equals(Commands.START_)) {
                     sendMessage = GUISystem.initialGreetingView(update);
-                }
-                else if(text.equals(Commands.VIEW_DOCUMENTS)) {
+                } else if (text.equals(Commands.VIEW_DOCUMENTS)) {
                     sendMessage = GUISystem.documentsView(update);
-                }
-                else if(text.equals(Commands.PERSONAL_INFORMATION)) {
+                } else if (text.equals(Commands.PERSONAL_INFORMATION)) {
                     sendMessage = GUISystem.personalDataView(update);
-                }
-                else if(text.equals(Commands.BACK_TO_MENU)) {
+                } else if (text.equals(Commands.BACK_TO_MENU)) {
                     sendMessage = GUISystem.backToInitialMenu(update);
-                }
-                else if(PersonalDataSystem.belongTo(text)) {
+                } else if (PersonalDataSystem.belongTo(text)) {
                     //sendMessage = PersonalDataSystem.execute(update);
-                }
-                else if(DocumentViewSystem.belongTo(text)) {
+                } else if (DocumentViewSystem.belongTo(text)) {
                     sendMessage = DocumentViewSystem.execute(update);
                 }
             }
@@ -60,15 +55,14 @@ public class MainBot extends TelegramLongPollingBot {
             } catch (TelegramApiException e) {
                 BotLogger.severe(LOGTAG, "Could not execute message! No method found...\n");
             }
-        }
-        else if(update!=null && update.hasCallbackQuery()) {
+        } else if (update != null && update.hasCallbackQuery()) {
             String callData = update.getCallbackQuery().getData();
             String command = getCallbackQueryKey(callData);
             String collection = getCallbackQueryCollection(callData);
             String value = getCallbackQueryValue(callData);
 
             if (command.equals(Commands.CHECK_OUT)) {
-                SendMessage msg = BookingSystem.checkOut(update,value,collection);
+                SendMessage msg = BookingSystem.checkOut(update, value, collection);
                 try {
                     execute(msg);
                 } catch (TelegramApiException e) {

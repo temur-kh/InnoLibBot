@@ -78,10 +78,9 @@ public class GUISystem {
     //return personal data view and then switch to PersonalDataSystem
     public static SendMessage personalDataView(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId());
-        if(PatronDB.getPatron(update.getMessage().getChatId()) == null && LibrarianDB.getLibrarian(update.getMessage().getChatId()) == null) {
+        if (PatronDB.getPatron(update.getMessage().getChatId()) == null && LibrarianDB.getLibrarian(update.getMessage().getChatId()) == null) {
             msg.setText(Texts.GIVE_PERSONAL_DATA).setReplyMarkup(PersonalDataSystem.inputPersonalDataMenu());
-        }
-        else {
+        } else {
             msg.setText(Texts.ALREADY_HAVE_PERSONAL_INFO).setReplyMarkup(simpleMenu());
         }
         return msg;

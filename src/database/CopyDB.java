@@ -12,20 +12,36 @@ import java.util.List;
 public class CopyDB {
     private static String LOGTAG = "Copy DB: ";
 
+    public static ObjectId createCopy() {
+        DBCollection collection = DatabaseManager.getCollection("Copy");
+        BasicDBObject object = new BasicDBObject();
+        try {
+            collection.insert(object);
+        } catch (DuplicateKeyException e) {
+            BotLogger.severe(LOGTAG, "duplicate found!");
+        }
+        return (ObjectId) object.get("_id");
+    }
+
     public static void insertCopy(Copy copy) {
         insertCopy(toDBObject(copy));
     }
 
     public static void insertCopy(BasicDBObject object) {
         DBCollection collection = DatabaseManager.getCollection("Copy");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
+        BasicDBObject query = new BasicDBObject("_id", object.get("_id"));
+        if (collection.find(query).one() != null) {
+            updateCopy(object);
+        } else {
+            try {
+                collection.insert(object);
+            } catch (DuplicateKeyException e) {
+                BotLogger.severe(LOGTAG, "duplicate found!");
+            }
         }
     }
 
-    public static Copy getCopy(String id) {
+    public static Copy getCopy(ObjectId id) {
         DBCollection collection = DatabaseManager.getCollection("Copy");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
@@ -51,28 +67,30 @@ public class CopyDB {
         collection.update(new BasicDBObject("_id", object.get("_id")), object);
     }
 
-    public static void removeCopy(String id) {
+    public static void removeCopy(ObjectId id) {
         DBCollection collection = DatabaseManager.getCollection("Copy");
         BasicDBObject query = new BasicDBObject("_id", id);
         collection.remove(query);
     }
 
     public static Copy toObject(DBObject copy) {
-        if(copy == null) return null;
+        if (copy == null) return null;
         else
             return new Copy((ObjectId) copy.get("_id"),
                     (ObjectId) copy.get("doc_id"),
-                    (DocAddress) new DocAddress((String)copy.get("doc_address.room"),
-                            (String)copy.get("doc_address.level"),
-                            (String)copy.get("doc_address.doc_case")));
+                    new DocAddress((String) copy.get("doc_address.room"),
+                            (String) copy.get("doc_address.level"),
+                            (String) copy.get("doc_address.doc_case")),
+                    (boolean) copy.get("checked_out"));
 
     }
 
     public static BasicDBObject toDBObject(Copy copy) {
         return new BasicDBObject("_id", copy.getId())
                 .append("doc_id", copy.getDocId())
-                .append("doc_id", new BasicDBObject("room",copy.getAddress().getRoom())
-                        .append("level",copy.getAddress().getLevel())
-                        .append("doc_case",copy.getAddress().getDocCase()));
+                .append("doc_address", new BasicDBObject("room", copy.getAddress().getRoom())
+                        .append("level", copy.getAddress().getLevel())
+                        .append("doc_case", copy.getAddress().getDocCase()))
+                .append("checked_out", copy.isCheckedOut());
     }
 }

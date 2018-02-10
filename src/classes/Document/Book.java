@@ -34,16 +34,16 @@ public class Book extends Document {
         super.setUrl(PageCreator.createBookPage(this));
     }
 
-    public Book(ObjectId id, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds, boolean bestSeller, boolean canBeCheckedOut) {
-        super(id, title, authors, photoId, price, keywords, copyIds);
+    public Book(String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller, boolean canBeCheckedOut) {
+        super(title, authors, photoId, price, keywords);
         setEdition(edition);
         if (bestSeller)
             setBestSeller();
-        setCanBeCheckedOut(true);
+        setCanBeCheckedOut(canBeCheckedOut);
         super.setUrl(PageCreator.createBookPage(this));
     }
 
-    public Book(ObjectId id, String url, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds, boolean bestSeller, boolean canBeCheckedOut) {
+    public Book(ObjectId id, String url, String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<ObjectId> copyIds, boolean bestSeller, boolean canBeCheckedOut) {
         super(id, url, title, authors, photoId, price, keywords, copyIds);
         setEdition(edition);
         if (bestSeller)
@@ -75,5 +75,4 @@ public class Book extends Document {
     public void setCanBeCheckedOut(boolean canBeCheckedOut) {
         this.canBeCheckedOut = canBeCheckedOut;
     }
-
 }

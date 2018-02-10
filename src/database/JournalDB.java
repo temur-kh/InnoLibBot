@@ -13,7 +13,7 @@ public class JournalDB extends DocumentDB {
 
     public static void insertJournal(Journal journal) {
         insertJournal(toDBObject(journal)
-                .append("issue_ids",journal.getIssueIds())
+                .append("issue_ids", journal.getIssueIds())
                 .append("can_be_checked_out", journal.canBeCheckedOut()));
     }
 
@@ -59,7 +59,7 @@ public class JournalDB extends DocumentDB {
     }
 
     public static Journal toObject(DBObject journal) {
-        if(journal == null) return null;
+        if (journal == null) return null;
         else
             return new Journal((ObjectId) journal.get("_id"),
                     (String) journal.get("url"),
@@ -68,7 +68,7 @@ public class JournalDB extends DocumentDB {
                     (String) journal.get("photo_id"),
                     (Double) journal.get("price"),
                     (ArrayList<String>) journal.get("keywords"),
-                    (ArrayList<String>) journal.get("copy_ids"),
+                    (ArrayList<ObjectId>) journal.get("copy_ids"),
                     (boolean) journal.get("can_be_checked_out"));
     }
 }

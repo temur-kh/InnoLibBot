@@ -7,7 +7,7 @@ import org.telegram.telegrambots.logging.BotLogger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibrarianDB extends UserDB{
+public class LibrarianDB extends UserDB {
     private static String LOGTAG = "Librarian DB: ";
 
     public static void insertLibrarian(Librarian librarian) {
@@ -19,7 +19,7 @@ public class LibrarianDB extends UserDB{
         try {
             collection.insert(object);
         } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG,"duplicate found!");
+            BotLogger.severe(LOGTAG, "duplicate found!");
         }
     }
 
@@ -34,7 +34,7 @@ public class LibrarianDB extends UserDB{
         DBCollection collection = DatabaseManager.getCollection("Librarian");
         ArrayList<Librarian> librarians = new ArrayList<>();
         DBCursor cursor = collection.find(new BasicDBObject());
-        for(DBObject dbObject: cursor) {
+        for (DBObject dbObject : cursor) {
             librarians.add(toObject(dbObject));
         }
         return librarians;
@@ -56,14 +56,14 @@ public class LibrarianDB extends UserDB{
     }
 
     public static Librarian toObject(DBObject librarian) {
-        if(librarian == null)
+        if (librarian == null)
             return null;
         else
             return new Librarian((long) librarian.get("_id"),
-                (String) librarian.get("name"),
-                (String) librarian.get("surname"),
-                (String) librarian.get("email"),
-                (String) librarian.get("phone_number"),
-                (String) librarian.get("address"));
+                    (String) librarian.get("name"),
+                    (String) librarian.get("surname"),
+                    (String) librarian.get("email"),
+                    (String) librarian.get("phone_number"),
+                    (String) librarian.get("address"));
     }
 }

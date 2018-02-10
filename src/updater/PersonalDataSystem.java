@@ -17,12 +17,12 @@ public class PersonalDataSystem {
 
     //commands belonging to this class
     public static ArrayList<String> commandsList = new ArrayList<String>(
-            Arrays.asList(Commands.INPUT_NAME,Commands.INPUT_SURNAME,Commands.INPUT_EMAIL,Commands.INPUT_PHONENUMBER,Commands.INPUT_ADDRESS,Commands.INPUT_IS_FACULTY));
+            Arrays.asList(Commands.INPUT_NAME, Commands.INPUT_SURNAME, Commands.INPUT_EMAIL, Commands.INPUT_PHONENUMBER, Commands.INPUT_ADDRESS, Commands.INPUT_IS_FACULTY));
 
     //does command belong to this class commands?
     public static boolean belongTo(String command) {
-        for(String line: commandsList) {
-            if(line.equals(command))
+        for (String line : commandsList) {
+            if (line.equals(command))
                 return true;
         }
         return false;

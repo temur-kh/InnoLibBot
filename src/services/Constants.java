@@ -23,10 +23,12 @@ public class Constants {
     public static final String CANNOT_BE_CHECKED_OUT_INFO = "Reference Book | Magazine";
 
 
+    public static final String DASH = "-";
     public static final String NEW_LINE = "\n";
     public static final String EMPTY_LINE = "";
+    public static final String ZERO = "0";
 
-    public static final String BOOK_COLLECTION  = "Book";
+    public static final String BOOK_COLLECTION = "Book";
     public static final String JOURNAL_COLLECTION = "JOURNAL";
     public static final String AVLMATERIAL_COLLECTION = "AVMaterial";
 }

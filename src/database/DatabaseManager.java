@@ -40,5 +40,4 @@ public class DatabaseManager {
     public static DBCollection getCollection(String name) {
         return getDB(BotConfig.DATABASE_NAME).getCollection(name);
     }
-
 }

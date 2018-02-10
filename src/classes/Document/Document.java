@@ -1,6 +1,7 @@
 package classes.Document;
 
 import database.BookDB;
+import database.CopyDB;
 import org.bson.types.ObjectId;
 import services.PageCreator;
 
@@ -19,7 +20,7 @@ public class Document {
     private String photoId;
     private double price;
     private ArrayList<String> keywords;
-    private ArrayList<String> copyIds;
+    private ArrayList<ObjectId> copyIds;
 
     //constructors
     public Document(ObjectId id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
@@ -41,7 +42,7 @@ public class Document {
         setKeywords(keywords);
     }
 
-    public Document(ObjectId id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
+    public Document(ObjectId id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<ObjectId> copyIds) {
         setId(id);
         setTitle(title);
         setAuthors(authors);
@@ -51,7 +52,7 @@ public class Document {
         setCopyIds(copyIds);
     }
 
-    public Document(ObjectId id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<String> copyIds) {
+    public Document(ObjectId id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<ObjectId> copyIds) {
         setId(id);
         setUrl(url);
         setTitle(title);
@@ -118,26 +119,38 @@ public class Document {
         this.keywords = keywords;
     }
 
-    public ArrayList<String> getCopyIds() {
+    public ArrayList<ObjectId> getCopyIds() {
         return copyIds;
     }
 
-    public void setCopyIds(ArrayList<String> copyIds) {
+    public void setCopyIds(ArrayList<ObjectId> copyIds) {
         this.copyIds = copyIds;
     }
 
-    public void addCopyId(String copyId) {
+    public void addCopyId(ObjectId copyId) {
         this.copyIds.add(copyId);
     }
 
-    //TODO to be implemented later when dealing with Copy databse
-    public boolean hasFreeCopies() {
-        return true;
+    public boolean hasFreeCopies() {  //imlemented
+        for (ObjectId copyId : copyIds) {
+            Copy copy = CopyDB.getCopy(copyId);
+            if (!copy.isCheckedOut()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    //TODO to be implemented later when dealing with Copy databse
-    public Copy getFreeCopy() {
-        return new Copy(new ObjectId(),getId(),new DocAddress("","",""));
+    public Copy getFreeCopy(boolean checkedOut) {   //implemented
+        for (ObjectId copyId : copyIds) {
+            Copy copy = CopyDB.getCopy(copyId);
+            if (!copy.isCheckedOut()) {
+                copy.setCheckedOut(checkedOut);
+                if (checkedOut) CopyDB.updateCopy(copy);
+                return copy;
+            }
+        }
+        return null;
     }
 
     //return authors in form of line
