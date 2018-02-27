@@ -1,9 +1,13 @@
 package updater;
 
+import database.LibrarianDB;
+import database.PatronDB;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import services.Commands;
+import services.Texts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,53 +20,31 @@ import java.util.List;
 public class PersonalDataSystem {
 
     //commands belonging to this class
-    public static ArrayList<String> commandsList = new ArrayList<String>(
-            Arrays.asList(Commands.INPUT_NAME, Commands.INPUT_SURNAME, Commands.INPUT_EMAIL, Commands.INPUT_PHONENUMBER, Commands.INPUT_ADDRESS, Commands.INPUT_IS_FACULTY));
+    public static ArrayList<Integer> commandsList = new ArrayList<Integer>(
+            Arrays.asList(Commands.INPUT_NAME_STATE, Commands.INPUT_SURNAME_STATE, Commands.INPUT_EMAIL_STATE, Commands.INPUT_PHONENUMBER_STATE, Commands.INPUT_ADDRESS_STATE, Commands.INPUT_IS_FACULTY_STATE));
 
     //does command belong to this class commands?
     public static boolean belongTo(String command) {
-        for (String line : commandsList) {
+        for (Integer line : commandsList) {
             if (line.equals(command))
                 return true;
         }
         return false;
     }
 
-    //return Personal Data Input keyboard markup
-    //TODO update keyboard and system at all.
-    public static ReplyKeyboardMarkup inputPersonalDataMenu() {
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
-        List<KeyboardRow> keyboard = new ArrayList<>();
+    public static SendMessage handle(Update update) {
+        return null;
+    }
 
-        KeyboardRow row = new KeyboardRow();
-        row.add(Commands.INPUT_NAME);
-        keyboard.add(row);
+    //return personal data view and then switch to PersonalDataSystem
+    public static SendMessage personalDataView(Update update) {
+        SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId());
+        if (PatronDB.getPatron(update.getMessage().getChatId()) == null && LibrarianDB.getLibrarian(update.getMessage().getChatId()) == null) {
+            msg.setText(Texts.GIVE_PERSONAL_DATA);
 
-        row = new KeyboardRow();
-        row.add(Commands.INPUT_SURNAME);
-        keyboard.add(row);
-
-        row = new KeyboardRow();
-        row.add(Commands.INPUT_EMAIL);
-        keyboard.add(row);
-
-        row = new KeyboardRow();
-        row.add(Commands.INPUT_PHONENUMBER);
-        keyboard.add(row);
-
-        row = new KeyboardRow();
-        row.add(Commands.INPUT_ADDRESS);
-        keyboard.add(row);
-
-        row = new KeyboardRow();
-        row.add(Commands.INPUT_IS_FACULTY);
-        keyboard.add(row);
-
-        row = new KeyboardRow();
-        row.add(Commands.BACK_TO_MENU);
-        keyboard.add(row);
-
-        keyboardMarkup.setKeyboard(keyboard);
-        return keyboardMarkup;
+        } else {
+            msg.setText(Texts.ALREADY_HAVE_PERSONAL_INFO).setReplyMarkup(GUISystem.simpleMenu());
+        }
+        return msg;
     }
 }

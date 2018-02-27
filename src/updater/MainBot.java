@@ -40,14 +40,14 @@ public class MainBot extends TelegramLongPollingBot {
                 } else if (text.equals(Commands.VIEW_DOCUMENTS)) {
                     sendMessage = GUISystem.documentsView(update);
                 } else if (text.equals(Commands.PERSONAL_INFORMATION)) {
-                    sendMessage = GUISystem.personalDataView(update);
+                    sendMessage = PersonalDataSystem.personalDataView(update);
                 } else if (text.equals(Commands.BACK_TO_MENU)) {
                     sendMessage = GUISystem.backToInitialMenu(update);
-                } else if (PersonalDataSystem.belongTo(text)) {
-                    //sendMessage = PersonalDataSystem.execute(update);
                 } else if (DocumentViewSystem.belongTo(text)) {
-                    sendMessage = DocumentViewSystem.execute(update);
+                    sendMessage = DocumentViewSystem.handle(update);
                 }
+
+
             }
             try {
                 execute(sendMessage);

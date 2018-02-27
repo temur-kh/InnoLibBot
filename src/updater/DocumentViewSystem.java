@@ -35,7 +35,7 @@ public class DocumentViewSystem {
     }
 
     //execute a page-message to go through list of documents
-    public static SendMessage execute(Update update) {
+    public static SendMessage handle(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId());
         String text = update.getMessage().getText();
         if (text.equals(Commands.VIEW_BOOKS)) {

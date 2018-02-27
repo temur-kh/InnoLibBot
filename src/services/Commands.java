@@ -15,12 +15,12 @@ public class Commands {
     public static final String VIEW_JOURNALS = "View Journals";
     public static final String VIEW_AVMATERIALS = "View Audio/Video Materials";
 
-    public static final String INPUT_NAME = "Input name";
-    public static final String INPUT_SURNAME = "Input surname";
-    public static final String INPUT_EMAIL = "Input email";
-    public static final String INPUT_PHONENUMBER = "Input phone number";
-    public static final String INPUT_ADDRESS = "Input address";
-    public static final String INPUT_IS_FACULTY = "Input faculty status";
+    public static final Integer INPUT_NAME_STATE = 1;
+    public static final Integer INPUT_SURNAME_STATE = 2;
+    public static final Integer INPUT_IS_FACULTY_STATE = 3;
+    public static final Integer INPUT_PHONENUMBER_STATE = 4;
+    public static final Integer INPUT_ADDRESS_STATE = 5;
+    public static final Integer INPUT_EMAIL_STATE = 6;
 
     public static final String CHECK_OUT = "check_out";
     public static final String GO_LEFT = "go_left";
