@@ -5,40 +5,20 @@ import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 import services.CalendarObjectCreator;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckOutDB {
+public class CheckOutDB extends SuperDatabase {
     private static String LOGTAG = "CheckOut DB: ";
 
     public static ObjectId createCheckOut() {
-        DBCollection collection = DatabaseManager.getCollection("CheckOut");
-        BasicDBObject object = new BasicDBObject();
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
-        return (ObjectId) object.get("_id");
+        return createDBObject(Constants.CHECKOUT_COLLECTION);
     }
 
     public static void insertCheckOut(CheckOut checkOut) {
-        insertCheckOut(toDBObject(checkOut));
-    }
-
-    public static void insertCheckOut(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("CheckOut");
-        BasicDBObject query = new BasicDBObject("_id", object.get("_id"));
-        if (collection.find(query).one() != null) {
-            updateCheckOut(object);
-        } else {
-            try {
-                collection.insert(object);
-            } catch (DuplicateKeyException e) {
-                BotLogger.severe(LOGTAG, "duplicate found!");
-            }
-        }
+        insertObject(toDBObject(checkOut), Constants.CHECKOUT_COLLECTION);
     }
 
     public static CheckOut getCheckOut(String id) {
@@ -48,6 +28,7 @@ public class CheckOutDB {
         return toObject(cursor.one());
     }
 
+    //TODO
     public static CheckOut getCheckOut(BasicDBObject query) {
         DBCollection collection = DatabaseManager.getCollection("CheckOut");
         DBCursor cursor = collection.find(query);
@@ -65,18 +46,11 @@ public class CheckOutDB {
     }
 
     public static void updateCheckOut(CheckOut checkOut) {
-        updateCheckOut(toDBObject(checkOut));
+        updateObject(toDBObject(checkOut), Constants.CHECKOUT_COLLECTION);
     }
 
-    public static void updateCheckOut(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("CheckOut");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
-    }
-
-    public static void removeCheckOut(String id) {
-        DBCollection collection = DatabaseManager.getCollection("CheckOut");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+    public static void removeCheckOut(ObjectId id) {
+        removeObject(id, Constants.CHECKOUT_COLLECTION);
     }
 
     public static CheckOut toObject(DBObject checkOut) {
@@ -88,14 +62,5 @@ public class CheckOutDB {
                     (long) checkOut.get("person_id"),
                     (ObjectId) checkOut.get("doc_id"),
                     (ObjectId) checkOut.get("copy_id"));
-    }
-
-    public static BasicDBObject toDBObject(CheckOut checkOut) {
-        return new BasicDBObject("_id", checkOut.getId())
-                .append("from_date", CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()))
-                .append("to_date", CalendarObjectCreator.createCalendarLine(checkOut.getToDate()))
-                .append("person_id", checkOut.getPersonId())
-                .append("doc_id", checkOut.getDocId())
-                .append("copy_id", checkOut.getCopyId());
     }
 }

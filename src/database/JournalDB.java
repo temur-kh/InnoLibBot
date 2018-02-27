@@ -3,27 +3,23 @@ package database;
 import classes.Document.Journal;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
-import org.telegram.telegrambots.logging.BotLogger;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JournalDB extends DocumentDB {
+public class JournalDB extends SuperDatabase {
     private static String LOGTAG = "Journal DB: ";
 
-    public static void insertJournal(Journal journal) {
-        insertJournal(toDBObject(journal)
-                .append("issue_ids", journal.getIssueIds())
-                .append("can_be_checked_out", journal.canBeCheckedOut()));
+    public static ObjectId createJournal() {
+        return createDBObject(Constants.JOURNAL_COLLECTION);
     }
 
-    public static void insertJournal(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Journal");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
+    public static void insertJournal(Journal journal) {
+        insertObject(toDBObject(journal)
+                        .append("issue_ids", journal.getIssueIds())
+                        .append("can_be_checked_out", journal.canBeCheckedOut()),
+                Constants.JOURNAL_COLLECTION);
     }
 
     public static Journal getJournal(String id) {
@@ -44,18 +40,11 @@ public class JournalDB extends DocumentDB {
     }
 
     public static void updateJournal(Journal journal) {
-        updateJournal(toDBObject(journal));
+        updateObject(toDBObject(journal), Constants.JOURNAL_COLLECTION);
     }
 
-    public static void updateJournal(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Journal");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
-    }
-
-    public static void removeJournal(String id) {
-        DBCollection collection = DatabaseManager.getCollection("Journal");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+    public static void removeJournal(ObjectId id) {
+        removeObject(id, Constants.JOURNAL_COLLECTION);
     }
 
     public static Journal toObject(DBObject journal) {

@@ -2,8 +2,10 @@ package updater;
 
 import classes.CheckOut;
 import classes.Document.Book;
+import classes.User.Librarian;
 import classes.User.Patron;
 import database.BookDB;
+import database.LibrarianDB;
 import database.PatronDB;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -35,6 +37,12 @@ public class BookingSystem {
                 msg.setText(String.format(Texts.CHECKED_OUT_DOCUMENT_FORMAT, book.getTitle(), checkOut.getToDate().getTime()));
             } else {
                 msg.setText(Texts.NO_COPIES_AVAILABLE);
+            }
+            Librarian librarian = LibrarianDB.getLibrarian(userId);
+            if (librarian == null) {
+                msg.setText(Texts.DID_NOT_PROVIDE_PERSONAL_DATA);
+            } else {
+                msg.setText(Texts.LIBRARIAN_CANNOT_CHECK_OUT);
             }
         }
         return msg;

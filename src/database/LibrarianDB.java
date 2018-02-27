@@ -3,24 +3,16 @@ package database;
 import classes.User.Librarian;
 import com.mongodb.*;
 import org.telegram.telegrambots.logging.BotLogger;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibrarianDB extends UserDB {
+public class LibrarianDB extends SuperDatabase {
     private static String LOGTAG = "Librarian DB: ";
 
     public static void insertLibrarian(Librarian librarian) {
-        insertLibrarian(toDBObject(librarian));
-    }
-
-    public static void insertLibrarian(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Librarian");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
+        insertObject(toDBObject(librarian), Constants.LIBRARIAN_COLLECTION);
     }
 
     public static Librarian getLibrarian(long id) {
@@ -41,18 +33,15 @@ public class LibrarianDB extends UserDB {
     }
 
     public static void updateLibrarian(Librarian librarian) {
-        updateLibrarian(toDBObject(librarian));
+        updateObject(toDBObject(librarian), Constants.LIBRARIAN_COLLECTION);
     }
 
     public static void updateLibrarian(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Librarian");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+        updateObject(object, Constants.LIBRARIAN_COLLECTION);
     }
 
     public static void removeLibrarian(long id) {
-        DBCollection collection = DatabaseManager.getCollection("Librarian");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+        removeObject(id, Constants.LIBRARIAN_COLLECTION);
     }
 
     public static Librarian toObject(DBObject librarian) {

@@ -31,6 +31,8 @@ public class Texts {
 
     public static String DID_NOT_PROVIDE_PERSONAL_DATA = "You did not provide your personal data. Provide it in Main Menu!";
 
+    public static String LIBRARIAN_CANNOT_CHECK_OUT = "You are librarian. You cannot check out a document.";
+
     public static String NO_COPIES_AVAILABLE = "There are no copies available at the moment. Try to check out later.";
 
     public static String CHECKED_OUT_DOCUMENT_FORMAT = "You checked out a document: %s. Deadline for return is %s. You can get your document from 9 am till 5 pm on workdays.";

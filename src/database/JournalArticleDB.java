@@ -3,25 +3,20 @@ package database;
 import classes.Document.JournalArticle;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
-import org.telegram.telegrambots.logging.BotLogger;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JournalArticleDB {
+public class JournalArticleDB extends SuperDatabase {
     private static String LOGTAG = "JournalArticle DB: ";
 
-    public static void insertArticle(JournalArticle article) {
-        insertArticle(toDBObject(article));
+    public static ObjectId createArticle() {
+        return createDBObject(Constants.ARTICLE_COLLECTION);
     }
 
-    public static void insertArticle(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("JournalArticle");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
+    public static void insertArticle(JournalArticle article) {
+        insertObject(toDBObject(article), Constants.ARTICLE_COLLECTION);
     }
 
     public static JournalArticle getArticle(String id) {
@@ -42,18 +37,11 @@ public class JournalArticleDB {
     }
 
     public static void updateArticle(JournalArticle article) {
-        updateArticle(toDBObject(article));
+        updateObject(toDBObject(article), Constants.ARTICLE_COLLECTION);
     }
 
-    public static void updateArticle(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("JournalArticle");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
-    }
-
-    public static void removeArticle(String id) {
-        DBCollection collection = DatabaseManager.getCollection("JournalArticle");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+    public static void removeArticle(ObjectId id) {
+        removeObject(id, Constants.ARTICLE_COLLECTION);
     }
 
     public static JournalArticle toObject(DBObject article) {
@@ -64,13 +52,5 @@ public class JournalArticleDB {
                     (ArrayList<String>) article.get("authors"),
                     (ObjectId) article.get("journal_id"),
                     (ObjectId) article.get("issue_id"));
-    }
-
-    public static BasicDBObject toDBObject(JournalArticle article) {
-        return new BasicDBObject("_id", article.getId())
-                .append("title", article.getTitle())
-                .append("authors", article.getAuthors())
-                .append("journal_id", article.getJournalId())
-                .append("issue_id", article.getIssueId());
     }
 }

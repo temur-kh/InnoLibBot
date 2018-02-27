@@ -1,46 +1,25 @@
 package database;
 
 import classes.Document.Book;
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
+import services.Constants;
 
 import java.util.ArrayList;
 
-public class BookDB extends DocumentDB {
-
+public class BookDB extends SuperDatabase {
     private static String LOGTAG = "Book DB: ";
 
     public static ObjectId createBook() {
-        DBCollection collection = DatabaseManager.getCollection("Book");
-        BasicDBObject object = new BasicDBObject();
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
-        return (ObjectId) object.get("_id");
+        return createDBObject(Constants.BOOK_COLLECTION);
     }
 
     public static void insertBook(Book book) {
-        insertBook(toDBObject(book).append("edition", book.getEdition())
-                .append("bestseller", book.isBestSeller())
-                .append("can_be_checked_out", book.canBeCheckedOut()));
-    }
-
-    public static void insertBook(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Book");
-        BasicDBObject query = new BasicDBObject("_id", object.get("_id"));
-        if (collection.find(query).one() != null) {
-            updateBook(object);
-        } else {
-            try {
-                collection.insert(object);
-            } catch (DuplicateKeyException e) {
-                BotLogger.severe(LOGTAG, "duplicate found!");
-            }
-        }
+        insertObject(toDBObject(book).append("edition", book.getEdition())
+                        .append("bestseller", book.isBestSeller())
+                        .append("can_be_checked_out", book.canBeCheckedOut()),
+                Constants.BOOK_COLLECTION);
     }
 
     public static Book getBook(ObjectId id) {
@@ -61,19 +40,13 @@ public class BookDB extends DocumentDB {
     }
 
     public static void updateBook(Book book) {
-        updateBook(toDBObject(book));
-    }
-
-    public static void updateBook(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Book");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+        updateObject(toDBObject(book), Constants.BOOK_COLLECTION);
     }
 
     public static void removeBook(ObjectId id) {
-        DBCollection collection = DatabaseManager.getCollection("Book");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+        removeObject(id, Constants.BOOK_COLLECTION);
     }
+
 
     public static Book toObject(DBObject book) {
         if (book == null) return null;

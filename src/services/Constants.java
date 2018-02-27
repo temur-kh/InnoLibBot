@@ -29,6 +29,12 @@ public class Constants {
     public static final String ZERO = "0";
 
     public static final String BOOK_COLLECTION = "Book";
-    public static final String JOURNAL_COLLECTION = "JOURNAL";
     public static final String AVLMATERIAL_COLLECTION = "AVMaterial";
+    public static final String JOURNAL_COLLECTION = "Journal";
+    public static final String ISSUE_COLLECTION = "Issue";
+    public static final String ARTICLE_COLLECTION = "JournalArticle";
+    public static final String LIBRARIAN_COLLECTION = "Librarian";
+    public static final String PATRON_COLLECTION = "Patron";
+    public static final String COPY_COLLECTION = "Copy";
+    public static final String CHECKOUT_COLLECTION = "CheckOut";
 }

@@ -44,6 +44,8 @@
       <root url="jar://$MAVEN_REPOSITORY$/commons-io/commons-io/2.5/commons-io-2.5.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/telegrambots-meta-3.5-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

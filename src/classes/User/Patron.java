@@ -24,11 +24,14 @@ import java.util.NoSuchElementException;
  */
 public class Patron extends User {
 
+    private boolean isFaculty;
+
     public Patron(Long id, String name, String surname, String email, String phoneNumber, String address) {
         super(id, name, surname, email, phoneNumber, address);
-        //checkOutList = new ArrayList<>();
+        setFaculty(false);
     }
 
+    //TODO
     public CheckOut checkOutDocument(Document document) throws NoSuchElementException, SecurityException {
 
         if (BookDB.getBook(document.getId()) == null || !document.hasFreeCopies())
@@ -52,10 +55,6 @@ public class Patron extends User {
         }
         deadline.add(Calendar.DAY_OF_MONTH, time);
 
-        Calendar cal = new GregorianCalendar(1998, 0, 31);
-
-        System.out.println(cal.getTime().toString());
-
         checkOut = new CheckOut(today, deadline, getId(), document.getId(), document.getFreeCopy(true).getId());
         CheckOutDB.insertCheckOut(checkOut);
 
@@ -69,13 +68,15 @@ public class Patron extends User {
 
     //patron is student by default
     public boolean isStudent() {
-        return true;
+        return !isFaculty;
     }
 
     //
     public boolean isFaculty() {
-        return false;
+        return isFaculty;
     }
+
+    public void setFaculty(boolean status) { isFaculty = status; }
 
     //TODO when come to searching system
     public void searchBook() {

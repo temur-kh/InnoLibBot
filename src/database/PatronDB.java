@@ -5,25 +5,17 @@ import classes.User.Patron;
 import classes.User.Student;
 import com.mongodb.*;
 import org.telegram.telegrambots.logging.BotLogger;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatronDB extends UserDB {
+public class PatronDB extends SuperDatabase {
 
     private static String LOGTAG = "Patron DB: ";
 
     public static void insertPatron(Patron patron) {
-        insertPatron(toDBObject(patron).append("is_faculty", patron.isFaculty()));
-    }
-
-    public static void insertPatron(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Patron");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
+        insertObject(toDBObject(patron).append("is_faculty", patron.isFaculty()), Constants.PATRON_COLLECTION);
     }
 
     public static Patron getPatron(long id) {
@@ -33,9 +25,9 @@ public class PatronDB extends UserDB {
         if (cursor.one() == null)
             return null;
         if ((boolean) cursor.one().get("is_faculty")) {
-            return toObjectFaculty(cursor.one());
+            return (Faculty) toObject(cursor.one());
         } else {
-            return toObjectStudent(cursor.one());
+            return (Student) toObject(cursor.one());
         }
     }
 
@@ -45,44 +37,26 @@ public class PatronDB extends UserDB {
         DBCursor cursor = collection.find(new BasicDBObject());
         for (DBObject dbObject : cursor) {
             if ((boolean) cursor.one().get("is_faculty")) {
-                patrons.add(toObjectFaculty(dbObject));
+                patrons.add((Faculty) toObject(dbObject));
             } else {
-                patrons.add(toObjectStudent(dbObject));
+                patrons.add((Student) toObject(dbObject));
             }
         }
         return patrons;
     }
 
     public static void updatePatron(Patron patron) {
-        updatePatron(toDBObject(patron));
-    }
-
-    public static void updatePatron(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Patron");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+        updateObject(toDBObject(patron), Constants.PATRON_COLLECTION);
     }
 
     public static void removePatron(long id) {
-        DBCollection collection = DatabaseManager.getCollection("Patron");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+        removeObject(id, Constants.PATRON_COLLECTION);
     }
 
-    public static Faculty toObjectFaculty(DBObject patron) {
+    public static Patron toObject(DBObject patron) {
         if (patron == null) return null;
         else
-            return new Faculty((long) patron.get("_id"),
-                    (String) patron.get("name"),
-                    (String) patron.get("surname"),
-                    (String) patron.get("email"),
-                    (String) patron.get("phone_number"),
-                    (String) patron.get("address"));
-    }
-
-    public static Student toObjectStudent(DBObject patron) {
-        if (patron == null) return null;
-        else
-            return new Student((long) patron.get("_id"),
+            return new Patron((long) patron.get("_id"),
                     (String) patron.get("name"),
                     (String) patron.get("surname"),
                     (String) patron.get("email"),

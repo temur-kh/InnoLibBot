@@ -5,25 +5,21 @@ import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 import services.CalendarObjectCreator;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class IssueDB {
+public class IssueDB extends SuperDatabase {
     private static String LOGTAG = "Issue DB: ";
 
-    public static void insertIssue(Issue issue) {
-        insertIssue(toDBObject(issue));
+    public static ObjectId createIssue() {
+        return createDBObject(Constants.ISSUE_COLLECTION);
     }
 
-    public static void insertIssue(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Issue");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
+    public static void insertIssue(Issue issue) {
+        insertObject(toDBObject(issue), Constants.ISSUE_COLLECTION);
     }
 
     public static Issue getIssue(String id) {
@@ -44,18 +40,11 @@ public class IssueDB {
     }
 
     public static void updateIssue(Issue issue) {
-        updateIssue(toDBObject(issue));
+        updateObject(toDBObject(issue), Constants.ISSUE_COLLECTION);
     }
 
-    public static void updateIssue(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Issue");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
-    }
-
-    public static void removeIssue(String id) {
-        DBCollection collection = DatabaseManager.getCollection("Issue");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+    public static void removeIssue(ObjectId id) {
+        removeObject(id, Constants.ISSUE_COLLECTION);
     }
 
     public static Issue toObject(DBObject issue) {
@@ -66,13 +55,5 @@ public class IssueDB {
                     (ArrayList<String>) issue.get("editors"),
                     CalendarObjectCreator.createCalendarObject((String) issue.get("publication_date")),
                     (ArrayList<String>) issue.get("article_ids"));
-    }
-
-    public static BasicDBObject toDBObject(Issue issue) {
-        return new BasicDBObject("_id", issue.getId())
-                .append("journal_id", issue.getJournalId())
-                .append("editors", issue.getEditors())
-                .append("publication_date", CalendarObjectCreator.createCalendarLine(issue.getPublicationDate()))
-                .append("article_ids", issue.getArticleIds());
     }
 }

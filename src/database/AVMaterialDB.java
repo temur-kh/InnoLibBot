@@ -4,25 +4,21 @@ import classes.Document.AVMaterial;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AVMaterialDB extends DocumentDB {
+public class AVMaterialDB extends SuperDatabase {
 
     private static String LOGTAG = "AVMaterial DB: ";
 
-    public static void insertAVMaterial(AVMaterial material) {
-        insertAVMaterial(toDBObject(material));
+    public static ObjectId createAVMaterial() {
+        return createDBObject(Constants.AVLMATERIAL_COLLECTION);
     }
 
-    public static void insertAVMaterial(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("AVMaterial");
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
+    public static void insertAVMaterial(AVMaterial material) {
+        insertObject(toDBObject(material), Constants.AVLMATERIAL_COLLECTION);
     }
 
     public static AVMaterial getAVMaterial(String id) {
@@ -43,18 +39,11 @@ public class AVMaterialDB extends DocumentDB {
     }
 
     public static void updateAVMaterial(AVMaterial material) {
-        updateAVMaterial(toDBObject(material));
+        updateObject(toDBObject(material), Constants.AVLMATERIAL_COLLECTION);
     }
 
-    public static void updateAVMaterial(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("AVMaterial");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
-    }
-
-    public static void removeAVMaterial(String id) {
-        DBCollection collection = DatabaseManager.getCollection("AVMaterial");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+    public static void removeAVMaterial(ObjectId id) {
+        removeObject(id, Constants.AVLMATERIAL_COLLECTION);
     }
 
     public static AVMaterial toObject(DBObject material) {

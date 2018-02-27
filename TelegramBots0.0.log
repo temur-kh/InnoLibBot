@@ -655,3 +655,6 @@
 	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)
 	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
 	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:187)
+[10_2_2018_18:35:52] {SEVERE} TESTER:  - could not check out document!
+[10_2_2018_18:38:14] {SEVERE} TESTER:  - could not check out document!
+[10_2_2018_18:38:49] {SEVERE} TESTER:  - already has checked out this document!(2)

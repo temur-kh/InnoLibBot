@@ -5,40 +5,20 @@ import classes.Document.DocAddress;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CopyDB {
+public class CopyDB extends SuperDatabase {
     private static String LOGTAG = "Copy DB: ";
 
     public static ObjectId createCopy() {
-        DBCollection collection = DatabaseManager.getCollection("Copy");
-        BasicDBObject object = new BasicDBObject();
-        try {
-            collection.insert(object);
-        } catch (DuplicateKeyException e) {
-            BotLogger.severe(LOGTAG, "duplicate found!");
-        }
-        return (ObjectId) object.get("_id");
+        return createDBObject(Constants.COPY_COLLECTION);
     }
 
     public static void insertCopy(Copy copy) {
-        insertCopy(toDBObject(copy));
-    }
-
-    public static void insertCopy(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Copy");
-        BasicDBObject query = new BasicDBObject("_id", object.get("_id"));
-        if (collection.find(query).one() != null) {
-            updateCopy(object);
-        } else {
-            try {
-                collection.insert(object);
-            } catch (DuplicateKeyException e) {
-                BotLogger.severe(LOGTAG, "duplicate found!");
-            }
-        }
+        insertObject(toDBObject(copy), Constants.COPY_COLLECTION);
     }
 
     public static Copy getCopy(ObjectId id) {
@@ -59,18 +39,11 @@ public class CopyDB {
     }
 
     public static void updateCopy(Copy copy) {
-        updateCopy(toDBObject(copy));
-    }
-
-    public static void updateCopy(BasicDBObject object) {
-        DBCollection collection = DatabaseManager.getCollection("Copy");
-        collection.update(new BasicDBObject("_id", object.get("_id")), object);
+        updateObject(toDBObject(copy), Constants.COPY_COLLECTION);
     }
 
     public static void removeCopy(ObjectId id) {
-        DBCollection collection = DatabaseManager.getCollection("Copy");
-        BasicDBObject query = new BasicDBObject("_id", id);
-        collection.remove(query);
+        removeObject(id, Constants.COPY_COLLECTION);
     }
 
     public static Copy toObject(DBObject copy) {
@@ -82,15 +55,5 @@ public class CopyDB {
                             (String) copy.get("doc_address.level"),
                             (String) copy.get("doc_address.doc_case")),
                     (boolean) copy.get("checked_out"));
-
-    }
-
-    public static BasicDBObject toDBObject(Copy copy) {
-        return new BasicDBObject("_id", copy.getId())
-                .append("doc_id", copy.getDocId())
-                .append("doc_address", new BasicDBObject("room", copy.getAddress().getRoom())
-                        .append("level", copy.getAddress().getLevel())
-                        .append("doc_case", copy.getAddress().getDocCase()))
-                .append("checked_out", copy.isCheckedOut());
     }
 }

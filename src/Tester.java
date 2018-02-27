@@ -112,7 +112,6 @@ public class Tester {
      */
     public static void TC4() {
         Faculty faculty = new Faculty((long) 149477679, "Rishat", "Maksudov", "r.maksudov@innopolis.ru", "+77777777777", "Innopolis University");
-        Student student = new Student((long) 149477678, "Rishat1", "Maksudov1", "r.maksudov1@innopolis.ru", "+77777777771", "Innopolis University");
         ArrayList<String> authors = new ArrayList<>(Arrays.asList("William L. Briggs", "Lyle Cochran", "Bernard Gillett"));
         ArrayList<String> keywords = new ArrayList<>(Arrays.asList("calculus", "William", "Briggs", "Bernard"));
         Book book = new Book("Calculus", "1st Edition", authors, "https://www.pearsonhighered.com/assets/bigcovers/0/3/2/1/0321570561.jpg",

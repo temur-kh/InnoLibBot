@@ -23,7 +23,6 @@ public class MainBot extends TelegramLongPollingBot {
         try {
             //print user id (user card) to the console
             //System.out.println(update.getMessage().getChatId());
-
             handleUpdate(update);
         } catch (Exception e) {
             BotLogger.error(LOGTAG, "could not execute command!");
