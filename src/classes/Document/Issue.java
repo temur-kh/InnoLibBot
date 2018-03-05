@@ -5,7 +5,6 @@ import services.CalendarObjectCreator;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * This class is used in Journal(By issue we can find exact Journal)
@@ -64,6 +63,10 @@ public class Issue {
 
     public Calendar getPublicationDate() {
         return publicationDate;
+    }
+
+    public String getPublicationDateLine() {
+        return CalendarObjectCreator.createCalendarLine(publicationDate);
     }
 
     public void setPublicationDate(Calendar publicationDate) {

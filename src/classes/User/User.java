@@ -41,6 +41,8 @@ public class User {
         this.surname = surname;
     }
 
+    public String getFullName() { return this.name + " " + this.surname; }
+
     public String getEmail() {
         return email;
     }
@@ -71,5 +73,16 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getInfo() {
+        String info = "";
+        info += "<strong>ID:</strong> " + getId() + Constants.NEW_LINE;
+        info += "<strong>NAME:</strong> " + getName() + Constants.NEW_LINE;
+        info += "<strong>SURNAME:</strong> " + getSurname() + Constants.NEW_LINE;
+        info += "<strong>EMAIL:</strong> " + getEmail() + Constants.NEW_LINE;
+        info += "<strong>PHONE NUMBER:</strong> " + getPhoneNumber() + Constants.NEW_LINE;
+        info += "<strong>ADDRESS:</strong> " + getAddress() + Constants.NEW_LINE;
+        return info;
     }
 }

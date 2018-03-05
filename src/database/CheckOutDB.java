@@ -1,14 +1,19 @@
 package database;
 
 import classes.CheckOut;
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
-import org.telegram.telegrambots.logging.BotLogger;
 import services.CalendarObjectCreator;
 import services.Constants;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+;
 
 public class CheckOutDB extends SuperDatabase {
     private static String LOGTAG = "CheckOut DB: ";
@@ -21,14 +26,13 @@ public class CheckOutDB extends SuperDatabase {
         insertObject(toDBObject(checkOut), Constants.CHECKOUT_COLLECTION);
     }
 
-    public static CheckOut getCheckOut(String id) {
+    public static CheckOut getCheckOut(ObjectId id) {
         DBCollection collection = DatabaseManager.getCollection("CheckOut");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);
         return toObject(cursor.one());
     }
 
-    //TODO
     public static CheckOut getCheckOut(BasicDBObject query) {
         DBCollection collection = DatabaseManager.getCollection("CheckOut");
         DBCursor cursor = collection.find(query);
@@ -37,8 +41,24 @@ public class CheckOutDB extends SuperDatabase {
 
     public static List<CheckOut> getCheckOutsList() {
         DBCollection collection = DatabaseManager.getCollection("CheckOut");
-        ArrayList<CheckOut> checkOuts = new ArrayList<>();
         DBCursor cursor = collection.find(new BasicDBObject());
+        return getCheckOutsListByCursor(cursor);
+    }
+
+    public static ArrayList<CheckOut> getCheckOutsListByDate() {
+        DBCollection collection = DatabaseManager.getCollection("CheckOut");
+        DBCursor cursor = collection.find(new BasicDBObject("to_date", new BasicDBObject("$gt", new Date()))).sort(new BasicDBObject("to_date", 1));
+        return getCheckOutsListByCursor(cursor);
+    }
+
+    public static ArrayList<CheckOut> getOverdueCheckOutsList() {
+        DBCollection collection = DatabaseManager.getCollection("CheckOut");
+        DBCursor cursor = collection.find(new BasicDBObject("to_date", new BasicDBObject("$lt", new Date()))).sort(new BasicDBObject("to_date", 1));
+        return getCheckOutsListByCursor(cursor);
+    }
+
+    private static ArrayList<CheckOut> getCheckOutsListByCursor(DBCursor cursor) {
+        ArrayList<CheckOut> checkOuts = new ArrayList<>();
         for (DBObject dbObject : cursor) {
             checkOuts.add(toObject(dbObject));
         }
@@ -57,10 +77,11 @@ public class CheckOutDB extends SuperDatabase {
         if (checkOut == null) return null;
         else
             return new CheckOut((ObjectId) checkOut.get("_id"),
-                    CalendarObjectCreator.createCalendarObject((String) checkOut.get("from_date")),
-                    CalendarObjectCreator.createCalendarObject((String) checkOut.get("to_date")),
-                    (long) checkOut.get("person_id"),
+                    CalendarObjectCreator.convertToCalendar((Date) checkOut.get("from_date")),
+                    CalendarObjectCreator.convertToCalendar((Date) checkOut.get("to_date")),
+                    (long) checkOut.get("patron_id"),
                     (ObjectId) checkOut.get("doc_id"),
+                    (String) checkOut.get("collection"),
                     (ObjectId) checkOut.get("copy_id"));
     }
 }

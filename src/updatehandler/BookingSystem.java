@@ -1,4 +1,4 @@
-package updater;
+package updatehandler;
 
 import classes.CheckOut;
 import classes.Document.Book;
@@ -29,20 +29,16 @@ public class BookingSystem {
 
             Book book = BookDB.getBook(objectId);
             Patron patron = PatronDB.getPatron(userId);
-
-            if (patron == null) {
+            Librarian librarian = LibrarianDB.getLibrarian(userId);
+            if (librarian != null) {
+                msg.setText(Texts.LIBRARIAN_CANNOT_CHECK_OUT);
+            } else if (patron == null) {
                 msg.setText(Texts.DID_NOT_PROVIDE_PERSONAL_DATA);
             } else if (book.hasFreeCopies()) {
-                CheckOut checkOut = patron.checkOutDocument(book);
-                msg.setText(String.format(Texts.CHECKED_OUT_DOCUMENT_FORMAT, book.getTitle(), checkOut.getToDate().getTime()));
+                CheckOut checkOut = patron.checkOutDocument(book, Constants.BOOK_COLLECTION);
+                msg.setText(String.format(Texts.CHECKED_OUT_DOCUMENT_FORMAT, book.getTitle(), checkOut.getToDateLine()));
             } else {
                 msg.setText(Texts.NO_COPIES_AVAILABLE);
-            }
-            Librarian librarian = LibrarianDB.getLibrarian(userId);
-            if (librarian == null) {
-                msg.setText(Texts.DID_NOT_PROVIDE_PERSONAL_DATA);
-            } else {
-                msg.setText(Texts.LIBRARIAN_CANNOT_CHECK_OUT);
             }
         }
         return msg;

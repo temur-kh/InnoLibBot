@@ -9,15 +9,18 @@ import database.BookDB;
 import database.CopyDB;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
-import services.CalendarObjectCreator;
+import services.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+/**
+ * Class for creating tests. Was used for 1st Delivery.
+ */
 public class Tester {
 
-    static private String LOGTAG = "TESTER: ";
+    static private final String LOGTAG = "TESTER: ";
 
     /**
      * Works!!!
@@ -49,7 +52,7 @@ public class Tester {
 
         if (book.hasFreeCopies()) {
             try {
-                checkOut = patron.checkOutDocument(book); //changes added
+                checkOut = patron.checkOutDocument(book, Constants.BOOK_COLLECTION); //changes added
             } catch (NoSuchElementException e) {
                 BotLogger.severe(LOGTAG, "could not check out document!");
             }
@@ -57,7 +60,7 @@ public class Tester {
 
         //Result
         if (checkOut != null) {
-            System.out.println("Patron " + checkOut.getPersonId() + " checked out a book " + checkOut.getDocId() + " copy " + checkOut.getCopyId());
+            System.out.println("Patron " + checkOut.getPatronId() + " checked out a book " + checkOut.getDocId() + " copy " + checkOut.getCopyId());
         }
 
         if (book.hasFreeCopies()) {
@@ -78,7 +81,7 @@ public class Tester {
         keywords.add("Tesla");
         Book book = new Book(new ObjectId("5a78b88d791a84116ceb7b1f"), "asdf", "1st edition", authors, "https://s00.yaplakal.com/pics/pics_original/2/0/8/10510802.jpg", 1111.1, keywords, false);
         try {
-            patron.checkOutDocument(book);
+            patron.checkOutDocument(book, Constants.BOOK_COLLECTION);
         } catch (NoSuchElementException e) {
             BotLogger.severe(LOGTAG, "could not check out document!");
         }
@@ -103,8 +106,8 @@ public class Tester {
         book.setCopyIds(copyIds);
 
         BookDB.insertBook(book);
-        CheckOut checkOut = faculty.checkOutDocument(book);
-        System.out.println("From " + CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()) + " to " + CalendarObjectCreator.createCalendarLine(checkOut.getToDate()));
+        CheckOut checkOut = faculty.checkOutDocument(book, Constants.BOOK_COLLECTION);
+        System.out.println("From " + checkOut.getFromDate() + " to " + checkOut.getToDate());
     }
 
     /**
@@ -125,9 +128,9 @@ public class Tester {
         book.setCopyIds(copyIds);
 
         BookDB.insertBook(book);
-        CheckOut checkOut = faculty.checkOutDocument(book);
+        CheckOut checkOut = faculty.checkOutDocument(book, Constants.BOOK_COLLECTION);
 
-        System.out.println("From " + CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()) + " to " + CalendarObjectCreator.createCalendarLine(checkOut.getToDate()));
+        System.out.println("From " + checkOut.getFromDate() + " to " + checkOut.getToDate());
     }
 
     /**
@@ -150,16 +153,16 @@ public class Tester {
         copies.add(copy.getId());
         book.setCopyIds(copies);
         BookDB.insertBook(book);
-        patron1.checkOutDocument(book);
+        patron1.checkOutDocument(book, Constants.BOOK_COLLECTION);
         System.out.println("p1 took copy");
-        patron2.checkOutDocument(book);
+        patron2.checkOutDocument(book, Constants.BOOK_COLLECTION);
         System.out.println("p2 took copy");
 
         if (!book.hasFreeCopies()) {
             System.out.println("There are no copies yet!");
         }
         try {
-            patron3.checkOutDocument(book);
+            patron3.checkOutDocument(book, Constants.BOOK_COLLECTION);
             System.out.println("p3 took copy");
         } catch (NoSuchElementException e) {
             BotLogger.severe(LOGTAG, "could not check out document!");
@@ -193,7 +196,7 @@ public class Tester {
 
         if (book.hasFreeCopies()) {
             try {
-                student.checkOutDocument(book);
+                student.checkOutDocument(book, Constants.BOOK_COLLECTION);
             } catch (SecurityException e) {
                 BotLogger.severe(LOGTAG, "already has checked out this document!(1)");
             }
@@ -201,7 +204,7 @@ public class Tester {
 
         if (book.hasFreeCopies()) {
             try {
-                student.checkOutDocument(book);
+                student.checkOutDocument(book, Constants.BOOK_COLLECTION);
             } catch (SecurityException e) {
                 BotLogger.severe(LOGTAG, "already has checked out this document!(2)");
             }
@@ -233,9 +236,9 @@ public class Tester {
         book.setCopyIds(copyIds);
         BookDB.insertBook(book);
         if (book.hasFreeCopies()) {
-            patron1.checkOutDocument(book);
+            patron1.checkOutDocument(book, Constants.BOOK_COLLECTION);
             if (book.hasFreeCopies()) {
-                patron2.checkOutDocument(book);
+                patron2.checkOutDocument(book, Constants.BOOK_COLLECTION);
                 System.out.println("both took books");
             }
         }
@@ -263,8 +266,8 @@ public class Tester {
 
         BookDB.insertBook(book);
 
-        CheckOut checkOut = student.checkOutDocument(book);
-        System.out.println("From " + CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()) + " to " + CalendarObjectCreator.createCalendarLine(checkOut.getToDate()));
+        CheckOut checkOut = student.checkOutDocument(book, Constants.BOOK_COLLECTION);
+        System.out.println("From " + checkOut.getFromDate() + " to " + checkOut.getToDate());
     }
 
     /**
@@ -286,8 +289,8 @@ public class Tester {
         book.setCopyIds(copyIds);
 
         BookDB.insertBook(book);
-        CheckOut checkOut = student.checkOutDocument(book);
-        System.out.println("From " + CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()) + " to " + CalendarObjectCreator.createCalendarLine(checkOut.getToDate()));
+        CheckOut checkOut = student.checkOutDocument(book, Constants.BOOK_COLLECTION);
+        System.out.println("From " + checkOut.getFromDate() + " to " + checkOut.getToDate());
     }
 
     /**
@@ -325,15 +328,15 @@ public class Tester {
         BookDB.insertBook(book2);
 
         try {
-            CheckOut checkOut = patron.checkOutDocument(book);
-            System.out.println("From " + CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()) + " to " + CalendarObjectCreator.createCalendarLine(checkOut.getToDate()));
+            CheckOut checkOut = patron.checkOutDocument(book, Constants.BOOK_COLLECTION);
+            System.out.println("From " + checkOut.getFromDate() + " to " + checkOut.getToDate());
         } catch (SecurityException e) {
             BotLogger.severe(LOGTAG, "WRONG EXCEPTION!!!");
         }
 
         try {
-            CheckOut checkOut = patron.checkOutDocument(book2);
-            System.out.println("From " + CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()) + " to " + CalendarObjectCreator.createCalendarLine(checkOut.getToDate()));
+            CheckOut checkOut = patron.checkOutDocument(book2, Constants.BOOK_COLLECTION);
+            System.out.println("From " + checkOut.getFromDate() + " to " + checkOut.getToDate());
         } catch (SecurityException e) {
             BotLogger.severe(LOGTAG, "document cannot be checked out!");
         }

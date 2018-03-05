@@ -1,13 +1,15 @@
 package database;
 
-import com.mongodb.*;
-import org.telegram.telegrambots.logging.BotLogger;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import services.BotConfig;
 
 public class DatabaseManager {
     private static volatile DatabaseManager instance;
     private static volatile MongoClient mongoClient;
-    private String LOGTAG = "DatabaseManager: ";
+    private final String LOGTAG = "DatabaseManager: ";
 
     private DatabaseManager() {
         mongoClient = new MongoClient(new MongoClientURI(String.format("mongodb+srv://toyo:%s@cluster0-ovczs.mongodb.net/test", BotConfig.MONGODB_ADMIN_PASSWORD)));

@@ -1,9 +1,11 @@
 package database;
 
 import classes.Document.AVMaterial;
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
-import org.telegram.telegrambots.logging.BotLogger;
 import services.Constants;
 
 import java.util.ArrayList;
@@ -11,14 +13,14 @@ import java.util.List;
 
 public class AVMaterialDB extends SuperDatabase {
 
-    private static String LOGTAG = "AVMaterial DB: ";
+    private static final String LOGTAG = "AVMaterial DB: ";
 
     public static ObjectId createAVMaterial() {
-        return createDBObject(Constants.AVLMATERIAL_COLLECTION);
+        return createDBObject(Constants.AVMATERIAL_COLLECTION);
     }
 
     public static void insertAVMaterial(AVMaterial material) {
-        insertObject(toDBObject(material), Constants.AVLMATERIAL_COLLECTION);
+        insertObject(toDBObject(material), Constants.AVMATERIAL_COLLECTION);
     }
 
     public static AVMaterial getAVMaterial(String id) {
@@ -39,11 +41,13 @@ public class AVMaterialDB extends SuperDatabase {
     }
 
     public static void updateAVMaterial(AVMaterial material) {
-        updateObject(toDBObject(material), Constants.AVLMATERIAL_COLLECTION);
+        updateObject(toDBObject(material), Constants.AVMATERIAL_COLLECTION);
     }
 
+    public static void modifyAVMaterial(ObjectId id, String key, Object value) { modifyObject(id, key, value, Constants.AVMATERIAL_COLLECTION);}
+
     public static void removeAVMaterial(ObjectId id) {
-        removeObject(id, Constants.AVLMATERIAL_COLLECTION);
+        removeObject(id, Constants.AVMATERIAL_COLLECTION);
     }
 
     public static AVMaterial toObject(DBObject material) {

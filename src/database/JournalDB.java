@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JournalDB extends SuperDatabase {
-    private static String LOGTAG = "Journal DB: ";
+    private static final String LOGTAG = "Journal DB: ";
 
     public static ObjectId createJournal() {
         return createDBObject(Constants.JOURNAL_COLLECTION);

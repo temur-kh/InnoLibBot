@@ -1,7 +1,5 @@
 package services;
 
-import java.time.Duration;
-
 /**
  * Class of available constants.
  */
@@ -27,14 +25,18 @@ public class Constants {
     public static final String NEW_LINE = "\n";
     public static final String EMPTY_LINE = "";
     public static final String ZERO = "0";
+    public static final int SECURE_PASSWORD_LENGTH = 8;
 
     public static final String BOOK_COLLECTION = "Book";
-    public static final String AVLMATERIAL_COLLECTION = "AVMaterial";
+    public static final String AVMATERIAL_COLLECTION = "AVMaterial";
     public static final String JOURNAL_COLLECTION = "Journal";
+    public static final String JOURNAL_ARTICLE_COLLECTION = "JournalArticle";
     public static final String ISSUE_COLLECTION = "Issue";
     public static final String ARTICLE_COLLECTION = "JournalArticle";
     public static final String LIBRARIAN_COLLECTION = "Librarian";
     public static final String PATRON_COLLECTION = "Patron";
     public static final String COPY_COLLECTION = "Copy";
     public static final String CHECKOUT_COLLECTION = "CheckOut";
+    public static final String STATE_COLLECTION = "State";
+
 }

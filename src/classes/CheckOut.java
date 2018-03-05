@@ -1,8 +1,10 @@
 package classes;
 
 import database.CheckOutDB;
+import database.PatronDB;
 import org.bson.types.ObjectId;
 import services.CalendarObjectCreator;
+import services.Constants;
 
 import java.util.Calendar;
 
@@ -14,25 +16,28 @@ public class CheckOut {
     private ObjectId id;
     private Calendar fromDate;
     private Calendar toDate;
-    private long personId;
+    private long patronId;
     private ObjectId docId;
+    private String collection;
     private ObjectId copyId;
 
     //constructors
-    public CheckOut(Calendar fromDate, Calendar toDate, long personId, ObjectId docId, ObjectId copyId) {
+    public CheckOut(Calendar fromDate, Calendar toDate, long patronId, ObjectId docId, String collection, ObjectId copyId) {
         setId(CheckOutDB.createCheckOut());
         setDocId(docId);
+        setDocCollection(collection);
         setCopyId(copyId);
-        setPersonId(personId);
+        setPatronId(patronId);
         setFromDate(fromDate);
         setToDate(toDate);
     }
 
-    public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, long personId, ObjectId docId, ObjectId copyId) {
+    public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, long patronId, ObjectId docId, String collection, ObjectId copyId) {
         setId(id);
         setDocId(docId);
+        setDocCollection(collection);
         setCopyId(copyId);
-        setPersonId(personId);
+        setPatronId(patronId);
         setFromDate(fromDate);
         setToDate(toDate);
     }
@@ -49,6 +54,10 @@ public class CheckOut {
         return fromDate;
     }
 
+    public String getFromDateLine() {
+        return CalendarObjectCreator.createCalendarLine(fromDate);
+    }
+
     public void setFromDate(Calendar fromDate) {
         this.fromDate = fromDate;
     }
@@ -61,6 +70,10 @@ public class CheckOut {
         return toDate;
     }
 
+    public String getToDateLine() {
+        return CalendarObjectCreator.createCalendarLine(toDate);
+    }
+
     public void setToDate(Calendar toDate) {
         this.toDate = toDate;
     }
@@ -69,12 +82,10 @@ public class CheckOut {
         this.toDate = CalendarObjectCreator.createCalendarObject(toDate);
     }
 
-    public long getPersonId() {
-        return personId;
-    }
+    public long getPatronId() { return patronId; }
 
-    public void setPersonId(long person) {
-        this.personId = person;
+    public void setPatronId(long patronId) {
+        this.patronId = patronId;
     }
 
     public ObjectId getDocId() {
@@ -85,11 +96,30 @@ public class CheckOut {
         this.docId = docId;
     }
 
+    public String getDocCollection() {
+        return collection;
+    }
+
+    public void setDocCollection(String collection) { this.collection = collection; }
+
     public ObjectId getCopyId() {
         return copyId;
     }
 
     public void setCopyId(ObjectId copyId) {
         this.copyId = copyId;
+    }
+
+    public String getInfo() {
+        String info = "";
+        info += "*ID:* " + id.toString() + Constants.NEW_LINE;
+        info += "*FROM DATE:* " + CalendarObjectCreator.createCalendarLine(fromDate) + Constants.NEW_LINE;
+        info += "*TO DATE:* " + CalendarObjectCreator.createCalendarLine(toDate) + Constants.NEW_LINE;
+        info += "*PATRON ID:* " + patronId + Constants.NEW_LINE;
+        info += "*PATRON FULLNAME:* " + PatronDB.getPatron(patronId).getFullName() + Constants.NEW_LINE;
+        info += "*DOC ID:* " + docId.toString() + Constants.NEW_LINE;
+        info += "*DOC TYPE:* " + collection + Constants.NEW_LINE;
+        info += "*COPY ID:* " + copyId.toString() + Constants.NEW_LINE;
+        return info;
     }
 }

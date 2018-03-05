@@ -1,15 +1,17 @@
 package database;
 
 import classes.User.Librarian;
-import com.mongodb.*;
-import org.telegram.telegrambots.logging.BotLogger;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LibrarianDB extends SuperDatabase {
-    private static String LOGTAG = "Librarian DB: ";
+    private static final String LOGTAG = "Librarian DB: ";
 
     public static void insertLibrarian(Librarian librarian) {
         insertObject(toDBObject(librarian), Constants.LIBRARIAN_COLLECTION);

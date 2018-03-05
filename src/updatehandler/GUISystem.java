@@ -1,15 +1,15 @@
-package updater;
+package updatehandler;
 
-import classes.User.Librarian;
 import database.LibrarianDB;
-import database.PatronDB;
-import database.RegistrationStateDB;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import services.Commands;
+import services.Constants;
 import services.Texts;
 
 import java.util.ArrayList;
@@ -21,14 +21,16 @@ import java.util.List;
 public class GUISystem {
 
     //return initial greeting for user
-    public static SendMessage initialGreetingView(Update update) {
-        SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId())
-                .setText(Texts.GREETING_).setReplyMarkup(getInitialMenu());
-        return msg;
+    public static ArrayList<Object> initialGreetingView(Update update) {
+        ArrayList<Object> msgs = new ArrayList<>();
+        msgs.add(new SendSticker().setChatId(update.getMessage().getChatId()).setSticker("CAADAgADOAADf72DDRsfv6O0SoOxAg"));
+        msgs.add(new SendMessage().setChatId(update.getMessage().getChatId())
+                .setText(Texts.GREETING_).setReplyMarkup(getInitialMenu(update.getMessage().getChatId())));
+        return msgs;
     }
 
     //return Main Menu keyboard markup
-    private static ReplyKeyboardMarkup getInitialMenu() {
+    private static ReplyKeyboardMarkup getInitialMenu(long userId) {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
@@ -37,9 +39,11 @@ public class GUISystem {
         row = new KeyboardRow();
         row.add(Commands.PERSONAL_INFORMATION);
         keyboard.add(row);
-        row = new KeyboardRow();
-        row.add(Commands.LOGIN_AS_LIBRARIAN);
-        keyboard.add(row);
+        if (LibrarianDB.getLibrarian(userId) != null) {
+            row = new KeyboardRow();
+            row.add(Commands.LOGIN_AS_LIBRARIAN);
+            keyboard.add(row);
+        }
         keyboardMarkup.setKeyboard(keyboard);
         return keyboardMarkup;
     }
@@ -87,10 +91,21 @@ public class GUISystem {
         return keyboardMarkup;
     }
 
+    public static InlineKeyboardMarkup simpleInlineMenu() {
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+
+        rowInline.add(new InlineKeyboardButton(Commands.BACK_TO_MENU).setCallbackData(Constants.EMPTY_LINE));
+        rowsInline.add(rowInline);
+        keyboardMarkup.setKeyboard(rowsInline);
+        return keyboardMarkup;
+    }
+
     //go to Main Menu
     public static SendMessage backToInitialMenu(Update update) {
         SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId())
-                .setText(Texts.MAIN_MENU).setReplyMarkup(getInitialMenu());
+                .setText(Texts.MAIN_MENU).setReplyMarkup(getInitialMenu(update.getMessage().getChatId()));
         return msg;
     }
 }

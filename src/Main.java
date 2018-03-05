@@ -1,15 +1,10 @@
-import classes.CheckOut;
 import classes.Document.Book;
 import classes.Document.Copy;
 import classes.Document.DocAddress;
-import classes.Document.Document;
-import classes.User.Faculty;
 import classes.User.Patron;
-import classes.User.Student;
 import database.BookDB;
 import database.CopyDB;
 import database.PatronDB;
-import javassist.compiler.ast.Keyword;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
@@ -17,20 +12,21 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegrambots.logging.BotsFileHandler;
-import org.telegram.telegraph.*;
-import services.CalendarObjectCreator;
-import updater.MainBot;
+import org.telegram.telegraph.ExecutorOptions;
+import org.telegram.telegraph.TelegraphContext;
+import org.telegram.telegraph.TelegraphContextInitializer;
+import services.SendMail;
+import updatehandler.MainBot;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 
 public class Main {
 
-    private static String LOGTAG = "Class Main: ";
+    private static final String LOGTAG = "Class Main: ";
 
     public static void main(String[] args) {
 
@@ -50,6 +46,7 @@ public class Main {
 
         // Initialize Telegram Api Context
         ApiContextInitializer.init();
+        //test3();
         //test1();
         //Run tests
         //Tester.TC1();
@@ -62,7 +59,6 @@ public class Main {
         //Tester.TC8();
         //Tester.TC9();
         //Tester.TC10();
-
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -133,5 +129,9 @@ public class Main {
         //get id by asking person to send message to bot
         Patron patron = new Patron((long) 149477679, "Rishat", "Maksudov", "r.maksudov@innopolis.ru", "+77777777777", "Innopolis University");
         PatronDB.insertPatron(patron);
+    }
+
+    public static void test3() {
+        SendMail.sendMail("t.holmatov@innopolis.ru","Testing SendMail class", "Hello World!\nTemur");
     }
 }

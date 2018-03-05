@@ -1,6 +1,5 @@
 package services;
 
-import database.DatabaseManager;
 import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegraph.api.methods.CreateAccount;
 import org.telegram.telegraph.api.objects.Account;
@@ -33,7 +32,7 @@ public class TelegraphAccount {
     public static TelegraphAccount getInstance() {
         final TelegraphAccount currentInstance;
         if (instance == null) {
-            synchronized (DatabaseManager.class) {
+            synchronized (TelegraphAccount.class) {
                 if (instance == null) {
                     instance = new TelegraphAccount();
                 }

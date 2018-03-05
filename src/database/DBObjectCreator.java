@@ -9,8 +9,11 @@ import classes.User.User;
 import com.mongodb.BasicDBObject;
 import services.CalendarObjectCreator;
 
+/**
+ * Class used to convert any object of classes to BasicDBObject type.
+ */
 public class DBObjectCreator {
-    private static String LOGTAG = "DB Ovject Creator: ";
+    private static final String LOGTAG = "DB Ovject Creator: ";
 
     public static BasicDBObject toDocumentDBObject(Document document) {
         return new BasicDBObject("_id", document.getId())
@@ -45,7 +48,7 @@ public class DBObjectCreator {
         return new BasicDBObject("_id", issue.getId())
                 .append("journal_id", issue.getJournalId())
                 .append("editors", issue.getEditors())
-                .append("publication_date", CalendarObjectCreator.createCalendarLine(issue.getPublicationDate()))
+                .append("publication_date", CalendarObjectCreator.convertToDate(issue.getPublicationDate()))
                 .append("article_ids", issue.getArticleIds());
     }
 
@@ -59,10 +62,11 @@ public class DBObjectCreator {
 
     public static BasicDBObject toCheckOutDBObject(CheckOut checkOut) {
         return new BasicDBObject("_id", checkOut.getId())
-                .append("from_date", CalendarObjectCreator.createCalendarLine(checkOut.getFromDate()))
-                .append("to_date", CalendarObjectCreator.createCalendarLine(checkOut.getToDate()))
-                .append("person_id", checkOut.getPersonId())
+                .append("from_date", CalendarObjectCreator.convertToDate(checkOut.getFromDate()))
+                .append("to_date", CalendarObjectCreator.convertToDate(checkOut.getToDate()))
+                .append("patron_id", checkOut.getPatronId())
                 .append("doc_id", checkOut.getDocId())
+                .append("collection", checkOut.getDocCollection())
                 .append("copy_id", checkOut.getCopyId());
     }
 }

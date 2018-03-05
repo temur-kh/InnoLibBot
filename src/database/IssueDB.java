@@ -1,14 +1,16 @@
 package database;
 
 import classes.Document.Issue;
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
-import org.telegram.telegrambots.logging.BotLogger;
 import services.CalendarObjectCreator;
 import services.Constants;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class IssueDB extends SuperDatabase {
@@ -53,7 +55,7 @@ public class IssueDB extends SuperDatabase {
             return new Issue((ObjectId) issue.get("_id"),
                     (ObjectId) issue.get("journal_id"),
                     (ArrayList<String>) issue.get("editors"),
-                    CalendarObjectCreator.createCalendarObject((String) issue.get("publication_date")),
+                    CalendarObjectCreator.convertToCalendar((Date) issue.get("publication_date")),
                     (ArrayList<String>) issue.get("article_ids"));
     }
 }

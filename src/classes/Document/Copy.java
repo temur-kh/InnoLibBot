@@ -1,10 +1,7 @@
 package classes.Document;
 
-import classes.User.User;
 import database.CopyDB;
 import org.bson.types.ObjectId;
-
-import java.util.Calendar;
 
 /**
  * Used, when we create some copies of documents
@@ -17,7 +14,7 @@ public class Copy {
     private ObjectId id;
     //id of document, to which this copy belong
     private ObjectId docId;
-    //adress, where we can find this copy (room and level)
+    //address, where we can find this copy (room and level)
     private DocAddress address;
 
     private boolean checkedOut;

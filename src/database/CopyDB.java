@@ -2,16 +2,18 @@ package database;
 
 import classes.Document.Copy;
 import classes.Document.DocAddress;
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
-import org.telegram.telegrambots.logging.BotLogger;
 import services.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CopyDB extends SuperDatabase {
-    private static String LOGTAG = "Copy DB: ";
+    private static final String LOGTAG = "Copy DB: ";
 
     public static ObjectId createCopy() {
         return createDBObject(Constants.COPY_COLLECTION);

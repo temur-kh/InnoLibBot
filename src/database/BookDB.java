@@ -1,15 +1,17 @@
 package database;
 
 import classes.Document.Book;
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
-import org.telegram.telegrambots.logging.BotLogger;
 import services.Constants;
 
 import java.util.ArrayList;
 
 public class BookDB extends SuperDatabase {
-    private static String LOGTAG = "Book DB: ";
+    private static final String LOGTAG = "Book DB: ";
 
     public static ObjectId createBook() {
         return createDBObject(Constants.BOOK_COLLECTION);
@@ -42,6 +44,8 @@ public class BookDB extends SuperDatabase {
     public static void updateBook(Book book) {
         updateObject(toDBObject(book), Constants.BOOK_COLLECTION);
     }
+
+    public static void modifyBook(ObjectId id, String key, Object value) { modifyObject(id, key, value, Constants.BOOK_COLLECTION);}
 
     public static void removeBook(ObjectId id) {
         removeObject(id, Constants.BOOK_COLLECTION);
