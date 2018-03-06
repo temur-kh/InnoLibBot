@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 /**
  * Class for creating tests. Was used for 1st Delivery.
  */
-public class Tester {
+public class Tester_1 {
 
     static private final String LOGTAG = "TESTER: ";
     static Book b1,b2,b3;
