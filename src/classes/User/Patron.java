@@ -49,7 +49,7 @@ public class Patron extends User {
 
         int time;
         if (collection.equals(Constants.BOOK_COLLECTION)) {
-            if (this.getClass() == Faculty.class) {
+            if (this.isFaculty) {
                 time = Constants.BOOK_CHECK_OUT_LIMIT_FOR_FACULTY;
             } else if (((Book) document).isBestSeller()) {
                 time = Constants.BEST_SELLER_CHECK_OUT_LIMIT;

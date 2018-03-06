@@ -1,5 +1,6 @@
 package classes.Document;
 
+import database.AVMaterialDB;
 import org.bson.types.ObjectId;
 import services.PageCreator;
 
@@ -17,9 +18,10 @@ public class AVMaterial extends Document {
         super.setUrl(PageCreator.createAVMaterialPage(this));
     }
 
-    public AVMaterial(ObjectId id, String url, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
+    public AVMaterial(String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
         super(title, authors, photoId, price, keywords);
         super.setUrl(PageCreator.createAVMaterialPage(this));
+        setId(AVMaterialDB.createAVMaterial());
     }
 
     public AVMaterial(ObjectId id, String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, ArrayList<ObjectId> copyIds) {

@@ -1,9 +1,7 @@
 package classes.Document;
 
-import database.BookDB;
 import database.CopyDB;
 import org.bson.types.ObjectId;
-import services.PageCreator;
 
 import java.util.ArrayList;
 
@@ -34,7 +32,6 @@ public class Document {
 
     //this constructor creates a new document with a new id in database, when we did not have documents like this before
     public Document(String title, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords) {
-        setId(BookDB.createBook());
         setTitle(title);
         setAuthors(authors);
         setPhotoId(photoId);
@@ -67,7 +64,7 @@ public class Document {
         return id;
     }
 
-    private void setId(ObjectId id) {
+    protected void setId(ObjectId id) {
         this.id = id;
     }
 

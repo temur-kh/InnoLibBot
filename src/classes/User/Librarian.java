@@ -63,7 +63,14 @@ public class Librarian extends User {
 
     //opportunity to add new document to database (id, title, authors, photoId, price, keywords)
     public void addDocument(Document doc, String collection) {
-        SuperDatabase.insertObject(DBObjectCreator.toDocumentDBObject(doc), collection);
+        if (doc instanceof Book) {
+            BookDB.insertBook((Book) doc);
+        } else if (doc instanceof AVMaterial) {
+            AVMaterialDB.insertAVMaterial((AVMaterial) doc);
+        } else if (doc instanceof Journal) {
+            JournalDB.insertJournal((Journal) doc);
+        }
+        //SuperDatabase.insertObject(DBObjectCreator.toDocumentDBObject(doc), collection);
     }
 
     //opportunity to delete material by its id
@@ -99,7 +106,20 @@ public class Librarian extends User {
     }
 
     public void removeCopy(ObjectId copyId) {
+        Copy copy = CopyDB.getCopy(copyId);
+        ObjectId docId = copy.getDocId();
+
         CopyDB.removeCopy(copyId);
+
+        Book book = BookDB.getBook(docId);
+        ArrayList<ObjectId> copyIds = new ArrayList<>();
+        for (ObjectId id: book.getCopyIds()) {
+            if (!id.toString().equals(copyId.toString())) {
+                copyIds.add(id);
+            }
+        }
+        book.setCopyIds(copyIds);
+        BookDB.updateBook(book);
     }
 
     public void updateCopy(BasicDBObject dbObject) {

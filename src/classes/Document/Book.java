@@ -1,5 +1,6 @@
 package classes.Document;
 
+import database.BookDB;
 import org.bson.types.ObjectId;
 import services.PageCreator;
 
@@ -27,6 +28,7 @@ public class Book extends Document {
 
     public Book(String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller) {
         super(title, authors, photoId, price, keywords);
+        setId(BookDB.createBook());
         setEdition(edition);
         if (bestSeller)
             setBestSeller();
@@ -36,6 +38,7 @@ public class Book extends Document {
 
     public Book(String title, String edition, ArrayList<String> authors, String photoId, double price, ArrayList<String> keywords, boolean bestSeller, boolean canBeCheckedOut) {
         super(title, authors, photoId, price, keywords);
+        setId(BookDB.createBook());
         setEdition(edition);
         if (bestSeller)
             setBestSeller();

@@ -47,7 +47,7 @@ public class Main {
         // Initialize Telegram Api Context
         ApiContextInitializer.init();
         //test3();
-        //test1();
+        //();
         //Run tests
         //Tester.TC1();
         //Tester.TC2();
@@ -55,7 +55,7 @@ public class Main {
         //Tester.TC4();
         //Tester.TC5();
         //Tester.TC6();
-        //Tester.TC7();
+        Tester.TC7();
         //Tester.TC8();
         //Tester.TC9();
         //Tester.TC10();

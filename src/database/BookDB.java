@@ -42,7 +42,9 @@ public class BookDB extends SuperDatabase {
     }
 
     public static void updateBook(Book book) {
-        updateObject(toDBObject(book), Constants.BOOK_COLLECTION);
+        updateObject(toDBObject(book).append("edition", book.getEdition())
+                .append("bestseller", book.isBestSeller())
+                .append("can_be_checked_out", book.canBeCheckedOut()) , Constants.BOOK_COLLECTION);
     }
 
     public static void modifyBook(ObjectId id, String key, Object value) { modifyObject(id, key, value, Constants.BOOK_COLLECTION);}
