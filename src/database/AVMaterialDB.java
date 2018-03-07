@@ -23,7 +23,7 @@ public class AVMaterialDB extends SuperDatabase {
         insertObject(toDBObject(material), Constants.AVMATERIAL_COLLECTION);
     }
 
-    public static AVMaterial getAVMaterial(String id) {
+    public static AVMaterial getAVMaterial(ObjectId id) {
         DBCollection collection = DatabaseManager.getCollection("AVMaterial");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);

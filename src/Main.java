@@ -55,10 +55,9 @@ public class Main {
         //Tester.TC4();
         //Tester.TC5();
         //Tester.TC6();
-        Tester.TC7();
-        //Tester.TC8();
+        //Tester.TC7();
+        Tester.TC8();
         //Tester.TC9();
-        //Tester.TC10();
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();

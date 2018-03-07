@@ -40,7 +40,7 @@ public class Patron extends User {
 
         BasicDBObject query = new BasicDBObject("patron_id", this.getId()).append("doc_id", document.getId());
         CheckOut checkOut = CheckOutDB.getCheckOut(query);
-        if (checkOut != null || !((document instanceof Book) && ((Book) document).canBeCheckedOut())) {
+        if (checkOut != null || ((document instanceof Book) && !((Book) document).canBeCheckedOut())) {
             throw new SecurityException();
         }
 
