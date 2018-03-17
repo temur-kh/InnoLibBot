@@ -23,7 +23,7 @@ public class GUISystem {
     //return initial greeting for user
     public static ArrayList<Object> initialGreetingView(Update update) {
         ArrayList<Object> msgs = new ArrayList<>();
-        msgs.add(new SendSticker().setChatId(update.getMessage().getChatId()).setSticker("CAADAgADOAADf72DDRsfv6O0SoOxAg"));
+        msgs.add(new SendSticker().setChatId(update.getMessage().getChatId()).setSticker("CAADAgADOAADf72DDRsfv6O0SoOxAg")); //CAADAgADOAADf72DDRsfv6O0SoOxAg - simple sticker CAADAgADJwADyIsGAAH6wu4EMqyrvgI - meyer
         msgs.add(new SendMessage().setChatId(update.getMessage().getChatId())
                 .setText(Texts.GREETING_).setReplyMarkup(getInitialMenu(update.getMessage().getChatId())));
         return msgs;

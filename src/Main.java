@@ -1,9 +1,11 @@
 import classes.Document.Book;
 import classes.Document.Copy;
 import classes.Document.DocAddress;
+import classes.User.Librarian;
 import classes.User.Patron;
 import database.BookDB;
 import database.CopyDB;
+import database.LibrarianDB;
 import database.PatronDB;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -47,15 +49,17 @@ public class Main {
         // Initialize Telegram Api Context
         ApiContextInitializer.init();
         //test3();
-        //();
+        //test1();
+        //test2();
+
         //Run tests
         //Tester.TC1();
-        //Tester.TC2();
+        Tester.TC2();
         //Tester.TC3();
         //Tester.TC4();
         //Tester.TC5();
         //Tester.TC6();
-        Tester.TC7();
+        //Tester.TC7();
         //Tester.TC8();
         //Tester.TC9();
         //Tester.TC10();
@@ -127,8 +131,8 @@ public class Main {
      */
     public static void test2() {
         //get id by asking person to send message to bot
-        Patron patron = new Patron((long) 149477679, "Rishat", "Maksudov", "r.maksudov@innopolis.ru", "+77777777777", "Innopolis University");
-        PatronDB.insertPatron(patron);
+        Librarian patron = new Librarian((long) 149477679, "Rishat", "Maksudov", "r.maksudov@innopolis.ru", "+77777777777", "Innopolis University");
+        LibrarianDB.insertLibrarian(patron);
     }
 
     public static void test3() {
