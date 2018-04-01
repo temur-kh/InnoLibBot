@@ -10,7 +10,7 @@ public class Texts {
 
     public static final String VIEW_DOCUMENTS = "Here you can view document lists \uD83D\uDCCB";
 
-    public static final String ALREADY_HAVE_PERSONAL_INFO = "We already have your personal information☑️";
+    public static final String VIEW_PROFILE = "Profile System";
 
     public static final String MAIN_MENU = "Main Menu \uD83D\uDCCC";
 
@@ -47,7 +47,11 @@ public class Texts {
 
     public static final String LIBRARIAN_CANNOT_CHECK_OUT = "You are a librarian. \uD83D\uDC74\uD83D\uDC75 You cannot check out a document.";
 
-    public static final String NO_COPIES_AVAILABLE = "There are no copies available at the moment. \uD83D\uDE14 Try to check out later.";
+    public static final String LIBRARIAN_CANNOT_HAVE_CHECKOUTS = "Your a librarian. \uD83D\uDC74\uD83D\uDC75 You cannot have checkouts.";
+
+    public static final String NOT_AVAILABLE = "This book is not available. \uD83D\uDE14";
+
+    public static final String PUT_IN_PRIORITY_QUEUE = "There are no copies available, yet. We've put you in a queue for this document. We will notify you if the document is available.";
 
     public static final String CHECKED_OUT_DOCUMENT_FORMAT = "You checked out a document: %s. \uD83C\uDF89 Deadline for return is %s. You can get your document from 9 am till 5 pm on workdays. \uD83D\uDD52";
 
@@ -59,8 +63,7 @@ public class Texts {
 
     public static final String CONFIRM_RETURN = "Confirm return";
 
-    public static final String RETURN_DOC_REQUEST = "Hi! \uD83D\uDE42 Your current checkout for a document '%s' is coming up to deadline. Please, return the document to the library as soon as you can. " +
-            "The deadline for this document is %s❗ ️";
+    public static final String RETURN_DOC_REQUEST = "Hi! \uD83D\uDE42 Your current checkout for a document '%s' is coming up to deadline or the librarian forced a request notification to you. Please, return the document to the library as soon as you can.";
 
     public static final String REQUEST_SENT = "Request is sent to the patron. ✅";
 
@@ -68,9 +71,36 @@ public class Texts {
 
     public static final String RETURN_CONFIRMED_FOR_LIBRARIAN = "You confirmed a return of the document '%s'. ✅";
 
+    public static final String RETURN_REQUESTED_BY_PATRON = "The patron %s wants to return the document %s. Deadline for checkout: %s";
+
+    public static final String RETURN_REQUEST_SENT = "You request for returning document is sent to the librarian.";
+
+    public static final String RETURN_DOCUMENT = "Return Document";
+
+    public static final String RENEW_DOCUMENT = "Renew Document";
+
+    public static final String RENEWED_DOCUMENT = "You successfully renewed the document!";
+
+    public static final String COULD_NOT_RENEW = "You cannot renew this document.";
+
+    public static final String PATRON_RENEWED_DOCUMENT = "Patron %s renewed a document %s.";
+
+    public static final String PAY_FOR_DOCUMENT = "Pay for Document";
+
+    public static final String INVOICE_DESCRIPTION = "You did not return document %s on time. So, you have to pay for %s days. " +
+            "Please, pay the fine as soon as possible, otherwise the fine will be increasing everyday. Pay load: %s RUB.";
+
     public static final String NO_CHECKOUTS = "No checkouts found! \uD83D\uDDD1";
 
     public static final String PERSONAL_INFO_HEADER = "<strong>YOUR PERSONAL DATA:</strong>\n";
+
+    public static final String NOTIFICATION_RECEIVED = "We would like to notify you that the document %s is available now for you. You can get it in the library within a day.";
+
+    public static final String NOTIFICATION_SENT = "A notification was sent! Patron: %s. Document: %s.";
+
+    public static final String UNAVAILABLE_DUE_TO_OUTSTANDING_REQUEST = "We are sorry but the document %s is unavailable due to an outstanding request from the librarian.";
+
+    public static final String EXPIRED_NOTIFICATION = "You time to take the document %s expired. We removed you from the queue.";
 
     public static final String GO_LEFT = "<";
 

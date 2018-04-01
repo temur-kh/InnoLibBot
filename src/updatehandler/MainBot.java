@@ -1,5 +1,10 @@
 package updatehandler;
 
+import classes.Notification;
+import database.DatabaseManager;
+import database.NotificationDB;
+import org.telegram.telegrambots.api.methods.AnswerPreCheckoutQuery;
+import org.telegram.telegrambots.api.methods.send.SendInvoice;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -20,6 +25,22 @@ import java.util.ArrayList;
 public class MainBot extends TelegramLongPollingBot {
 
     private static final String LOGTAG = "MainBot: ";
+    private static volatile MainBot instance;
+
+    public static MainBot getInstance() {
+        final MainBot currentInstance;
+        if (instance == null) {
+            synchronized (DatabaseManager.class) {
+                if (instance == null) {
+                    instance = new MainBot();
+                }
+                currentInstance = instance;
+            }
+        } else {
+            currentInstance = instance;
+        }
+        return currentInstance;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -30,117 +51,135 @@ public class MainBot extends TelegramLongPollingBot {
         }
     }
 
-    public void handleUpdate(Update update) {
+    public void sendNotifications() {
+        ArrayList<SendMessage> msgs = new ArrayList<>();
+        for (Notification notification : NotificationDB.getExpiredNotifications()) {
+            msgs.add(notification.expiredNotificationSendMessage());
+        }
+        executeMessages(msgs);
+    }
+
+    private void handleUpdate(Update update) {
+        assert update != null;
         SendMessage sendMessage = new SendMessage();
-        if (update != null && update.hasMessage()) {
+        if (update.hasMessage()) {
             Message msg = update.getMessage();
             String text = msg.getText();
             if (msg.hasText()) {
                 if (text.equals(Commands.START_)) {
                     ArrayList<Object> msgs = GUISystem.initialGreetingView(update);
-                    for (Object message: msgs) {
-                        try {
-                            if (message instanceof SendMessage)
-                                execute((SendMessage) message);
-                            else
-                                sendSticker((SendSticker) message);
-                        } catch (TelegramApiException e) {
-                            BotLogger.severe(LOGTAG, sendMessage.toString());
-                        }
-                    }
+                    executeAll(msgs);
                     return;
-                } else if(text.equals(Commands.MENU_)) {
+                } else if (text.equals(Commands.MENU_) || text.equals(Commands.BACK_TO_MENU)) {
                     sendMessage = GUISystem.backToInitialMenu(update);
                 } else if (text.equals(Commands.VIEW_DOCUMENTS)) {
                     sendMessage = GUISystem.documentsView(update);
+                } else if (text.equals(Commands.PROFILE)) {
+                    sendMessage = GUISystem.profileView(update);
                 } else if (text.equals(Commands.PERSONAL_INFORMATION)) {
-                    sendMessage = PersonalDataSystem.personalDataView(update);
-                } else if (text.equals(Commands.BACK_TO_MENU)) {
-                    sendMessage = GUISystem.backToInitialMenu(update);
+                    sendMessage = UserProfileSystem.personalDataView(update);
                 } else if (DocumentViewSystem.belongTo(text)) {
                     sendMessage = DocumentViewSystem.handle(update);
                 } else if (LibrarianSystem.belongTo(text)) {
                     sendMessage = LibrarianSystem.handle(update);
+                } else if (PatronSystem.belongTo(text)) {
+                    sendMessage = PatronSystem.handle(update);
                 }
             }
-            if (msg.isReply() || PersonalDataSystem.belongTo(text) || msg.hasLocation() || msg.getContact() != null) {
-                sendMessage = PersonalDataSystem.handle(update);
+            if (msg.isReply() || UserProfileSystem.belongTo(text) || msg.hasLocation() || msg.getContact() != null) {
+                sendMessage = UserProfileSystem.handle(update);
             }
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                BotLogger.severe(LOGTAG, e);
-            }
-        } else if (update != null && update.hasCallbackQuery()) {
+            executeMessage(sendMessage);
+        } else if (update.hasCallbackQuery()) {
             String callData = update.getCallbackQuery().getData();
             String command = getCallbackQueryKey(callData);
             String collection = getCallbackQueryCollection(callData);
             String value = getCallbackQueryValue(callData);
             if (collection.equals(Constants.CHECKOUT_COLLECTION)) {
+
                 if (command.equals(Commands.REQUEST_RETURN) || command.equals(Commands.CONFIRM_RETURN)) {
                     ArrayList<SendMessage> msgs = ReturnSystem.handle(update, command, value);
-                    try {
-                        for (SendMessage msg: msgs) {
-                            execute(msg);
-                        }
-                    } catch (TelegramApiException e) {
-                        BotLogger.severe(LOGTAG, "Could not execute callback query! No method found...\n");
-                    }
+                    executeMessages(msgs);
                 } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
                     Object msg = LibrarianSystem.goToPage(update, Integer.parseInt(value), collection);
-                    try {
-                        if (msg instanceof EditMessageText) {
-                            execute((EditMessageText) msg);
-                        } else {
-                            execute((SendMessage) msg);
-                        }
-                    } catch (TelegramApiException e) {
-                        BotLogger.severe(LOGTAG, e);
-                    }
-                } else if(command.equals(Commands.BACK_TO_MENU)) {
-                    SendMessage msg = GUISystem.backToInitialMenu(update);
-                    try {
-                        execute(msg);
-                    } catch (TelegramApiException e) {
-                        BotLogger.severe(LOGTAG, e);
-                    }
+                    executeMessage(msg);
                 }
-            } else {
-                if (command.equals(Commands.CHECK_OUT)) {
-                    SendMessage msg = BookingSystem.checkOut(update, value, collection);
-                    try {
-                        execute(msg);
-                    } catch (TelegramApiException e) {
-                        BotLogger.severe(LOGTAG, "Could not execute callback query! No method found...\n");
-                    }
+
+            } else if (collection.equals(Constants.MY_CHECKOUT_COLLECTION) || collection.equals(Constants.MY_OVERDUE_CHECKOUT_COLLECTION)) {
+
+                if (command.equals(Commands.RETURN_DOCUMENT)) {
+                    ArrayList<SendMessage> msgs = ReturnSystem.returnDocument(update, value);
+                    executeMessages(msgs);
+                } else if (command.equals(Commands.RENEW_DOCUMENT)) {
+                    ArrayList<SendMessage> msgs = RenewSystem.renewDocument(update, value);
+                    executeMessages(msgs);
+                } else if (command.equals(Commands.PAY_FOR_DOCUMENT)) {
+                    Object msg = FineSystem.payForDocument(update, value);
+                    executeMessage(msg);
                 } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
-                    EditMessageText msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
-                    try {
-                        execute(msg);
-                    } catch (TelegramApiException e) {
-                        BotLogger.severe(LOGTAG, e);
-                    }
-                } else if(command.equals(Commands.BACK_TO_MENU)) {
-                    SendMessage msg = GUISystem.backToInitialMenu(update);
-                    try {
-                        execute(msg);
-                    } catch (TelegramApiException e) {
-                        BotLogger.severe(LOGTAG, e);
-                    }
+                    Object msg = PatronSystem.goToPage(update, Integer.parseInt(value), collection);
+                    executeMessage(msg);
                 }
+
+            } else {
+
+                Object msg = null;
+                if (command.equals(Commands.CHECK_OUT)) {
+                    msg = BookingSystem.checkOut(update, value, collection);
+                } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
+                    msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
+                }
+                executeMessage(msg);
+
+            }
+        } else if (update.hasPreCheckoutQuery()) {
+            AnswerPreCheckoutQuery answer = new AnswerPreCheckoutQuery()
+                    .setPreCheckoutQueryId(update.getPreCheckoutQuery().getId()).setOk(true);
+            try {
+                sendApiMethod(answer);
+            } catch (TelegramApiException e) {
+                BotLogger.severe(LOGTAG, e);
             }
         }
     }
 
-    public String getCallbackQueryKey(String callData) {
+    public void executeMessage(Object msg) {
+        try {
+            if (msg instanceof EditMessageText) {
+                execute((EditMessageText) msg);
+            } else if (msg instanceof SendSticker) {
+                sendSticker((SendSticker) msg);
+            } else if (msg instanceof SendInvoice) {
+                execute((SendInvoice) msg);
+            } else {
+                execute((SendMessage) msg);
+            }
+        } catch (TelegramApiException e) {
+            BotLogger.severe(LOGTAG, e);
+        }
+    }
+
+    public void executeMessages(ArrayList<SendMessage> msgs) {
+        for (Object msg : msgs) {
+            executeMessage(msg);
+        }
+    }
+
+    private void executeAll(ArrayList<Object> msgs) {
+        for (Object msg : msgs) {
+            executeMessage(msg);
+        }
+    }
+
+    private String getCallbackQueryKey(String callData) {
         return callData.split("/=")[0];
     }
 
-    public String getCallbackQueryCollection(String callData) {
+    private String getCallbackQueryCollection(String callData) {
         return callData.split("/=")[1];
     }
 
-    public String getCallbackQueryValue(String callData) {
+    private String getCallbackQueryValue(String callData) {
         return callData.split("/=")[2];
     }
 

@@ -37,7 +37,7 @@ public class GUISystem {
         row.add(Commands.VIEW_DOCUMENTS);
         keyboard.add(row);
         row = new KeyboardRow();
-        row.add(Commands.PERSONAL_INFORMATION);
+        row.add(Commands.PROFILE);
         keyboard.add(row);
         if (LibrarianDB.getLibrarian(userId) != null) {
             row = new KeyboardRow();
@@ -70,6 +70,36 @@ public class GUISystem {
 
         row = new KeyboardRow();
         row.add(Commands.VIEW_AVMATERIALS);
+        keyboard.add(row);
+
+        row = new KeyboardRow();
+        row.add(Commands.BACK_TO_MENU);
+        keyboard.add(row);
+
+        keyboardMarkup.setKeyboard(keyboard);
+        return keyboardMarkup;
+    }
+
+    public static SendMessage profileView(Update update) {
+        SendMessage msg = new SendMessage().setChatId(update.getMessage().getChatId())
+                .setText(Texts.VIEW_PROFILE).setReplyMarkup(getProfileViewMenu());
+        return msg;
+    }
+
+    private static ReplyKeyboardMarkup getProfileViewMenu() {
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        KeyboardRow row = new KeyboardRow();
+        row.add(Commands.MY_CHECKOUTS);
+        keyboard.add(row);
+
+        row = new KeyboardRow();
+        row.add(Commands.MY_OVERDUE_CHECKOUTS);
+        keyboard.add(row);
+
+        row = new KeyboardRow();
+        row.add(Commands.PERSONAL_INFORMATION);
         keyboard.add(row);
 
         row = new KeyboardRow();

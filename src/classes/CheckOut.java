@@ -1,10 +1,12 @@
 package classes;
 
+import classes.Document.Document;
 import database.CheckOutDB;
 import database.PatronDB;
+import database.SuperDatabase;
 import org.bson.types.ObjectId;
-import services.CalendarObjectCreator;
 import services.Constants;
+import services.DateTime;
 
 import java.util.Calendar;
 
@@ -20,6 +22,7 @@ public class CheckOut {
     private ObjectId docId;
     private String collection;
     private ObjectId copyId;
+    private boolean isRenewed;
 
     //constructors
     public CheckOut(Calendar fromDate, Calendar toDate, long patronId, ObjectId docId, String collection, ObjectId copyId) {
@@ -30,9 +33,10 @@ public class CheckOut {
         setPatronId(patronId);
         setFromDate(fromDate);
         setToDate(toDate);
+        setRenewed(false);
     }
 
-    public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, long patronId, ObjectId docId, String collection, ObjectId copyId) {
+    public CheckOut(ObjectId id, Calendar fromDate, Calendar toDate, long patronId, ObjectId docId, String collection, ObjectId copyId, boolean isRenewed) {
         setId(id);
         setDocId(docId);
         setDocCollection(collection);
@@ -40,6 +44,7 @@ public class CheckOut {
         setPatronId(patronId);
         setFromDate(fromDate);
         setToDate(toDate);
+        setRenewed(isRenewed);
     }
 
     public ObjectId getId() {
@@ -55,7 +60,7 @@ public class CheckOut {
     }
 
     public String getFromDateLine() {
-        return CalendarObjectCreator.createCalendarLine(fromDate);
+        return DateTime.createCalendarLine(fromDate);
     }
 
     public void setFromDate(Calendar fromDate) {
@@ -63,7 +68,7 @@ public class CheckOut {
     }
 
     public void setFromDate(String fromDate) {
-        this.fromDate = CalendarObjectCreator.createCalendarObject(fromDate);
+        this.fromDate = DateTime.createCalendarObject(fromDate);
     }
 
     public Calendar getToDate() {
@@ -71,7 +76,7 @@ public class CheckOut {
     }
 
     public String getToDateLine() {
-        return CalendarObjectCreator.createCalendarLine(toDate);
+        return DateTime.createCalendarLine(toDate);
     }
 
     public void setToDate(Calendar toDate) {
@@ -79,7 +84,7 @@ public class CheckOut {
     }
 
     public void setToDate(String toDate) {
-        this.toDate = CalendarObjectCreator.createCalendarObject(toDate);
+        this.toDate = DateTime.createCalendarObject(toDate);
     }
 
     public long getPatronId() { return patronId; }
@@ -110,15 +115,35 @@ public class CheckOut {
         this.copyId = copyId;
     }
 
+    public boolean isRenewed() {
+        return isRenewed;
+    }
+
+    public void setRenewed(boolean renewed) {
+        isRenewed = renewed;
+    }
+
     public String getInfo() {
         String info = "";
         info += "*ID:* " + id.toString() + Constants.NEW_LINE;
-        info += "*FROM DATE:* " + CalendarObjectCreator.createCalendarLine(fromDate) + Constants.NEW_LINE;
-        info += "*TO DATE:* " + CalendarObjectCreator.createCalendarLine(toDate) + Constants.NEW_LINE;
+        info += "*FROM DATE:* " + DateTime.createCalendarLine(fromDate) + Constants.NEW_LINE;
+        info += "*TO DATE:* " + DateTime.createCalendarLine(toDate) + Constants.NEW_LINE;
         info += "*PATRON ID:* " + patronId + Constants.NEW_LINE;
         info += "*PATRON FULLNAME:* " + PatronDB.getPatron(patronId).getFullName() + Constants.NEW_LINE;
         info += "*DOC ID:* " + docId.toString() + Constants.NEW_LINE;
         info += "*DOC TYPE:* " + collection + Constants.NEW_LINE;
+        info += "*COPY ID:* " + copyId.toString() + Constants.NEW_LINE;
+        return info;
+    }
+
+    public String getInfoForPatron() {
+        Document doc = (Document) SuperDatabase.getObject(docId, collection);
+        String info = "";
+        info += "*PATRON FULLNAME:* " + PatronDB.getPatron(patronId).getFullName() + Constants.NEW_LINE;
+        info += "*DOC TITLE:* " + doc.getTitle() + Constants.NEW_LINE;
+        info += "*DOC TYPE:* " + collection + Constants.NEW_LINE;
+        info += "*FROM DATE:* " + DateTime.createCalendarLine(fromDate) + Constants.NEW_LINE;
+        info += "*TO DATE:* " + DateTime.createCalendarLine(toDate) + Constants.NEW_LINE;
         info += "*COPY ID:* " + copyId.toString() + Constants.NEW_LINE;
         return info;
     }

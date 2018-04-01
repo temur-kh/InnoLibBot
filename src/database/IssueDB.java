@@ -6,7 +6,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
-import services.CalendarObjectCreator;
+import services.DateTime;
 import services.Constants;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class IssueDB extends SuperDatabase {
             return new Issue((ObjectId) issue.get("_id"),
                     (ObjectId) issue.get("journal_id"),
                     (ArrayList<String>) issue.get("editors"),
-                    CalendarObjectCreator.convertToCalendar((Date) issue.get("publication_date")),
+                    DateTime.convertToCalendar((Date) issue.get("publication_date")),
                     (ArrayList<String>) issue.get("article_ids"));
     }
 }

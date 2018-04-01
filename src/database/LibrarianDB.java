@@ -17,6 +17,13 @@ public class LibrarianDB extends SuperDatabase {
         insertObject(toDBObject(librarian), Constants.LIBRARIAN_COLLECTION);
     }
 
+    public static Librarian getLibrarian() {
+        DBCollection collection = DatabaseManager.getCollection("Librarian");
+        BasicDBObject query = new BasicDBObject();
+        DBCursor cursor = collection.find(query);
+        return toObject(cursor.one());
+    }
+
     public static Librarian getLibrarian(long id) {
         DBCollection collection = DatabaseManager.getCollection("Librarian");
         BasicDBObject query = new BasicDBObject("_id", id);

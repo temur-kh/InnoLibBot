@@ -16,8 +16,9 @@ public class Constants {
     public static final int BOOK_CHECK_OUT_LIMIT = 3 * 7;
     public static final int BOOK_CHECK_OUT_LIMIT_FOR_FACULTY = 4 * 7;
     public static final int BEST_SELLER_CHECK_OUT_LIMIT = 2 * 7;
-    public static final int AVMATERIAL_CHECK_OUT_LIMIT = 2 * 7;
-    public static final int JOURNAL_CHECK_OUT_LIMIT = 2 * 7;
+    public static final int AVMATERIAL_AND_JOURNAL_CHECK_OUT_LIMIT = 2 * 7;
+    public static final int VISITING_PROFESSOR_CHECK_OUT_LIMIT = 7;
+    public static final double FINE_PER_DAY = 100;
     public static final String CANNOT_BE_CHECKED_OUT_INFO = "Reference Book | Magazine";
 
 
@@ -38,5 +39,11 @@ public class Constants {
     public static final String COPY_COLLECTION = "Copy";
     public static final String CHECKOUT_COLLECTION = "CheckOut";
     public static final String STATE_COLLECTION = "State";
+    public static final String PRIORITY_QUEUE_COLLECTION = "PriorityQueue";
+    public static final String NOTIFICATION_COLLECTION = "Notification";
+
+
+    public static final String MY_CHECKOUT_COLLECTION = "My CheckOut Collection";
+    public static final String MY_OVERDUE_CHECKOUT_COLLECTION = "My Overdue CheckOuts";
 
 }

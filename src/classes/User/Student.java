@@ -10,8 +10,7 @@ import services.Constants;
 public class Student extends Patron {
 
     public Student(Long id, String name, String surname, String email, String phoneNumber, String address) {
-        super(id, name, surname, email, phoneNumber, address);
-        setFaculty(false);
+        super(id, name, surname, Status.Student, email, phoneNumber, address);
     }
 
     @Override

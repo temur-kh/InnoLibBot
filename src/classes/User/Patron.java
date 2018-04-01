@@ -3,15 +3,13 @@ package classes.User;
 import classes.CheckOut;
 import classes.Document.Book;
 import classes.Document.Document;
-import com.mongodb.BasicDBObject;
 import database.CheckOutDB;
 import database.PatronDB;
 import database.SuperDatabase;
-import services.Commands;
+import services.DateTime;
 import services.Constants;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.NoSuchElementException;
 
 /**
@@ -22,15 +20,8 @@ import java.util.NoSuchElementException;
  */
 public class Patron extends User {
 
-    private boolean isFaculty;
-
-    public Patron(Long id, String name, String surname, String email, String phoneNumber, String address) {
-        this(id, name, surname, email, phoneNumber, address, false);
-    }
-
-    public Patron(Long id, String name, String surname, String email, String phoneNumber, String address, boolean isFaculty) {
-        super(id, name, surname, email, phoneNumber, address);
-        setFaculty(isFaculty);
+    public Patron(Long id, String name, String surname, Status status, String email, String phoneNumber, String address) {
+        super(id, name, surname, status, email, phoneNumber, address);
     }
 
     public CheckOut checkOutDocument(Document document, String collection) throws NoSuchElementException, SecurityException {
@@ -38,35 +29,38 @@ public class Patron extends User {
         if (SuperDatabase.getObject(document.getId(), collection) == null || !document.hasFreeCopies())
             throw new NoSuchElementException();
 
-        BasicDBObject query = new BasicDBObject("patron_id", this.getId()).append("doc_id", document.getId());
-        CheckOut checkOut = CheckOutDB.getCheckOut(query);
+        CheckOut checkOut = CheckOutDB.getCheckOut(this.getId(), document.getId());
         if (checkOut != null || ((document instanceof Book) && !((Book) document).canBeCheckedOut())) {
             throw new SecurityException();
         }
 
-        Calendar today = new GregorianCalendar();
-        Calendar deadline = new GregorianCalendar();
+        Calendar today = DateTime.todayCalendar();
+        Calendar deadline = DateTime.todayCalendar();
 
+        deadline.add(Calendar.DAY_OF_MONTH,-1);
+
+        checkOut = new CheckOut(today, deadline, getId(), document.getId(), collection, document.getFreeCopy(true).getId());
+        CheckOutDB.insertCheckOut(checkOut);
+
+        return checkOut;
+    }
+
+    public int getCheckOutTime(Document document, String collection) {
         int time;
-        if (collection.equals(Constants.BOOK_COLLECTION)) {
-            if (this.isFaculty) {
+        if (this.getStatus() == Status.VisitingProfessor) {
+            time = Constants.VISITING_PROFESSOR_CHECK_OUT_LIMIT;
+        } else if (collection.equals(Constants.BOOK_COLLECTION)) {
+            if (this.isFaculty()) {
                 time = Constants.BOOK_CHECK_OUT_LIMIT_FOR_FACULTY;
             } else if (((Book) document).isBestSeller()) {
                 time = Constants.BEST_SELLER_CHECK_OUT_LIMIT;
             } else {
                 time = Constants.BOOK_CHECK_OUT_LIMIT;
             }
-        } else if (collection.equals(Constants.AVMATERIAL_COLLECTION)){
-            time = Constants.AVMATERIAL_CHECK_OUT_LIMIT;
         } else {
-            time = Constants.JOURNAL_CHECK_OUT_LIMIT;
+            time = Constants.AVMATERIAL_AND_JOURNAL_CHECK_OUT_LIMIT;
         }
-        deadline.add(Calendar.DAY_OF_MONTH, time);
-
-        checkOut = new CheckOut(today, deadline, getId(), document.getId(), collection, document.getFreeCopy(true).getId());
-        CheckOutDB.insertCheckOut(checkOut);
-
-        return checkOut;
+        return time;
     }
 
     public void register() {
@@ -78,22 +72,30 @@ public class Patron extends User {
         return true;
     }
 
+    //TODO (will be implemented later)
+    public boolean renewDocument(Document docuemen) { return true; }
+
     //patron is student by default
     public boolean isStudent() {
-        return !isFaculty;
+        return getStatus() == Status.Student;
     }
 
     //
     public boolean isFaculty() {
-        return isFaculty;
+        switch (getStatus()) {
+            case Instructor:
+            case TA:
+            case Professor:
+                return true;
+            default:
+                return false;
+        }
     }
-
-    public void setFaculty(boolean status) { isFaculty = status; }
 
     @Override
     public String getInfo() {
         String info = super.getInfo();
-        info += "<strong>STATUS:</strong> " + (isFaculty() ? Commands.IS_FACULTY : Commands.IS_STUDENT) + Constants.NEW_LINE;
+        info += "<strong>STATUS:</strong> " + getStatus().name();
         return info;
     }
 

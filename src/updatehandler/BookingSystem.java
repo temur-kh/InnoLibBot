@@ -1,12 +1,9 @@
 package updatehandler;
 
 import classes.CheckOut;
-import classes.Document.Book;
-import classes.User.Librarian;
+import classes.Document.Document;
 import classes.User.Patron;
-import database.BookDB;
-import database.LibrarianDB;
-import database.PatronDB;
+import database.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
@@ -25,21 +22,22 @@ public class BookingSystem {
         SendMessage msg = new SendMessage().setChatId(userId);
 
         ObjectId objectId = new ObjectId(id);
-        if (collection.equals(Constants.BOOK_COLLECTION)) {
 
-            Book book = BookDB.getBook(objectId);
-            Patron patron = PatronDB.getPatron(userId);
-            Librarian librarian = LibrarianDB.getLibrarian(userId);
-            if (librarian != null) {
-                msg.setText(Texts.LIBRARIAN_CANNOT_CHECK_OUT);
-            } else if (patron == null) {
-                msg.setText(Texts.DID_NOT_PROVIDE_PERSONAL_DATA);
-            } else if (book.hasFreeCopies()) {
-                CheckOut checkOut = patron.checkOutDocument(book, Constants.BOOK_COLLECTION);
-                msg.setText(String.format(Texts.CHECKED_OUT_DOCUMENT_FORMAT, book.getTitle(), checkOut.getToDateLine()));
-            } else {
-                msg.setText(Texts.NO_COPIES_AVAILABLE);
-            }
+        Document document = (Document) SuperDatabase.getObject(objectId, collection);
+        Patron patron = PatronDB.getPatron(userId);
+
+        if (LibrarianDB.getLibrarian(userId) != null) {
+            msg.setText(Texts.LIBRARIAN_CANNOT_CHECK_OUT);
+        } else if (patron == null) {
+            msg.setText(Texts.DID_NOT_PROVIDE_PERSONAL_DATA);
+        } else if (document.hasFreeCopies()) {
+            CheckOut checkOut = patron.checkOutDocument(document, Constants.BOOK_COLLECTION);
+            msg.setText(String.format(Texts.CHECKED_OUT_DOCUMENT_FORMAT, document.getTitle(), checkOut.getToDateLine()));
+        } else if (CheckOutDB.getCheckOut(userId, objectId) == null){
+            PriorityQueueDB.insert(PatronDB.getPatron(userId), objectId, collection);
+            msg.setText(Texts.PUT_IN_PRIORITY_QUEUE);
+        } else {
+            msg.setText(Texts.NOT_AVAILABLE);
         }
         return msg;
     }

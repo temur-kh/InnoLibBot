@@ -3,10 +3,8 @@ import classes.Document.Copy;
 import classes.Document.DocAddress;
 import classes.User.Librarian;
 import classes.User.Patron;
-import database.BookDB;
-import database.CopyDB;
-import database.LibrarianDB;
-import database.PatronDB;
+import classes.User.Status;
+import database.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
@@ -17,12 +15,17 @@ import org.telegram.telegrambots.logging.BotsFileHandler;
 import org.telegram.telegraph.ExecutorOptions;
 import org.telegram.telegraph.TelegraphContext;
 import org.telegram.telegraph.TelegraphContextInitializer;
+import services.LocationDecoder;
 import services.SendMail;
+import services.TelegraphAccount;
+import updatehandler.CustomTimerTask;
 import updatehandler.MainBot;
+import updatehandler.TimerExecutor;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 
@@ -33,6 +36,32 @@ public class Main {
     public static void main(String[] args) {
 
         //Configure logging system
+        start();
+
+        //test1();
+        test2();
+        //test3();
+        //test4();
+//        for (Patron patron : PriorityQueueDB.getQueue(new ObjectId("5ac0b35774d50737e41fa3b6"))) {
+//            System.out.println(patron.getInfo());
+//        }
+//        LibrarianDB.getLibrarian().sendOutstandingRequest(new ObjectId("5ac0b35774d50737e41fa3b6"));
+
+        //Run tests
+        //Tester.TC1();
+        //Tester.TC2();
+        //Tester.TC3();
+        //Tester.TC4();
+        //Tester.TC5();
+        //Tester.TC6();
+        //Tester.TC7();
+        //Tester.TC8();
+        //Tester.TC9();
+        //Tester.TC10();
+
+    }
+
+    public static void start() {
         BotLogger.setLevel(Level.ALL);
         BotLogger.registerLogger(new ConsoleHandler());
         try {
@@ -48,33 +77,38 @@ public class Main {
 
         // Initialize Telegram Api Context
         ApiContextInitializer.init();
-        //test3();
-        //test1();
-        //test2();
 
-        //Run tests
-        //Tester.TC1();
-        Tester.TC2();
-        //Tester.TC3();
-        //Tester.TC4();
-        //Tester.TC5();
-        //Tester.TC6();
-        //Tester.TC7();
-        //Tester.TC8();
-        //Tester.TC9();
-        //Tester.TC10();
+        //Connection Establishment
+        System.out.println("Establishing connections!");
+        DatabaseManager.getInstance();
+        System.out.println("Database connected successfully!");
+        TelegraphAccount.getInstance();
+        System.out.println("Telegraph connected successfully!");
+        LocationDecoder.getInstance();
+        System.out.println("GeoDecoder API connected successfully!");
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
         // Register our bot
-        TelegramLongPollingBot bot = new MainBot();
+        TelegramLongPollingBot bot = MainBot.getInstance();
         try {
             botsApi.registerBot(bot);
+            System.out.println("Bot registered successfully!");
         } catch (TelegramApiException e) {
             String logInfo = "BotsAPI TelegramApiException";
             BotLogger.severe(LOGTAG + logInfo, e);
         }
+
+        //Notifications Thread creation
+        CustomTimerTask task = new CustomTimerTask("Notifications", Integer.MAX_VALUE) {
+            @Override
+            public void execute() {
+                MainBot.getInstance().sendNotifications();
+            }
+        };
+        TimerExecutor.getInstance().startExecutionEveryDayAt(task, 14,40,0);
+        System.out.println("Notifications Thread is created successfully!");
     }
 
     /**
@@ -110,7 +144,7 @@ public class Main {
         BookDB.insertBook(book1);
 
 
-        ArrayList<String> authors2 = new ArrayList<>(Arrays.asList("Arthur Conan Doyle"));
+        ArrayList<String> authors2 = new ArrayList<>(Collections.singletonList("Arthur Conan Doyle"));
         ArrayList<String> keywords2 = new ArrayList<>(Arrays.asList("Holmes", "Conan", "Doyle", "Sherlock"));
         Book book2 = new Book("Sherlock Holmes", "1st edition", authors2, "https://s00.yaplakal.com/pics/pics_original/2/0/8/10510802.jpg",
                 13200.0, keywords2, true);
@@ -137,5 +171,11 @@ public class Main {
 
     public static void test3() {
         SendMail.sendMail("t.holmatov@innopolis.ru","Testing SendMail class", "Hello World!\nTemur");
+    }
+
+    public static void test4() {
+        Patron patron = new Patron((long) 3656229, "Temur", "Kholmatov", Status.Student, "t.holmatov@innopolis.ru", "+9999999999", "Innopolis University");
+        //Patron patron = new Patron((long) 149477679, "Rishat", "Kholmatov", Status.Student, "t.holmatov@innopolis.ru", "+9999999999", "Innopolis University");
+        PatronDB.insertPatron(patron);
     }
 }

@@ -7,11 +7,26 @@ import java.util.GregorianCalendar;
 /**
  * Class used to create an object of class Calendar from String
  */
-public class CalendarObjectCreator {
+public class DateTime {
     public static Calendar createCalendarObject(String date) {
         String[] lines = date.split(Constants.DASH);
         return new GregorianCalendar(Integer.parseInt(lines[2]), Integer.parseInt(lines[1]), Integer.parseInt(lines[0]));
     }
+
+    public static Calendar todayCalendar() {
+        Calendar ex = new GregorianCalendar();
+        return new GregorianCalendar(ex.get(Calendar.YEAR), ex.get(Calendar.MONTH), ex.get(Calendar.DAY_OF_MONTH));
+    }
+
+    public static Date todayDate() {
+        return convertToDate(todayCalendar());
+    }
+
+    public static Date now() {
+        return new Date();
+    }
+
+    public static Date tomorrowDate() { return daysAddedDate(DateTime.todayDate(), 1); }
 
     public static String createCalendarLine(Calendar calendar) {
         String line = "";
@@ -32,5 +47,23 @@ public class CalendarObjectCreator {
 
     public static Date convertToDate(Calendar calendar) {
         return calendar.getTime();
+    }
+
+    public static Date daysAddedDate(Date date, int numberOfDays) {
+//        if (date.getSeconds() != 0 && date.getMinutes() != 0 && date.getHours() != 0) {
+//            date.setSeconds(0);
+//            date.setMinutes(0);
+//            date.setHours(0);
+//        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, numberOfDays); //minus number would decrement the days
+        return cal.getTime();
+    }
+
+    public static int daysUntilToday(Calendar calendar) {
+        Calendar today = todayCalendar();
+        long diff = Math.abs(today.getTimeInMillis() - calendar.getTimeInMillis());
+        return (int) diff / (24 * 60 * 60 * 1000);
     }
 }

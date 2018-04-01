@@ -166,4 +166,9 @@ public class Document {
         }
         return keywords;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

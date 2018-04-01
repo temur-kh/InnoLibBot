@@ -1,7 +1,7 @@
 package classes.Document;
 
 import org.bson.types.ObjectId;
-import services.CalendarObjectCreator;
+import services.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,7 +66,7 @@ public class Issue {
     }
 
     public String getPublicationDateLine() {
-        return CalendarObjectCreator.createCalendarLine(publicationDate);
+        return DateTime.createCalendarLine(publicationDate);
     }
 
     public void setPublicationDate(Calendar publicationDate) {
@@ -74,7 +74,7 @@ public class Issue {
     }
 
     public void setPublicationDate(String date) {
-        publicationDate = CalendarObjectCreator.createCalendarObject(date);
+        publicationDate = DateTime.createCalendarObject(date);
     }
 
     public ArrayList<String> getArticleIds() {

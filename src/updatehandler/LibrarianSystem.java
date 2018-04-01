@@ -53,7 +53,7 @@ public class LibrarianSystem {
     public static SendMessage handle(Update update) {
         long userId = update.getMessage().getChatId();
         SendMessage msg = new SendMessage().setChatId(userId);
-        if(LibrarianDB.getLibrarian(userId) == null) {
+        if (LibrarianDB.getLibrarian(userId) == null) {
             msg.setText(Texts.DO_NOT_HAVE_ACCESS).setReplyMarkup(GUISystem.simpleMenu());
             return msg;
         }
@@ -62,7 +62,7 @@ public class LibrarianSystem {
             msg.setText(Texts.LIBRARIAN_SYSTEM);
             msg.setReplyMarkup(librarianMenu());
         } else if (text.equals(Commands.CHECKOUTS_LIST)) {
-            ArrayList<CheckOut> checkOuts = CheckOutDB.getCheckOutsListByDate();
+            ArrayList<CheckOut> checkOuts = CheckOutDB.getCheckOutsList();
             if (!checkOuts.isEmpty()) {
                 CheckOut firstCheckOut = checkOuts.get(0);
                 msg.setText(firstCheckOut.getInfo()).setParseMode("markdown");
@@ -78,7 +78,7 @@ public class LibrarianSystem {
     public static Object goToPage(Update update, int index, String collection) {
         EditMessageText msg = new EditMessageText().setChatId(update.getCallbackQuery().getMessage().getChatId())
                 .setMessageId(update.getCallbackQuery().getMessage().getMessageId());
-        ArrayList<CheckOut> checkOuts = CheckOutDB.getCheckOutsListByDate();
+        ArrayList<CheckOut> checkOuts = CheckOutDB.getCheckOutsList();
         if (!checkOuts.isEmpty()) {
 
             //check index bound

@@ -8,6 +8,7 @@ import services.Constants;
  * and he will be able to add more librarians(admins)
  */
 public class User {
+
     //all these information will be held in database of users
     private long id;
     private String name;
@@ -15,11 +16,13 @@ public class User {
     private String email;
     private String phoneNumber;
     private String address;
+    private Status status;
 
-    public User(long id, String name, String surname, String email, String phoneNumber, String address) {
+    public User(long id, String name, String surname, Status status, String email, String phoneNumber, String address) {
         setId(id);
         setName(name);
         setSurname(surname);
+        setStatus(status);
         setEmail(email);
         setPhoneNumber(phoneNumber);
         setAddress(address);
@@ -42,6 +45,10 @@ public class User {
     }
 
     public String getFullName() { return this.name + " " + this.surname; }
+
+    public Status getStatus() { return status; }
+
+    public void setStatus(Status status) { this.status = status; }
 
     public String getEmail() {
         return email;

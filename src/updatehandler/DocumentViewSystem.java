@@ -38,7 +38,7 @@ public class DocumentViewSystem {
 
     private static ArrayList<Document> convertToDocuments(ArrayList<Object> objects) {
         ArrayList<Document> docs = new ArrayList<>();
-        for (Object object: objects) {
+        for (Object object : objects) {
             docs.add((Document) object);
         }
         return docs;
@@ -60,7 +60,7 @@ public class DocumentViewSystem {
                 collection = Constants.JOURNAL_COLLECTION;
                 break;
             default:
-                BotLogger.severe(LOGTAG,"could not find the collection!");
+                BotLogger.severe(LOGTAG, "could not find the collection!");
         }
         ArrayList<Document> docs = convertToDocuments(SuperDatabase.getObjectsList(collection));
         if (!docs.isEmpty()) {

@@ -1,5 +1,7 @@
 package services;
 
+import classes.User.Status;
+
 /**
  * Class of available commands.
  */
@@ -23,8 +25,10 @@ public class Commands {
     public static final int INPUT_ADDRESS_STATE = 5;
     public static final int INPUT_EMAIL_STATE = 6;
     public static final int VERIFICATION_STATE = 7;
-    public static final String IS_FACULTY = "Faculty \uD83D\uDC69\u200D\uD83C\uDFEB\uD83D\uDC68\u200D\uD83C\uDFEB";
-    public static final String IS_STUDENT = "Student \uD83D\uDC69\u200D\uD83C\uDF93\uD83D\uDC68\u200D\uD83C\uDF93";
+    public static final String IS_INSTRUCTOR = Status.Instructor.name();
+    public static final String IS_TA = Status.TA.name();
+    public static final String IS_PROFESSOR = Status.Professor.name();
+    public static final String IS_STUDENT = Status.Student.name();
     public static final String IS_LIBRARIAN = "Librarian \uD83D\uDC74\uD83D\uDC75";
 
     public static final String CHECK_OUT = "check_out";
@@ -34,4 +38,11 @@ public class Commands {
     public static final String CHECKOUTS_LIST = "Checkouts List \uD83D\uDDC2";
     public static final String REQUEST_RETURN = "request_return";
     public static final String CONFIRM_RETURN = "confirm_return";
+
+    public static final String MY_CHECKOUTS = "MyCheckouts";
+    public static final String MY_OVERDUE_CHECKOUTS  = "MyOverdueCheckouts";
+    public static final String PROFILE = "My Profile";
+    public static final String RETURN_DOCUMENT = "return_doc";
+    public static final String RENEW_DOCUMENT = "renew_doc";
+    public static final String PAY_FOR_DOCUMENT = "pay_doc";
 }

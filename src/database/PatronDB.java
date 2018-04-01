@@ -1,6 +1,7 @@
 package database;
 
 import classes.User.Patron;
+import classes.User.Status;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -15,7 +16,7 @@ public class PatronDB extends SuperDatabase {
     private static final String LOGTAG = "Patron DB: ";
 
     public static void insertPatron(Patron patron) {
-        insertObject(toDBObject(patron).append("is_faculty", patron.isFaculty()), Constants.PATRON_COLLECTION);
+        insertObject(toDBObject(patron).append("status", patron.getStatus().name()), Constants.PATRON_COLLECTION);
     }
 
     public static Patron getPatron(long id) {
@@ -24,11 +25,7 @@ public class PatronDB extends SuperDatabase {
         DBCursor cursor = collection.find(query);
         if (cursor.one() == null)
             return null;
-        if ((boolean) cursor.one().get("is_faculty")) {
-            return toObject(cursor.one());
-        } else {
-            return toObject(cursor.one());
-        }
+        return toObject(cursor.one());
     }
 
     public static List<Patron> getPatronsList() {
@@ -36,11 +33,7 @@ public class PatronDB extends SuperDatabase {
         ArrayList<Patron> patrons = new ArrayList<>();
         DBCursor cursor = collection.find(new BasicDBObject());
         for (DBObject dbObject : cursor) {
-            if ((boolean) cursor.one().get("is_faculty")) {
-                patrons.add(toObject(dbObject));
-            } else {
-                patrons.add(toObject(dbObject));
-            }
+            patrons.add(toObject(dbObject));
         }
         return patrons;
     }
@@ -59,9 +52,9 @@ public class PatronDB extends SuperDatabase {
             return new Patron((long) patron.get("_id"),
                     (String) patron.get("name"),
                     (String) patron.get("surname"),
+                    Status.valueOf((String) patron.get("status")),
                     (String) patron.get("email"),
                     (String) patron.get("phone_number"),
-                    (String) patron.get("address"),
-                    (boolean) patron.get("is_faculty"));
+                    (String) patron.get("address"));
     }
 }

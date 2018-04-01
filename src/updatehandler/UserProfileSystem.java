@@ -26,11 +26,11 @@ import java.util.regex.Pattern;
 /**
  * Class for dealing with personal data of user.
  */
-public class PersonalDataSystem {
+public class UserProfileSystem {
 
     //commands belonging to this class
     public static final ArrayList<String> commandsList = new ArrayList<>(
-            Arrays.asList(Commands.IS_FACULTY, Commands.IS_STUDENT));
+            Arrays.asList(Commands.IS_INSTRUCTOR, Commands.IS_PROFESSOR, Commands.IS_TA, Commands.IS_STUDENT));
 
     //does command belong to this class commands?
     public static boolean belongTo(String command) {
@@ -52,46 +52,46 @@ public class PersonalDataSystem {
 
         if (message.isReply() || belongTo(text) || message.hasLocation() || message.getContact() != null) {
             BasicDBObject object = new BasicDBObject().append("_id", userId);
-             switch (state) {
-                 case Commands.INPUT_NAME_STATE:
-                     object.append("name", text);
-                     break;
-                 case Commands.INPUT_SURNAME_STATE:
-                     object.append("surname", text);
-                     break;
-                 case Commands.INPUT_STATUS_STATE:
-                     object.append("is_faculty", (text.equals(Commands.IS_FACULTY)));
-                     break;
-                 case Commands.INPUT_PHONENUMBER_STATE:
-                     if (message.hasText()) {
-                         object.append("phone_number", text);
-                     } else {
-                         Contact contact = message.getContact();
-                         object.append("phone_number", contact.getPhoneNumber());
-                     }
-                     break;
-                 case Commands.INPUT_ADDRESS_STATE:
-                     if (message.hasText()) {
-                         object.append("address", text);
-                     } else if (message.hasLocation()){
-                         Location location = message.getLocation();
-                         object.append("address", LocationDecoder.getAddress(location.getLatitude(),location.getLongitude()));
-                     }
-                     break;
-                 case Commands.INPUT_EMAIL_STATE:
-                     if (text == null || !isEmailCorrect(text)) {
-                         return msg.setText(Texts.INCORRECT_EMAIL).setReplyMarkup(new ForceReplyKeyboard().setSelective(true));
-                     }
-                     object.append("email", text);
-                     break;
-                 case Commands.VERIFICATION_STATE:
-                     String securePass = (String) RegistrationStateDB.getValue(userId, "secure_pass");
-                     if (!text.equals(securePass)) {
-                         return msg.setText(Texts.INCORRECT_PASSWORD).setReplyMarkup(new ForceReplyKeyboard().setSelective(true));
-                     }
-             }
-             state++;
-             RegistrationStateDB.modifyState(object, state);
+            switch (state) {
+                case Commands.INPUT_NAME_STATE:
+                    object.append("name", text);
+                    break;
+                case Commands.INPUT_SURNAME_STATE:
+                    object.append("surname", text);
+                    break;
+                case Commands.INPUT_STATUS_STATE:
+                    object.append("status", text);
+                    break;
+                case Commands.INPUT_PHONENUMBER_STATE:
+                    if (message.hasText()) {
+                        object.append("phone_number", text);
+                    } else {
+                        Contact contact = message.getContact();
+                        object.append("phone_number", contact.getPhoneNumber());
+                    }
+                    break;
+                case Commands.INPUT_ADDRESS_STATE:
+                    if (message.hasText()) {
+                        object.append("address", text);
+                    } else if (message.hasLocation()) {
+                        Location location = message.getLocation();
+                        object.append("address", LocationDecoder.getAddress(location.getLatitude(), location.getLongitude()));
+                    }
+                    break;
+                case Commands.INPUT_EMAIL_STATE:
+                    if (text == null || !isEmailCorrect(text)) {
+                        return msg.setText(Texts.INCORRECT_EMAIL).setReplyMarkup(new ForceReplyKeyboard().setSelective(true));
+                    }
+                    object.append("email", text);
+                    break;
+                case Commands.VERIFICATION_STATE:
+                    String securePass = (String) RegistrationStateDB.getValue(userId, "secure_pass");
+                    if (!text.equals(securePass)) {
+                        return msg.setText(Texts.INCORRECT_PASSWORD).setReplyMarkup(new ForceReplyKeyboard().setSelective(true));
+                    }
+            }
+            state++;
+            RegistrationStateDB.modifyState(object, state);
         }
 
         switch (state) {
@@ -106,7 +106,11 @@ public class PersonalDataSystem {
                 ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
                 ArrayList<KeyboardRow> keyboard = new ArrayList<>();
                 KeyboardRow row = new KeyboardRow();
-                row.add(Commands.IS_FACULTY);
+                row.add(Commands.IS_INSTRUCTOR);
+                row.add(Commands.IS_TA);
+                keyboard.add(row);
+                row = new KeyboardRow();
+                row.add(Commands.IS_PROFESSOR);
                 row.add(Commands.IS_STUDENT);
                 keyboard.add(row);
                 keyboardMarkup.setKeyboard(keyboard);
@@ -138,7 +142,7 @@ public class PersonalDataSystem {
             case Commands.VERIFICATION_STATE:
                 msg.setText(Texts.VERIFY_EMAIL);
                 String securePass = getSecurePassword();
-                SendMail.sendMail((String) RegistrationStateDB.getValue(userId, "email"),Texts.SUBJECT_OF_EMAIL,
+                SendMail.sendMail((String) RegistrationStateDB.getValue(userId, "email"), Texts.SUBJECT_OF_EMAIL,
                         String.format(Texts.TEXT_OF_EMAIL, securePass));
                 System.out.println("Sent!");
                 RegistrationStateDB.modifyState(new BasicDBObject("_id", userId).append("secure_pass", securePass), state);
@@ -167,7 +171,7 @@ public class PersonalDataSystem {
         return RandomStringUtils.randomAlphanumeric(Constants.SECURE_PASSWORD_LENGTH);
     }
 
-    //return personal data view and then switch to PersonalDataSystem
+    //return personal data view and then switch to UserProfileSystem
     public static SendMessage personalDataView(Update update) {
         long userId = update.getMessage().getChatId();
         SendMessage msg = new SendMessage().setChatId(userId);

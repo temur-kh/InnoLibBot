@@ -5,9 +5,12 @@ import classes.Document.Copy;
 import classes.Document.Document;
 import classes.Document.Issue;
 import classes.Document.JournalArticle;
+import classes.Notification;
+import classes.User.Patron;
 import classes.User.User;
 import com.mongodb.BasicDBObject;
-import services.CalendarObjectCreator;
+import org.bson.types.ObjectId;
+import services.DateTime;
 
 /**
  * Class used to convert any object of classes to BasicDBObject type.
@@ -30,6 +33,7 @@ public class DBObjectCreator {
         return new BasicDBObject("_id", user.getId())
                 .append("name", user.getName())
                 .append("surname", user.getSurname())
+                .append("status", user.getStatus().name())
                 .append("email", user.getEmail())
                 .append("phone_number", user.getPhoneNumber())
                 .append("address", user.getAddress());
@@ -48,7 +52,7 @@ public class DBObjectCreator {
         return new BasicDBObject("_id", issue.getId())
                 .append("journal_id", issue.getJournalId())
                 .append("editors", issue.getEditors())
-                .append("publication_date", CalendarObjectCreator.convertToDate(issue.getPublicationDate()))
+                .append("publication_date", DateTime.convertToDate(issue.getPublicationDate()))
                 .append("article_ids", issue.getArticleIds());
     }
 
@@ -62,11 +66,27 @@ public class DBObjectCreator {
 
     public static BasicDBObject toCheckOutDBObject(CheckOut checkOut) {
         return new BasicDBObject("_id", checkOut.getId())
-                .append("from_date", CalendarObjectCreator.convertToDate(checkOut.getFromDate()))
-                .append("to_date", CalendarObjectCreator.convertToDate(checkOut.getToDate()))
+                .append("from_date", DateTime.convertToDate(checkOut.getFromDate()))
+                .append("to_date", DateTime.convertToDate(checkOut.getToDate()))
                 .append("patron_id", checkOut.getPatronId())
                 .append("doc_id", checkOut.getDocId())
                 .append("collection", checkOut.getDocCollection())
-                .append("copy_id", checkOut.getCopyId());
+                .append("copy_id", checkOut.getCopyId())
+                .append("is_renewed", checkOut.isRenewed());
+    }
+
+    public static BasicDBObject toPriorityQueueDBObject(Patron patron, ObjectId docId, String docType) {
+        return new BasicDBObject("patron_id", patron.getId())
+                .append("doc_id", docId)
+                .append("doc_type", docType)
+                .append("time", DateTime.tomorrowDate())
+                .append("patron_status", patron.getStatus().ordinal());
+    }
+
+    public static BasicDBObject toNotificationDBObject(Notification notification) {
+        return new BasicDBObject("patron_id", notification.getPatronId())
+                .append("doc_id", notification.getDocId())
+                .append("doc_type", notification.getDocType())
+                .append("time", notification.getDate());
     }
 }

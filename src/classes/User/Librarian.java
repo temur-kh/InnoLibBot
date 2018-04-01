@@ -2,12 +2,15 @@ package classes.User;
 
 import classes.CheckOut;
 import classes.Document.*;
+import classes.Notification;
 import com.mongodb.BasicDBObject;
 import database.*;
 import org.bson.types.ObjectId;
+import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.logging.BotLogger;
 import services.Commands;
 import services.Constants;
+import updatehandler.MainBot;
 
 import java.util.ArrayList;
 
@@ -23,7 +26,7 @@ public class Librarian extends User {
     private static String LOGTAG = "Librarian: ";
 
     public Librarian(long id, String name, String surname, String email, String phoneNumber, String address) {
-        super(id, name, surname, email, phoneNumber, address);
+        super(id, name, surname, Status.Librarian, email, phoneNumber, address);
     }
 
     //TODO opportunity to add new librarian
@@ -35,6 +38,14 @@ public class Librarian extends User {
         Librarian librarian = new Librarian(user.getId(), user.getName(), user.getSurname(), user.getEmail(), user.getPhoneNumber(), user.getAddress());
         PatronDB.removePatron(user.getId());
         LibrarianDB.insertLibrarian(librarian);
+    }
+
+    public void addUser(User user) {
+        if (user instanceof Librarian) {
+            LibrarianDB.insertLibrarian((Librarian) user);
+        } else {
+            PatronDB.insertPatron((Patron) user);
+        }
     }
 
     public void modifyUser(long userId, String key, Object value, String collection) {
@@ -200,8 +211,19 @@ public class Librarian extends User {
         JournalArticleDB.modifyObject(articleId, key, value, Constants.JOURNAL_ARTICLE_COLLECTION);
     }
 
-    public ArrayList<CheckOut> getCheckOutsListByDate() {
-        return CheckOutDB.getCheckOutsListByDate();
+    public ArrayList<CheckOut> getCheckOutsList() {
+        return CheckOutDB.getAllCheckOutsList();
+    }
+
+    public void sendOutstandingRequest(ObjectId docId) {
+        ArrayList<Notification> notifications = PriorityQueueDB.getNotifications(docId);
+        PriorityQueueDB.removeQueue(docId);
+        ArrayList<SendMessage> msgs = new ArrayList<>();
+        for (Notification notification : notifications) {
+            msgs.add(notification.unavailableDocumentSendMessage());
+        }
+        MainBot.getInstance().executeMessages(msgs);
+        System.out.println(String.format("Queue for the document %s was deleted!", docId));
     }
 
     //TODO (will be implemented later)
