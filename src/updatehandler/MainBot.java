@@ -1,8 +1,10 @@
 package updatehandler;
 
 import classes.Notification;
+import classes.User.Patron;
 import database.DatabaseManager;
 import database.NotificationDB;
+import database.PriorityQueueDB;
 import org.telegram.telegrambots.api.methods.AnswerPreCheckoutQuery;
 import org.telegram.telegrambots.api.methods.send.SendInvoice;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -54,7 +56,11 @@ public class MainBot extends TelegramLongPollingBot {
     public void sendNotifications() {
         ArrayList<SendMessage> msgs = new ArrayList<>();
         for (Notification notification : NotificationDB.getExpiredNotifications()) {
+
             msgs.add(notification.expiredNotificationSendMessage());
+
+            Patron nextPatron = PriorityQueueDB.getNextPatron(notification.getDocId(), true);
+            msgs.addAll(NotificationSystem.notifyPatron(nextPatron.getId(), notification.getDocId(), notification.getDocType()));
         }
         executeMessages(msgs);
     }

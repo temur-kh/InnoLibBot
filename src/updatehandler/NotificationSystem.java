@@ -1,6 +1,8 @@
 package updatehandler;
 
 import classes.Document.Document;
+import classes.Notification;
+import database.NotificationDB;
 import database.PriorityQueueDB;
 import database.SuperDatabase;
 import org.bson.types.ObjectId;
@@ -18,8 +20,8 @@ public class NotificationSystem {
         SendMessage msgForPatron = new SendMessage().setChatId(patronId);
         Document doc = (Document) SuperDatabase.getObject(docId, collection);
 
-
-        //TODO
+        Notification notification = new Notification(patronId, docId, collection);
+        NotificationDB.insert(notification);
         msgForPatron.setText(String.format(Texts.NOTIFICATION_RECEIVED, doc.getTitle()));
         msgForLibrarian.setText(String.format(Texts.NOTIFICATION_SENT, patronId, doc.getTitle()));
         msgs.add(msgForPatron);
