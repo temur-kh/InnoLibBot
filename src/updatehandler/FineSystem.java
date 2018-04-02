@@ -11,6 +11,9 @@ import services.DateTime;
 import services.Constants;
 import services.Texts;
 
+/**
+ * Class is used to deal with 'Pay for Document' command of the patron.
+ */
 public class FineSystem {
 
     public static SendMessage payForDocument(Update update, String id) {

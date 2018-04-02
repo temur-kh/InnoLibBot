@@ -10,6 +10,9 @@ import updatehandler.GUISystem;
 
 import java.util.Date;
 
+/**
+ * This class is used to store and create notifications to send.
+ */
 public class Notification {
     private long patronId;
     private ObjectId docId;

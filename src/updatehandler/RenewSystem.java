@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Class used to deal with renew operations of patrons.
+ */
 public class RenewSystem {
 
     //TODO UPDATE

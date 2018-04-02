@@ -9,6 +9,9 @@ import services.Constants;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to deal with priority queue of patrons created for the documents that are not available, yet.
+ */
 public class PriorityQueueDB {
     private static final String LOGTAG = "Priority Queue DB: ";
 
@@ -49,6 +52,11 @@ public class PriorityQueueDB {
         return patrons;
     }
 
+    /**
+     * Returns list of elements of queue for the document in form of notifications.
+     * @param docId the document to search the queue
+     * @return the list of notifications
+     */
     public static ArrayList<Notification> getNotifications(ObjectId docId) {
         DBCollection collection = DatabaseManager.getCollection(Constants.PRIORITY_QUEUE_COLLECTION);
         DBCursor cursor = collection.find(new BasicDBObject("doc_id", docId));

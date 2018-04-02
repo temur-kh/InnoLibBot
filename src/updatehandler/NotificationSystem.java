@@ -11,6 +11,9 @@ import services.Texts;
 
 import java.util.ArrayList;
 
+/**
+ * Class is used to notify patrons for available documents.
+ */
 public class NotificationSystem {
 
     public static ArrayList<SendMessage> notifyPatron(long librarianId, ObjectId docId, String collection) {

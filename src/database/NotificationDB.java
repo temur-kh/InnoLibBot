@@ -10,6 +10,9 @@ import services.DateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class is used to store notifications that are due to some date. by default due to next day from now.
+ */
 public class NotificationDB {
     private static final String LOGTAG = "Priority Queue DB: ";
 

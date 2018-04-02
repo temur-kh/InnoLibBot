@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Class used to create an object of class Calendar from String
+ * Class used to deal with dates and time.
  */
 public class DateTime {
     public static Calendar createCalendarObject(String date) {
