@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 /**
  * This class is used to make basic queries to the database using DatabaseManager to access collections.
- * Th methods supported creation, insertion, get, update, modification, deletion operations upon objects of classes:
- * BookDB, JournalDB, AVMaterialDB, CheckOutDB, CopyDB, IssueDB, JournalArticleDB, LibrarianDB, PatronDB.
+ * The methods supported creation, insertion, get, update, modification, deletion operations on objects of classes:
+ * Book, Journal, AVMaterial, CheckOut, Copy, Issue, JournalArticle, Librarian, Patron.
  */
 public class SuperDatabase {
     /**
