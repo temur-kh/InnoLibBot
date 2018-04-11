@@ -10,7 +10,9 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.logging.BotLogger;
 import services.Commands;
 import services.Constants;
+import services.DateTime;
 import updatehandler.MainBot;
+import updatehandler.ReturnSystem;
 
 import java.util.ArrayList;
 
@@ -222,8 +224,18 @@ public class Librarian extends User {
         for (Notification notification : notifications) {
             msgs.add(notification.unavailableDocumentSendMessage());
         }
+
+        for (CheckOut checkOut : CheckOutDB.getAllCheckOutsList()) {
+            if (checkOut.getDocId().equals(docId)) {
+                Document doc = (Document) SuperDatabase.getObject(docId, checkOut.getDocCollection());
+                msgs.add(ReturnSystem.sendLibrarianReturnRequest(checkOut.getPatronId(), doc));
+                checkOut.setToDate(DateTime.tomorrowCalendar());
+                checkOut.setRenewed(true);
+                CheckOutDB.updateCheckOut(checkOut);
+            }
+        }
         MainBot.getInstance().executeMessages(msgs);
-        System.out.println(String.format("Queue for the document %s was deleted!", docId));
+        //System.out.println(String.format("Queue for the document %s was deleted!", docId));
     }
 
     //TODO (will be implemented later)

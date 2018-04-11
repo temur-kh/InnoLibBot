@@ -15,6 +15,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboar
 import org.telegram.telegrambots.logging.BotLogger;
 import services.Commands;
 import services.Constants;
+import services.DateTime;
 import services.Texts;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 public class ReturnSystem {
 
-    private static final String LOGTAG = "Return System: ";
+    public static final String LOGTAG = "Return System: ";
 
     public static ArrayList<SendMessage> handle(Update update, String command, String id) {
 
@@ -33,16 +34,17 @@ public class ReturnSystem {
         CheckOut checkOut = CheckOutDB.getCheckOut(new ObjectId(id));
 
         ArrayList<SendMessage> msgs = new ArrayList<>();
-        SendMessage msgForLibrarian = new SendMessage().setChatId(userId);
-        SendMessage msgForPatron = new SendMessage().setChatId(checkOut.getPatronId());
 
         Document doc = (Document) SuperDatabase.getObject(checkOut.getDocId(), checkOut.getDocCollection());
         if (command.equals(Commands.REQUEST_RETURN)) {
-            msgForPatron.setText(String.format(Texts.RETURN_DOC_REQUEST, doc.getTitle()));
-            msgForLibrarian.setText(Texts.REQUEST_SENT);
-            msgs.add(msgForPatron);
-            msgs.add(msgForLibrarian);
+            checkOut.setToDate(DateTime.tomorrowCalendar());
+            checkOut.setRenewed(true);
+            CheckOutDB.updateCheckOut(checkOut);
+            msgs.add(sendLibrarianReturnRequest(checkOut.getPatronId(), doc));
+            msgs.add(receiveLibrarianReturnRequest(userId));
         } else if (command.equals(Commands.CONFIRM_RETURN)) {
+            SendMessage msgForLibrarian = new SendMessage().setChatId(userId);
+            SendMessage msgForPatron = new SendMessage().setChatId(checkOut.getPatronId());
             Librarian librarian = LibrarianDB.getLibrarian(userId);
             if (librarian == null) {
                 BotLogger.severe(LOGTAG, "you are not a librarian! SECURITY EXCEPTION!");
@@ -61,13 +63,27 @@ public class ReturnSystem {
     }
 
     //TODO UPDATE
+    public static SendMessage sendLibrarianReturnRequest(long patronId, Document doc) {
+        return new SendMessage().setChatId(patronId)
+                .setText(String.format(Texts.RETURN_DOC_REQUEST, doc.getTitle()))
+                .setReplyMarkup(GUISystem.simpleMenu());
+    }
+
+    //TODO UPDATE
+    public static SendMessage receiveLibrarianReturnRequest(long librarianId) {
+        return new SendMessage().setChatId(librarianId)
+                .setText(String.format(Texts.REQUEST_SENT))
+                .setReplyMarkup(GUISystem.simpleMenu());
+    }
+
+    //TODO UPDATE
     public static ArrayList<SendMessage> returnDocument(Update update, String id) {
         long userId = update.getCallbackQuery().getMessage().getChatId();
         ObjectId objectId = new ObjectId(id);
         CheckOut checkout = CheckOutDB.getCheckOut(objectId);
 
-        SendMessage msgForLibrarian = receiveReturnRequest(LibrarianDB.getLibrarian().getId(), userId, checkout);
-        SendMessage msgForPatron = sendPatronReturnRequest(userId, checkout);
+        SendMessage msgForLibrarian = receivePatronReturnRequest(LibrarianDB.getLibrarian().getId(), userId, checkout);
+        SendMessage msgForPatron = sendPatronReturnRequest(userId);
 
         ArrayList<SendMessage> msgs = new ArrayList<>();
         msgs.add(msgForPatron);
@@ -76,7 +92,7 @@ public class ReturnSystem {
     }
 
     //TODO UPDATE
-    private static SendMessage receiveReturnRequest(long librarianId, long userId, CheckOut checkOut) {
+    public static SendMessage receivePatronReturnRequest(long librarianId, long userId, CheckOut checkOut) {
         return new SendMessage().setChatId(librarianId)
                 .setText(String.format(Texts.RETURN_REQUESTED_BY_PATRON,
                         PatronDB.getPatron(userId).getFullName(), SuperDatabase.getObject(checkOut.getDocId(), checkOut.getDocCollection()).toString(), checkOut.getToDateLine()))
@@ -84,7 +100,7 @@ public class ReturnSystem {
     }
 
     //TODO UPDATE
-    private static InlineKeyboardMarkup receiveReturnRequestKeyboard(CheckOut checkOut) {
+    public static InlineKeyboardMarkup receiveReturnRequestKeyboard(CheckOut checkOut) {
         String collection = Constants.CHECKOUT_COLLECTION;
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
@@ -98,7 +114,7 @@ public class ReturnSystem {
     }
 
     //TODO UPDATE
-    private static SendMessage sendPatronReturnRequest(long userId, CheckOut checkOut) {
+    public static SendMessage sendPatronReturnRequest(long userId) {
         return new SendMessage().setChatId(userId)
                 .setText(Texts.RETURN_REQUEST_SENT)
                 .setReplyMarkup(GUISystem.simpleMenu());

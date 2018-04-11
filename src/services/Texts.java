@@ -98,7 +98,7 @@ public class Texts {
 
     public static final String NOTIFICATION_SENT = "A notification was sent! Patron: %s. Document: %s.";
 
-    public static final String UNAVAILABLE_DUE_TO_OUTSTANDING_REQUEST = "We are sorry but the document %s is unavailable due to an outstanding request from the librarian.";
+    public static final String UNAVAILABLE_DUE_TO_OUTSTANDING_REQUEST = "We are sorry but the document '%s' is unavailable due to an outstanding request from the librarian.";
 
     public static final String EXPIRED_NOTIFICATION = "You time to take the document %s expired. We removed you from the queue.";
 

@@ -150,6 +150,10 @@ public class MainBot extends TelegramLongPollingBot {
     }
 
     public void executeMessage(Object msg) {
+        if (Constants.BLOCKED_BOT) {
+            System.out.println("Attempt to send message to id# " + ((SendMessage) msg).getChatId() + ".\nText of the message: " + ((SendMessage) msg).getText());
+            return;
+        }
         try {
             if (msg instanceof EditMessageText) {
                 execute((EditMessageText) msg);

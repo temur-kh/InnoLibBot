@@ -4,6 +4,7 @@ import classes.Document.DocAddress;
 import classes.User.Librarian;
 import classes.User.Patron;
 import classes.User.Status;
+import com.mongodb.DB;
 import database.*;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -15,6 +16,7 @@ import org.telegram.telegrambots.logging.BotsFileHandler;
 import org.telegram.telegraph.ExecutorOptions;
 import org.telegram.telegraph.TelegraphContext;
 import org.telegram.telegraph.TelegraphContextInitializer;
+import services.Constants;
 import services.LocationDecoder;
 import services.SendMail;
 import services.TelegraphAccount;
@@ -39,25 +41,28 @@ public class Main {
         start();
 
         //test1();
-        test2();
+        //test2();
         //test3();
         //test4();
-//        for (Patron patron : PriorityQueueDB.getQueue(new ObjectId("5ac0b35774d50737e41fa3b6"))) {
-//            System.out.println(patron.getInfo());
-//        }
-//        LibrarianDB.getLibrarian().sendOutstandingRequest(new ObjectId("5ac0b35774d50737e41fa3b6"));
 
         //Run tests
-        //Tester.TC1();
-        //Tester.TC2();
-        //Tester.TC3();
-        //Tester.TC4();
-        //Tester.TC5();
-        //Tester.TC6();
-        //Tester.TC7();
-        //Tester.TC8();
-        //Tester.TC9();
-        //Tester.TC10();
+        try {
+//            Tester.TC1();
+//            Tester.TC2();
+//            Tester.TC3();
+//            Tester.TC4();
+//            Tester.TC5();
+//            Tester.TC6(true);
+//            Tester.TC7();
+//            Tester.TC8();
+//            Tester.TC9();
+//            Tester.TC10();
+        } catch (AssertionError error) {
+            //drop database
+            DB db = DatabaseManager.getDB("Library");
+            db.dropDatabase();
+            throw error;
+        }
 
     }
 
@@ -100,7 +105,7 @@ public class Main {
             BotLogger.severe(LOGTAG + logInfo, e);
         }
 
-        //Notifications Thread creation
+//        //Notifications Thread creation
         CustomTimerTask task = new CustomTimerTask("Notifications", Integer.MAX_VALUE) {
             @Override
             public void execute() {
@@ -177,5 +182,7 @@ public class Main {
         Patron patron = new Patron((long) 3656229, "Temur", "Kholmatov", Status.Student, "t.holmatov@innopolis.ru", "+9999999999", "Innopolis University");
         //Patron patron = new Patron((long) 149477679, "Rishat", "Kholmatov", Status.Student, "t.holmatov@innopolis.ru", "+9999999999", "Innopolis University");
         PatronDB.insertPatron(patron);
+        ArrayList<Book> books = BookDB.getBooksList();
+        patron.checkOutDocument(books.get(0), Constants.BOOK_COLLECTION);
     }
 }

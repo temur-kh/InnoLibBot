@@ -13,9 +13,9 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import services.DateTime;
 import services.Commands;
 import services.Constants;
+import services.DateTime;
 import services.Texts;
 
 import java.util.ArrayList;
@@ -50,18 +50,19 @@ public class RenewSystem {
     }
 
     public static boolean handle(CheckOut checkOut) {
-        Calendar deadline = checkOut.getToDate();
+        Calendar deadline = (Calendar) Constants.TEMPORARY_CHANGEABLE_CALENDAR.clone();
         String collection = checkOut.getDocCollection();
         Document document = (Document) SuperDatabase.getObject(checkOut.getDocId(), checkOut.getDocCollection());
         Patron patron = PatronDB.getPatron(checkOut.getPatronId());
         Calendar today = DateTime.todayCalendar();
 
-        if ((checkOut.isRenewed() && patron.getStatus() != Status.VisitingProfessor) || deadline.before(today))
+        if (checkOut.isRenewed() || checkOut.getToDate().before(today))
             return false;
 
         deadline.add(Calendar.DAY_OF_MONTH, patron.getCheckOutTime(document, collection));
         checkOut.setToDate(deadline);
-        checkOut.setRenewed(true);
+        if (patron.getStatus() != Status.VisitingProfessor)
+            checkOut.setRenewed(true);
         CheckOutDB.updateCheckOut(checkOut);
         return true;
     }

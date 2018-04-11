@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Calendar;
+
 /**
  * Class of available constants.
  */
@@ -45,5 +47,9 @@ public class Constants {
 
     public static final String MY_CHECKOUT_COLLECTION = "My CheckOut Collection";
     public static final String MY_OVERDUE_CHECKOUT_COLLECTION = "My Overdue CheckOuts";
+
+
+    public static Calendar TEMPORARY_CHANGEABLE_CALENDAR = DateTime.todayCalendar();
+    public static boolean BLOCKED_BOT = false;
 
 }

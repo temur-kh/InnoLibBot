@@ -21,10 +21,14 @@ public class FineSystem {
         ObjectId objectId = new ObjectId(id);
         CheckOut checkout = CheckOutDB.getCheckOut(objectId);
         Document doc = (Document) SuperDatabase.getObject(checkout.getDocId(), checkout.getDocCollection());
-        int numOfDays = DateTime.daysUntilToday(checkout.getToDate());
+        int numOfDays = Math.max(0, DateTime.daysUntilToday(checkout.getToDate()));
 
         return new SendMessage().setChatId(userId)
-                .setText(String.format(Texts.INVOICE_DESCRIPTION, doc.getTitle(), numOfDays, Math.min(doc.getPrice(), Constants.FINE_PER_DAY * numOfDays)))
+                .setText(String.format(Texts.INVOICE_DESCRIPTION, doc.getTitle(), numOfDays, fine(doc.getPrice(), numOfDays)))
                 .setReplyMarkup(GUISystem.simpleMenu());
+    }
+
+    public static double fine(double price, int days) {
+        return Math.min(price, Constants.FINE_PER_DAY * days);
     }
 }

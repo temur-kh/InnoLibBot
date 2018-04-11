@@ -5,8 +5,8 @@ import classes.Document.Book;
 import classes.Document.Document;
 import database.CheckOutDB;
 import database.PatronDB;
+import database.PriorityQueueDB;
 import database.SuperDatabase;
-import services.DateTime;
 import services.Constants;
 
 import java.util.Calendar;
@@ -26,7 +26,7 @@ public class Patron extends User {
 
     public CheckOut checkOutDocument(Document document, String collection) throws NoSuchElementException, SecurityException {
 
-        if (SuperDatabase.getObject(document.getId(), collection) == null || !document.hasFreeCopies())
+        if (SuperDatabase.getObject(document.getId(), collection) == null)
             throw new NoSuchElementException();
 
         CheckOut checkOut = CheckOutDB.getCheckOut(this.getId(), document.getId());
@@ -34,10 +34,18 @@ public class Patron extends User {
             throw new SecurityException();
         }
 
-        Calendar today = DateTime.todayCalendar();
-        Calendar deadline = DateTime.todayCalendar();
+        if (!document.hasFreeCopies()) {
+            PriorityQueueDB.insert(this, document.getId(), collection);
+            return null;
+        }
 
-        deadline.add(Calendar.DAY_OF_MONTH,-1);
+        //Calendar today = DateTime.todayCalendar();
+        Calendar today = (Calendar) Constants.TEMPORARY_CHANGEABLE_CALENDAR.clone();
+        Calendar deadline = (Calendar) Constants.TEMPORARY_CHANGEABLE_CALENDAR.clone();
+
+        deadline.add(Calendar.DAY_OF_MONTH, getCheckOutTime(document, collection));
+        //deadline.add(Calendar.DAY_OF_MONTH, -1);
+
 
         checkOut = new CheckOut(today, deadline, getId(), document.getId(), collection, document.getFreeCopy(true).getId());
         CheckOutDB.insertCheckOut(checkOut);

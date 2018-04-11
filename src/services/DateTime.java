@@ -26,6 +26,8 @@ public class DateTime {
         return new Date();
     }
 
+    public static Calendar tomorrowCalendar() { return convertToCalendar(tomorrowDate()); }
+
     public static Date tomorrowDate() { return daysAddedDate(DateTime.todayDate(), 1); }
 
     public static String createCalendarLine(Calendar calendar) {
