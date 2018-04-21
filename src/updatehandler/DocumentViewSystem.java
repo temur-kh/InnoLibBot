@@ -25,7 +25,7 @@ public class DocumentViewSystem {
 
     //commands list belonging to this class
     public static final ArrayList<String> commandsList = new ArrayList<>(
-            Arrays.asList(Commands.VIEW_BOOKS, Commands.VIEW_JOURNALS, Commands.VIEW_AVMATERIALS));
+            Arrays.asList(Commands.VIEW_BOOKS, Commands.VIEW_JOURNALS, Commands.VIEW_AVMATERIALS, Commands.SEARCH_DOCUMENT));
 
     //does command belong to this class commands?
     public static boolean belongTo(String command) {
@@ -59,6 +59,8 @@ public class DocumentViewSystem {
             case Commands.VIEW_JOURNALS:
                 collection = Constants.JOURNAL_COLLECTION;
                 break;
+            case Commands.SEARCH_DOCUMENT:
+                return SearchSystem.query(update);
             default:
                 BotLogger.severe(LOGTAG, "could not find the collection!");
         }

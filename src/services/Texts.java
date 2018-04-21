@@ -102,6 +102,8 @@ public class Texts {
 
     public static final String EXPIRED_NOTIFICATION = "You time to take the document %s expired. We removed you from the queue.";
 
+    public static final String INPUT_SEARCHING_QUERY = "Search for the documents";
+
     public static final String GO_LEFT = "<";
 
     public static final String GO_RIGHT = ">";

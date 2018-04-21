@@ -1,6 +1,7 @@
 package database;
 
 import classes.User.Librarian;
+import classes.User.Permission;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -14,7 +15,7 @@ public class LibrarianDB extends SuperDatabase {
     private static final String LOGTAG = "Librarian DB: ";
 
     public static void insertLibrarian(Librarian librarian) {
-        insertObject(toDBObject(librarian), Constants.LIBRARIAN_COLLECTION);
+        insertObject(toDBObject(librarian).append("permission", librarian.getPermission().name()), Constants.LIBRARIAN_COLLECTION);
     }
 
     public static Librarian getLibrarian() {
@@ -62,6 +63,7 @@ public class LibrarianDB extends SuperDatabase {
                     (String) librarian.get("surname"),
                     (String) librarian.get("email"),
                     (String) librarian.get("phone_number"),
-                    (String) librarian.get("address"));
+                    (String) librarian.get("address"),
+                    Permission.valueOf((String) librarian.get("permission")));
     }
 }

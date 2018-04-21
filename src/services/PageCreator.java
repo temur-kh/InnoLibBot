@@ -3,6 +3,7 @@ package services;
 import classes.Document.*;
 import database.IssueDB;
 import database.JournalArticleDB;
+import org.bson.types.ObjectId;
 import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegraph.api.methods.CreatePage;
 import org.telegram.telegraph.api.objects.Node;
@@ -110,7 +111,7 @@ public class PageCreator {
     public static String createJournalPage(Journal journal) {
         ArrayList<Node> content = createDocumentContent(journal);
         String issueAndArticles = "";
-        for (String issueId : journal.getIssueIds()) {
+        for (ObjectId issueId : journal.getIssueIds()) {
             Issue issue = IssueDB.getIssue(issueId);
             issueAndArticles += Constants.ISSUE_ + issue.getPublicationDate().toString() + Constants.NEW_LINE;
             for (String articleId : issue.getArticleIds()) {

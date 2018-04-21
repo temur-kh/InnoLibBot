@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Journal extends Document {
 
-    private ArrayList<String> issueIds;
+    private ArrayList<ObjectId> issueIds;
     private boolean canBeCheckedOut;
 
     //constructors
@@ -44,15 +44,15 @@ public class Journal extends Document {
         setCanBeCheckedOut(true);
     }
 
-    public ArrayList<String> getIssueIds() {
+    public ArrayList<ObjectId> getIssueIds() {
         return issueIds;
     }
 
-    public void setIssueIds(ArrayList<String> issueIds) {
+    public void setIssueIds(ArrayList<ObjectId> issueIds) {
         this.issueIds = issueIds;
     }
 
-    public void addIssueId(String issueId) {
+    public void addIssueId(ObjectId issueId) {
         issueIds.add(issueId);
     }
 

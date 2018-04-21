@@ -24,7 +24,7 @@ public class IssueDB extends SuperDatabase {
         insertObject(toDBObject(issue), Constants.ISSUE_COLLECTION);
     }
 
-    public static Issue getIssue(String id) {
+    public static Issue getIssue(ObjectId id) {
         DBCollection collection = DatabaseManager.getCollection("Issue");
         BasicDBObject query = new BasicDBObject("_id", id);
         DBCursor cursor = collection.find(query);

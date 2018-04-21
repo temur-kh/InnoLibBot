@@ -17,6 +17,7 @@ public class Commands {
     public static final String VIEW_BOOKS = "View Books \uD83D\uDCDA";
     public static final String VIEW_JOURNALS = "View Journals \uD83D\uDCF0";
     public static final String VIEW_AVMATERIALS = "View Audio/Video Materials \uD83D\uDCBE";
+    public static final String SEARCH_DOCUMENT = "Search document";
 
     public static final int INPUT_NAME_STATE = 1;
     public static final int INPUT_SURNAME_STATE = 2;

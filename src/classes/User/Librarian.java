@@ -27,27 +27,32 @@ public class Librarian extends User {
 
     private static String LOGTAG = "Librarian: ";
 
+    private Permission permission;
+
     public Librarian(long id, String name, String surname, String email, String phoneNumber, String address) {
         super(id, name, surname, Status.Librarian, email, phoneNumber, address);
+        permission = Permission.Priv1;
     }
 
-    //TODO opportunity to add new librarian
-    public void setAdmin(User user) {
-        if (LibrarianDB.getLibrarian(user.getId()) != null) {
-            BotLogger.severe(LOGTAG, "user is already a librarian");
+    public Librarian(long id, String name, String surname, String email, String phoneNumber, String address, Permission permission) {
+        super(id, name, surname, Status.Librarian, email, phoneNumber, address);
+        setPermission(permission);
+    }
+
+    public Permission getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
+
+    public void addPatron(Patron patron) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
             return;
         }
-        Librarian librarian = new Librarian(user.getId(), user.getName(), user.getSurname(), user.getEmail(), user.getPhoneNumber(), user.getAddress());
-        PatronDB.removePatron(user.getId());
-        LibrarianDB.insertLibrarian(librarian);
-    }
-
-    public void addUser(User user) {
-        if (user instanceof Librarian) {
-            LibrarianDB.insertLibrarian((Librarian) user);
-        } else {
-            PatronDB.insertPatron((Patron) user);
-        }
+        PatronDB.insertPatron(patron);
     }
 
     public void modifyUser(long userId, String key, Object value, String collection) {
@@ -59,6 +64,10 @@ public class Librarian extends User {
     }
 
     public void removeUser(long userId, String collection) {
+        if (this.permission.ordinal() < Permission.Priv3.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         SuperDatabase.removeObject(userId, collection);
     }
 
@@ -68,6 +77,10 @@ public class Librarian extends User {
     }
 
     public void addDocument(BasicDBObject dbObject, String collection) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         if(dbObject.get("_id") == null) {
             dbObject.append("_id", SuperDatabase.createDBObject(collection));
         }
@@ -76,6 +89,10 @@ public class Librarian extends User {
 
     //opportunity to add new document to database (id, title, authors, photoId, price, keywords)
     public void addDocument(Document doc, String collection) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         if (doc instanceof Book) {
             BookDB.insertBook((Book) doc);
         } else if (doc instanceof AVMaterial) {
@@ -88,6 +105,10 @@ public class Librarian extends User {
 
     //opportunity to delete material by its id
     public void removeDocument(ObjectId docId, String collection) {
+        if (this.permission.ordinal() < Permission.Priv3.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         SuperDatabase.removeObject(docId, collection);
     }
 
@@ -110,15 +131,27 @@ public class Librarian extends User {
     //A library may have several copies of each document. Copies are stored in a
     //certain place inside the library, e.g., a room, level.
     public void addCopy(ObjectId docId, DocAddress address) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         Copy copy = new Copy(docId, address);
         addCopy(copy);
     }
 
     public void addCopy(Copy copy) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         CopyDB.insertCopy(copy);
     }
 
     public void removeCopy(ObjectId copyId) {
+        if (this.permission.ordinal() < Permission.Priv3.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         Copy copy = CopyDB.getCopy(copyId);
         ObjectId docId = copy.getDocId();
 
@@ -159,10 +192,18 @@ public class Librarian extends User {
     }
 
     public void addIssue(Issue issue) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         IssueDB.insertIssue(issue);
     }
 
     public void removeIssue(ObjectId issueId) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         IssueDB.removeIssue(issueId);
     }
 
@@ -183,6 +224,10 @@ public class Librarian extends User {
     }
 
     public void addArticle(BasicDBObject dbObject) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         if(dbObject.get("_id") == null) {
             dbObject.append("_id", IssueDB.createIssue());
         }
@@ -190,10 +235,18 @@ public class Librarian extends User {
     }
 
     public void addArticle(JournalArticle article) {
+        if (this.permission.ordinal() < Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         JournalArticleDB.insertArticle(article);
     }
 
     public void removeArticle(ObjectId articleId) {
+        if (this.permission.ordinal() < Permission.Priv3.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         JournalArticleDB.removeArticle(articleId);
     }
 
@@ -218,6 +271,10 @@ public class Librarian extends User {
     }
 
     public void sendOutstandingRequest(ObjectId docId) {
+        if (this.permission.ordinal() != Permission.Priv2.ordinal()) {
+            BotLogger.error(LOGTAG, "Permission denied!");
+            return;
+        }
         ArrayList<Notification> notifications = PriorityQueueDB.getNotifications(docId);
         PriorityQueueDB.removeQueue(docId);
         ArrayList<SendMessage> msgs = new ArrayList<>();
@@ -235,34 +292,34 @@ public class Librarian extends User {
             }
         }
         MainBot.getInstance().executeMessages(msgs);
-        //System.out.println(String.format("Queue for the document %s was deleted!", docId));
+        System.out.println(String.format("Queue for the document %s was deleted!", docId));
     }
 
-    //TODO (will be implemented later)
-    //shows list of all available documents at the moment(watch class "Documents")
-    public ArrayList<Document> getAllDocuments() {
-        return null;
-    }
-
-    //shows list of documents, that are not returned back in time
-    public ArrayList<Document> getOverdueDocuments() {
-        return null;
-    }
-
-    //shows list of all users from database(watch class "User")
-    public ArrayList<User> getAllUsers() {
-        return null;
-    }
-
-    //shows list of student, who have not returned documents in time
-    public ArrayList<User> getAllDeptorUsers() {
-        return null;
-    }
-
-    //TODO
-    public void checkUser(long userId) {
-        return;
-    }
+//    //TODO (will be implemented later)
+//    //shows list of all available documents at the moment(watch class "Documents")
+//    public ArrayList<Document> getAllDocuments() {
+//        return null;
+//    }
+//
+//    //shows list of documents, that are not returned back in time
+//    public ArrayList<Document> getOverdueDocuments() {
+//        return null;
+//    }
+//
+//    //shows list of all users from database(watch class "User")
+//    public ArrayList<User> getAllUsers() {
+//        return null;
+//    }
+//
+//    //shows list of student, who have not returned documents in time
+//    public ArrayList<User> getAllDeptorUsers() {
+//        return null;
+//    }
+//
+//    //TODO
+//    public void checkUser(long userId) {
+//        return;
+//    }
 
     @Override
     public String getInfo() {

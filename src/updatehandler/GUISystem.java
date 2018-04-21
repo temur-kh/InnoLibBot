@@ -73,6 +73,10 @@ public class GUISystem {
         keyboard.add(row);
 
         row = new KeyboardRow();
+        row.add(Commands.SEARCH_DOCUMENT);
+        keyboard.add(row);
+
+        row = new KeyboardRow();
         row.add(Commands.BACK_TO_MENU);
         keyboard.add(row);
 

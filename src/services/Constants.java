@@ -43,6 +43,7 @@ public class Constants {
     public static final String STATE_COLLECTION = "State";
     public static final String PRIORITY_QUEUE_COLLECTION = "PriorityQueue";
     public static final String NOTIFICATION_COLLECTION = "Notification";
+    public static final String ADMIN_COLLECTION = "Admin";
 
 
     public static final String MY_CHECKOUT_COLLECTION = "My CheckOut Collection";

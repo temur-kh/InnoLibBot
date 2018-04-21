@@ -90,6 +90,8 @@ public class MainBot extends TelegramLongPollingBot {
                     sendMessage = LibrarianSystem.handle(update);
                 } else if (PatronSystem.belongTo(text)) {
                     sendMessage = PatronSystem.handle(update);
+                } else {
+                    sendMessage = SearchSystem.handle(update);
                 }
             }
             if (msg.isReply() || UserProfileSystem.belongTo(text) || msg.hasLocation() || msg.getContact() != null) {
@@ -133,7 +135,10 @@ public class MainBot extends TelegramLongPollingBot {
                 if (command.equals(Commands.CHECK_OUT)) {
                     msg = BookingSystem.checkOut(update, value, collection);
                 } else if (command.equals(Commands.GO_LEFT) || command.equals(Commands.GO_RIGHT)) {
-                    msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
+                    if (update.getCallbackQuery().getMessage().getText().startsWith("Query: "))
+                        msg = SearchSystem.goToPage(update, Integer.parseInt(value), collection);
+                    else
+                        msg = DocumentViewSystem.goToPage(update, Integer.parseInt(value), collection);
                 }
                 executeMessage(msg);
 
