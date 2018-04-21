@@ -103,7 +103,7 @@ public class MainBot extends TelegramLongPollingBot {
             String command = getCallbackQueryKey(callData);
             String collection = getCallbackQueryCollection(callData);
             String value = getCallbackQueryValue(callData);
-            if (collection.equals(Constants.CHECKOUT_COLLECTION)) {
+            if (collection.equals(Constants.CHECKOUT_COLLECTION) || collection.equals(Constants.OVERDUE_CHECKOUT_COLLECTION)) {
 
                 if (command.equals(Commands.REQUEST_RETURN) || command.equals(Commands.CONFIRM_RETURN)) {
                     ArrayList<SendMessage> msgs = ReturnSystem.handle(update, command, value);

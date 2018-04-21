@@ -7,25 +7,21 @@ import com.mongodb.DBObject;
 import services.Constants;
 
 public class AdminDB {
-    public static void insertLibrarian(Admin admin) {
+    public static void replaceAdmin(Admin admin) {
         DBCollection collection = DatabaseManager.getCollection(Constants.ADMIN_COLLECTION);
         DBCursor cursor = collection.find();
         if (cursor.size() != 1) {
             throw new IndexOutOfBoundsException();
         } else {
+            collection.drop();
             collection.insert(DBObjectCreator.toUserDBObject(admin));
         }
     }
 
-    public static Admin getLibrarian() {
+    public static Admin getAdmin() {
         DBCollection collection = DatabaseManager.getCollection(Constants.ADMIN_COLLECTION);
         DBCursor cursor = collection.find();
         return toObject(cursor.one());
-    }
-
-    public static void removeLibrarian() {
-        DBCollection collection = DatabaseManager.getCollection(Constants.ADMIN_COLLECTION);
-        collection.drop();
     }
 
     public static Admin toObject(DBObject admin) {

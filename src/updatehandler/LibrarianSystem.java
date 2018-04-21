@@ -26,7 +26,7 @@ public class LibrarianSystem {
 
     //commands list belonging to this class
     public static final ArrayList<String> commandsList = new ArrayList<>(
-            Arrays.asList(Commands.LOGIN_AS_LIBRARIAN, Commands.CHECKOUTS_LIST));
+            Arrays.asList(Commands.LOGIN_AS_LIBRARIAN, Commands.CHECKOUTS_LIST, Commands.OVERDUE_CHECKOUTS_LIST));
 
     //does command belong to this class commands?
     public static boolean belongTo(String command) {
@@ -42,6 +42,9 @@ public class LibrarianSystem {
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
         row.add(Commands.CHECKOUTS_LIST);
+        keyboard.add(row);
+        row = new KeyboardRow();
+        row.add(Commands.OVERDUE_CHECKOUTS_LIST);
         keyboard.add(row);
         row = new KeyboardRow();
         row.add(Commands.BACK_TO_MENU);
@@ -61,12 +64,22 @@ public class LibrarianSystem {
         if (text.equals(Commands.LOGIN_AS_LIBRARIAN)) {
             msg.setText(Texts.LIBRARIAN_SYSTEM);
             msg.setReplyMarkup(librarianMenu());
-        } else if (text.equals(Commands.CHECKOUTS_LIST)) {
-            ArrayList<CheckOut> checkOuts = CheckOutDB.getCheckOutsList();
-            if (!checkOuts.isEmpty()) {
+        } else {
+            ArrayList<CheckOut> checkOuts =  null;
+            String collection = "";
+            if (text.equals(Commands.CHECKOUTS_LIST)) {
+                checkOuts = CheckOutDB.getCheckOutsList();
+                collection = Constants.CHECKOUT_COLLECTION;
+            }
+            else if (text.equals(Commands.OVERDUE_CHECKOUTS_LIST)) {
+                checkOuts = CheckOutDB.getOverdueCheckOutsList();
+                collection = Constants.OVERDUE_CHECKOUT_COLLECTION;
+            }
+
+            if (checkOuts != null && !checkOuts.isEmpty()) {
                 CheckOut firstCheckOut = checkOuts.get(0);
                 msg.setText(firstCheckOut.getInfo()).setParseMode("markdown");
-                msg.setReplyMarkup(getCheckOutInlineKeyboard(firstCheckOut, 0, checkOuts.size()));
+                msg.setReplyMarkup(getCheckOutInlineKeyboard(firstCheckOut, 0, checkOuts.size(), collection));
             } else {
                 msg.setText(Texts.NO_CHECKOUTS).setReplyMarkup(GUISystem.simpleMenu());
             }
@@ -78,9 +91,13 @@ public class LibrarianSystem {
     public static Object goToPage(Update update, int index, String collection) {
         EditMessageText msg = new EditMessageText().setChatId(update.getCallbackQuery().getMessage().getChatId())
                 .setMessageId(update.getCallbackQuery().getMessage().getMessageId());
-        ArrayList<CheckOut> checkOuts = CheckOutDB.getCheckOutsList();
-        if (!checkOuts.isEmpty()) {
+        ArrayList<CheckOut> checkOuts =  null;
+        if (collection.equals(Commands.CHECKOUTS_LIST))
+            checkOuts = CheckOutDB.getCheckOutsList();
+        else if (collection.equals(Commands.OVERDUE_CHECKOUTS_LIST))
+            checkOuts = CheckOutDB.getOverdueCheckOutsList();
 
+        if (checkOuts != null && !checkOuts.isEmpty()) {
             //check index bound
             if (index < 0) {
                 index = 0;
@@ -89,7 +106,7 @@ public class LibrarianSystem {
             }
             CheckOut doc = checkOuts.get(index);
             msg.setText(doc.getInfo()).setParseMode("markdown");
-            msg.setReplyMarkup(getCheckOutInlineKeyboard(doc, index, checkOuts.size()));
+            msg.setReplyMarkup(getCheckOutInlineKeyboard(doc, index, checkOuts.size(), collection));
         } else {
             SendMessage sendMessage = new SendMessage().setChatId(update.getCallbackQuery().getMessage().getChatId())
                     .setText(Texts.NO_CHECKOUTS).setReplyMarkup(GUISystem.simpleMenu());
@@ -98,9 +115,8 @@ public class LibrarianSystem {
         return msg;
     }
 
-    public static InlineKeyboardMarkup getCheckOutInlineKeyboard(CheckOut checkOut, int index, int size) {
+    public static InlineKeyboardMarkup getCheckOutInlineKeyboard(CheckOut checkOut, int index, int size, String collection) {
 
-        String collection = Constants.CHECKOUT_COLLECTION;
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
