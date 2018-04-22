@@ -62,7 +62,7 @@ public class Librarian extends User {
             return;
         }
         SuperDatabase.modifyObject(userId, key, value, collection);
-        BotLogger.severe(LOGTAG, "Modified user with id:", userId);
+        BotLogger.severe(LOGTAG, "Modified user with id:" + userId);
     }
 
     public void removeUser(long userId, String collection) {
@@ -116,7 +116,7 @@ public class Librarian extends User {
             return;
         }
         SuperDatabase.removeObject(docId, collection);
-        BotLogger.severe(LOGTAG, "Removed document with id:", docId);
+        BotLogger.severe(LOGTAG, "Removed document with id:" + docId);
     }
 
     public void updateDocument(BasicDBObject dbObject, String collection) {
@@ -147,7 +147,7 @@ public class Librarian extends User {
         }
         Copy copy = new Copy(docId, address);
         addCopy(copy);
-        BotLogger.severe(LOGTAG, "Added copy of document with id:", docId);
+        BotLogger.severe(LOGTAG, "Added copy of document with id:" + docId);
     }
 
     public void addCopy(Copy copy) {
@@ -178,7 +178,7 @@ public class Librarian extends User {
         }
         book.setCopyIds(copyIds);
         BookDB.updateBook(book);
-        BotLogger.severe(LOGTAG, "Removed copy of document with id:", docId);
+        BotLogger.severe(LOGTAG, "Removed copy of document with id:" + docId);
     }
 
     public void updateCopy(BasicDBObject dbObject) {
@@ -197,7 +197,7 @@ public class Librarian extends User {
 
     public void modifyCopy(ObjectId copyId, String key, Object value) {
         CopyDB.modifyObject(copyId, key, value, Constants.COPY_COLLECTION);
-        BotLogger.severe(LOGTAG, "Modified copy with id:", copyId);
+        BotLogger.severe(LOGTAG, "Modified copy with id:" + copyId);
     }
 
     public void addIssue(BasicDBObject dbObject) {
@@ -223,7 +223,7 @@ public class Librarian extends User {
             return;
         }
         IssueDB.removeIssue(issueId);
-        BotLogger.severe(LOGTAG, "Removed issue with id:", issueId);
+        BotLogger.severe(LOGTAG, "Removed issue with id:" + issueId);
     }
 
     public void updateIssue(BasicDBObject dbObject) {
@@ -242,7 +242,7 @@ public class Librarian extends User {
 
     public void modifyIssue(ObjectId issueId, String key, Object value) {
         IssueDB.modifyObject(issueId, key, value, Constants.ISSUE_COLLECTION);
-        BotLogger.severe(LOGTAG, "Modified issue with id:", issueId);
+        BotLogger.severe(LOGTAG, "Modified issue with id:" + issueId);
     }
 
     public void addArticle(BasicDBObject dbObject) {
@@ -272,7 +272,7 @@ public class Librarian extends User {
             return;
         }
         JournalArticleDB.removeArticle(articleId);
-        BotLogger.severe(LOGTAG, "Removed article with id:", articleId);
+        BotLogger.severe(LOGTAG, "Removed article with id:" + articleId);
     }
 
     public void updateArticle(BasicDBObject dbObject) {
@@ -291,7 +291,7 @@ public class Librarian extends User {
 
     public void modifyArticle(ObjectId articleId, String key, Object value) {
         JournalArticleDB.modifyObject(articleId, key, value, Constants.JOURNAL_ARTICLE_COLLECTION);
-        BotLogger.severe(LOGTAG, "Modified article with id:", articleId);
+        BotLogger.severe(LOGTAG, "Modified article with id:" + articleId);
     }
 
     public ArrayList<CheckOut> getCheckOutsList() {

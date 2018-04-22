@@ -7,6 +7,7 @@ import database.PriorityQueueDB;
 import database.SuperDatabase;
 import org.bson.types.ObjectId;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.logging.BotLogger;
 import services.Texts;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class NotificationSystem {
         msgs.add(msgForPatron);
         msgs.add(msgForLibrarian);
 
-        BotLogger.severe(LOGTAG, "Notified patrons with id:", patronId);
+        BotLogger.severe(LOGTAG, "Notified patrons with id:" + patronId);
 
         return msgs;
     }

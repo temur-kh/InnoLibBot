@@ -1,6 +1,7 @@
 package classes.User;
 
 import database.LibrarianDB;
+import org.telegram.telegrambots.logging.BotLogger;
 import services.Constants;
 
 import java.io.*;
@@ -36,7 +37,7 @@ public class Admin extends User {
 
     public void modifyLibrarian(long id, String key, Object value) {
         LibrarianDB.modifyObject(id, key, value, Constants.LIBRARIAN_COLLECTION);
-        BotLogger.severe(LOGTAG, "Modified librarian with id:", id);
+        BotLogger.severe(LOGTAG, "Modified librarian with id:" + id);
     }
 
     public String readLogFile() throws Exception {

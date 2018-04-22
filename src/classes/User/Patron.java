@@ -7,6 +7,7 @@ import database.CheckOutDB;
 import database.PatronDB;
 import database.PriorityQueueDB;
 import database.SuperDatabase;
+import org.telegram.telegrambots.logging.BotLogger;
 import services.Constants;
 
 import java.util.Calendar;
@@ -52,7 +53,7 @@ public class Patron extends User {
         checkOut = new CheckOut(today, deadline, getId(), document.getId(), collection, document.getFreeCopy(true).getId());
         CheckOutDB.insertCheckOut(checkOut);
 
-        BotLogger.severe(LOGTAG, "Checkout document");
+        BotLogger.severe(LOGTAG, "Checkout document: " + checkOut.getId());
 
         return checkOut;
     }

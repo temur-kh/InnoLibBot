@@ -13,6 +13,7 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.logging.BotLogger;
 import services.Commands;
 import services.Constants;
 import services.DateTime;
