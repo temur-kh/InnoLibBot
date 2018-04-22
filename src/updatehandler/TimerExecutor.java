@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @author Ruben Bermudez
  * @version 2.0
  * @brief Exectue a task periodically
- * @date 27/01/25
+ * @date 27/01/15
  */
 public class TimerExecutor {
     private static final String LOGTAG = "TIMEREXECUTOR"; ///< Logger

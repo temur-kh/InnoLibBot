@@ -20,6 +20,8 @@ import java.util.NoSuchElementException;
  */
 public class Patron extends User {
 
+    private static String LOGTAG = "Patron: ";
+
     public Patron(Long id, String name, String surname, Status status, String email, String phoneNumber, String address) {
         super(id, name, surname, status, email, phoneNumber, address);
     }
@@ -50,6 +52,8 @@ public class Patron extends User {
         checkOut = new CheckOut(today, deadline, getId(), document.getId(), collection, document.getFreeCopy(true).getId());
         CheckOutDB.insertCheckOut(checkOut);
 
+        BotLogger.severe(LOGTAG, "Checkout document");
+
         return checkOut;
     }
 
@@ -73,6 +77,7 @@ public class Patron extends User {
 
     public void register() {
         PatronDB.insertPatron(this);
+        BotLogger.severe(LOGTAG, "Patron registered");
     }
 
     //TODO (will be implemented later)

@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 public class NotificationSystem {
 
+    private static String LOGTAG = "Notification system: ";
+
     public static ArrayList<SendMessage> notifyPatron(long librarianId, ObjectId docId, String collection) {
         long patronId = PriorityQueueDB.getNextPatron(docId, true).getId();
         ArrayList<SendMessage> msgs = new ArrayList<>();
@@ -29,6 +31,8 @@ public class NotificationSystem {
         msgForLibrarian.setText(String.format(Texts.NOTIFICATION_SENT, patronId, doc.getTitle()));
         msgs.add(msgForPatron);
         msgs.add(msgForLibrarian);
+
+        BotLogger.severe(LOGTAG, "Notified patrons with id:", patronId);
 
         return msgs;
     }

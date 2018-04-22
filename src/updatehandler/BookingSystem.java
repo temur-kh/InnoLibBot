@@ -15,6 +15,7 @@ import services.Texts;
  */
 public class BookingSystem {
 
+    private static String LOGTAG = "Booking system: ";
     //check out a document if possible
     //not possible if did not provide personal data or no copies of document are available.
     public static SendMessage checkOut(Update update, String id, String collection) {
@@ -39,6 +40,7 @@ public class BookingSystem {
         } else {
             msg.setText(Texts.NOT_AVAILABLE);
         }
+        BotLogger.severe(LOGTAG, "Sent checkout message");
         return msg;
     }
 }

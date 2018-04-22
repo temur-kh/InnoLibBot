@@ -64,6 +64,9 @@ public class ReturnSystem {
 
     //TODO UPDATE
     public static SendMessage sendLibrarianReturnRequest(long patronId, Document doc) {
+
+        BotLogger.severe(LOGTAG, "Sent libarian return request");
+
         return new SendMessage().setChatId(patronId)
                 .setText(String.format(Texts.RETURN_DOC_REQUEST, doc.getTitle()))
                 .setReplyMarkup(GUISystem.simpleMenu());
@@ -71,6 +74,9 @@ public class ReturnSystem {
 
     //TODO UPDATE
     public static SendMessage receiveLibrarianReturnRequest(long librarianId) {
+
+        BotLogger.severe(LOGTAG, "Receive librarian return request");
+
         return new SendMessage().setChatId(librarianId)
                 .setText(String.format(Texts.REQUEST_SENT))
                 .setReplyMarkup(GUISystem.simpleMenu());
@@ -78,6 +84,9 @@ public class ReturnSystem {
 
     //TODO UPDATE
     public static ArrayList<SendMessage> returnDocument(Update update, String id) {
+
+        BotLogger.severe(LOGTAG, "Return document");
+
         long userId = update.getCallbackQuery().getMessage().getChatId();
         ObjectId objectId = new ObjectId(id);
         CheckOut checkout = CheckOutDB.getCheckOut(objectId);
@@ -93,6 +102,9 @@ public class ReturnSystem {
 
     //TODO UPDATE
     public static SendMessage receivePatronReturnRequest(long librarianId, long userId, CheckOut checkOut) {
+
+        BotLogger.severe(LOGTAG, "Receive patron return request");
+
         return new SendMessage().setChatId(librarianId)
                 .setText(String.format(Texts.RETURN_REQUESTED_BY_PATRON,
                         PatronDB.getPatron(userId).getFullName(), SuperDatabase.getObject(checkOut.getDocId(), checkOut.getDocCollection()).toString(), checkOut.getToDateLine()))
@@ -115,6 +127,9 @@ public class ReturnSystem {
 
     //TODO UPDATE
     public static SendMessage sendPatronReturnRequest(long userId) {
+
+        BotLogger.severe(LOGTAG, "Sent patron message abour retorn request");
+
         return new SendMessage().setChatId(userId)
                 .setText(Texts.RETURN_REQUEST_SENT)
                 .setReplyMarkup(GUISystem.simpleMenu());

@@ -27,6 +27,7 @@ import java.util.List;
  */
 public class RenewSystem {
 
+    private static String LOGTAG = "Renew system: ";
     //TODO UPDATE
     public static ArrayList<SendMessage> renewDocument(Update update, String id) {
         long userId = update.getCallbackQuery().getMessage().getChatId();
@@ -41,6 +42,7 @@ public class RenewSystem {
             SendMessage msgForPatron = new SendMessage().setChatId(userId).setText(Texts.RENEWED_DOCUMENT).setReplyMarkup(GUISystem.simpleMenu());
             msgs.add(msgForPatron);
             msgs.add(msgForLibrarian);
+            BotLogger.severe(LOGTAG, "Renewed document");
         } else {
             SendMessage msg = new SendMessage().setChatId(userId).setText(Texts.COULD_NOT_RENEW).setReplyMarkup(GUISystem.simpleMenu());
             msgs.add(msg);

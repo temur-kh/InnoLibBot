@@ -15,24 +15,28 @@ public class Admin extends User {
 
     public void addLibrarian(Librarian librarian) {
         LibrarianDB.insertLibrarian(librarian);
+        BotLogger.severe(LOGTAG, "Added librarian");
     }
 
     public void addLibrarian(Librarian librarian, Permission permission) {
         librarian.setPermission(permission);
         LibrarianDB.insertLibrarian(librarian);
+        BotLogger.severe(LOGTAG, "Added librarian");
     }
 
     public void assignPermission(long id, Permission permission) {
         LibrarianDB.modifyObject(id, "permission", permission.name(), Constants.LIBRARIAN_COLLECTION);
+        BotLogger.severe(LOGTAG, "Added permission");
     }
 
     public void deleteLibrarian(long id) {
         LibrarianDB.removeLibrarian(id);
-
+        BotLogger.severe(LOGTAG, "Deleted librarian");
     }
 
     public void modifyLibrarian(long id, String key, Object value) {
         LibrarianDB.modifyObject(id, key, value, Constants.LIBRARIAN_COLLECTION);
+        BotLogger.severe(LOGTAG, "Modified librarian with id:", id);
     }
 
     public String readLogFile() throws Exception {
