@@ -106,6 +106,8 @@ public class SuperDatabase {
      * @param collectionName the name of the collection.
      */
     public static void modifyObject(Object id, String key, Object value, String collectionName) {
+        if ("_id".equals(key))
+            return;
         DBCollection collection = DatabaseManager.getCollection(collectionName);
         collection.update(new BasicDBObject("_id", id), new BasicDBObject("$set", new BasicDBObject(key, value)));
     }

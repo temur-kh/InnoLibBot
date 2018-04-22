@@ -143,9 +143,9 @@ public class SearchSystem {
 
     public static boolean check(Document document, String string) {
         string = clear(string);
-        return document.getTitle().toLowerCase().contains(string)
-                || document.getAuthorsLine().toLowerCase().contains(string)
-                || document.getKeywordsLine().toLowerCase().contains(string);
+        return clear(document.getTitle().toLowerCase()).equals(string)
+                || clear(document.getAuthorsLine().toLowerCase()).equals(string)
+                || clear(document.getKeywordsLine().toLowerCase()).equals(string);
     }
 
     private static String clear(String string) {
